@@ -2,7 +2,7 @@ import Dashboard from "@/components/Dashboard";
 import Login from "@/components/Login";
 
 export const metadata = {
-    title: "Broodl · Dashboard",
+    title: "FeelingFlow · Dashboard",
 };
 
 export default function DashboardPage() {
