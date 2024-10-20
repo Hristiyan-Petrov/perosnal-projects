@@ -1,4 +1,5 @@
 import { Fugaz_One } from "next/font/google";
+import Button from "./Button";
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: '400' });
 
 export default function Hero() {
@@ -8,6 +9,10 @@ export default function Hero() {
                 <span className="textGradient">FeelingFlow</span> helps you track your <span className="textGradient">daily</span> mood!
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-center w-full mx-auto max-w-[600px]">Create your mood record and see how you feel <span className="font-semibold">every day.</span></p>
+            <div className="grid grid-cols-2 gap-4 w-fit mx-auto">
+                <Button text="Sign up" />
+                <Button text="Login" dark />
+            </div>
         </div>
     )
 }
