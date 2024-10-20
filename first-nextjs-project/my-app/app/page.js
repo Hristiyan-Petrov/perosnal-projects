@@ -1,8 +1,9 @@
+import Main from "@/components/Main";
+
 export default function Homepage() {
     return (
-        <main className="">
+        <>
             Hello World
-        </main>
-
+        </>
     );
 }
