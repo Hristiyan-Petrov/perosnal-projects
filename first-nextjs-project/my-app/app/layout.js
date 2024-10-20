@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
 
 	const footer = (
 		<footer className="p-4 sm:p-8 ">
-			Footer
+			<p className={'text-indigo-500 grid place-items-center ' + fugaz.className}>Created with NextJS</p>
 		</footer>
 	);
 
