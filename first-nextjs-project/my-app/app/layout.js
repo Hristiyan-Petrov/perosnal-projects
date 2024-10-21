@@ -2,6 +2,7 @@ import { Fugaz_One, Open_Sans } from "next/font/google"
 import localFont from "next/font/local";
 import "./globals.css";
 import Main from "@/components/Main";
+import Link from "next/link";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -25,7 +26,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	const header = (
 		<header className="p-4 sm:p-8 flex items-center justify-between gap-4">
-			<h1 className={'text-base sm:text-lg textGradient ' + fugaz.className}>FeelingFlow</h1>
+			<Link href={'/'}>
+				<h1 className={'text-base sm:text-lg textGradient ' + fugaz.className}>FeelingFlow</h1>
+			</Link>
 			<div className="flex itemss-center justify-between">
 				PLACEHOLDER CTA || STATS
 			</div>
