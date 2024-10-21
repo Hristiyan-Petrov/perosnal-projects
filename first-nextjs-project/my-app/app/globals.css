@@ -10,4 +10,13 @@
 
 .btn-blue {
     @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
-  }
+}
+
+.purpleShadow {
+    box-shadow: 3px 3px 1px 1px lavender;
+}
+
+.purpleShadow:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 1px 1px lavender;
+}
