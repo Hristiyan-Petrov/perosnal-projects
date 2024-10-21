@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Main from "@/components/Main";
 import Link from "next/link";
+import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -43,15 +44,18 @@ export default function RootLayout({ children }) {
 
 	return (
 		<html lang="en">
-			<body
-				className={'w-full max-w-[1000px] mx-auto text-sm sm:text-base min-h-screen flex flex-col text-slate-800 ' + opensans.className}
-			>
-				{header}
-				<Main>
-					{children}
-				</Main>
-				{footer}
-			</body>
+			<AuthProvider>
+
+				<body
+					className={'w-full max-w-[1000px] mx-auto text-sm sm:text-base min-h-screen flex flex-col text-slate-800 ' + opensans.className}
+				>
+					{header}
+					<Main>
+						{children}
+					</Main>
+					{footer}
+				</body>
+			</AuthProvider>
 		</html>
 	);
 }
