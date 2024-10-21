@@ -1,19 +1,62 @@
+'use client'
 import { Fugaz_One } from "next/font/google";
+import React, { useState } from "react";
 import Button from "./Button";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: '400' });
 
 export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isRegister, setIsRegister] = useState(false);
+
+    async function handleSubmit() {
+        
+    }
+
     return (
         <div className="flex flex-col flex-1 justify-center items-center gap-4">
-            <h3 className={'text-4xl sm:text-5xl md:text-6xl ' + fugaz.className}>Log In / Register</h3>
+            <h3 className={'text-4xl sm:text-5xl md:text-6xl ' + fugaz.className}>{
+                isRegister
+                    ? 'Register'
+                    : 'Log in'
+            }</h3>
             <p>You are one step away!</p>
-            <input className="w-full max-w-[400px] mx-auto duration-200 hover:border-indigo-600 focus::border-indigo-600 px-3 py-2 sm:py-3 border border-solid border-indigo-400 rounded-full outline-none " placeholder="Email" />
-            <input className="w-full max-w-[400px] mx-auto duration-200 hover:border-indigo-600 focus::border-indigo-600 px-3 py-2 sm:py-3 border border-solid border-indigo-400 rounded-full outline-none " placeholder="Password" type="password" />
+            <input
+                value={email}
+                onChange={e => {
+                    setEmail(e.target.value);
+                }}
+                className="w-full max-w-[400px] mx-auto duration-200 hover:border-indigo-600 focus::border-indigo-600 px-3 py-2 sm:py-3 border border-solid border-indigo-400 rounded-full outline-none "
+                placeholder="Email"
+            />
+            <input
+                value={password}
+                onChange={e => {
+                    setPassword(e.target.value);
+                }}
+                className="w-full max-w-[400px] mx-auto duration-200 hover:border-indigo-600 focus::border-indigo-600 px-3 py-2 sm:py-3 border border-solid border-indigo-400 rounded-full outline-none "
+                placeholder="Password"
+                type="password"
+            />
             <div className="max-w-[400px] w-full mx-auto">
                 <Button text="Submit" full />
             </div>
-            <p >Don&#39;t have an account? <span className="text-indigo-600">Sign up</span></p>
+            <p>{isRegister
+                ? 'Already have an account?' 
+                : 'Don\'t have an account?'
+                }
+                <button
+                    onClick={() => {
+                        setIsRegister(!isRegister);
+                    }}
+                    className="px-2 text-indigo-600">{
+                        isRegister
+                            ? 'Sign ip'
+                            : 'Sign up'
+                    }
+                </button>
+            </p>
         </div>
     )
 }
