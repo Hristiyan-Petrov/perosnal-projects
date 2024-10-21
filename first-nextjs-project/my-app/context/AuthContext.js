@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
     }
 
     function logout() {
-        setUserDataObj({});
+        setUserDataObj(null);
         setCurrentUser(null);
         return signOut(auth);
     }
@@ -39,7 +39,10 @@ export function AuthProvider({ children }) {
                 setLoading(true);
                 setCurrentUser(user);
 
-                if (!user) return;
+                if (!user) {
+                    console.log("NO USER FOUND");
+                    return;
+                };
 
                 // If user exists fetch data from firestore db
 
@@ -57,7 +60,7 @@ export function AuthProvider({ children }) {
                 setUserDataObj(firebaseData);
 
             } catch (error) {
-                console.log(error.message);
+                console.log('ERROR: ', error.message);
             } finally {
                 setLoading(false);
             }
@@ -68,6 +71,7 @@ export function AuthProvider({ children }) {
     const value = {
         currentUser,
         userDataObj,
+        setUserDataObj,
         signUp,
         login,
         logout,

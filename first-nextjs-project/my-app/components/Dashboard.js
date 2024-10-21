@@ -1,9 +1,62 @@
+'use client'
 import { Fugaz_One } from "next/font/google";
+import React, { useEffect, useState } from "react";
 import Calendar from "./Calendar";
+import { useAuth } from "@/context/AuthContext";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+import Loading from "./Loading";
+import Login from "./Login";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: '400' });
 
 export default function Dashboard() {
+    const { currentUser, userDataObj, setUserDataObj, loading } = useAuth();
+    const [data, setData] = useState({});
+
+    function countValues() {
+    };
+
+    async function handleSetMood(mood) {
+        const now = new Date();
+        const day = now.getDate()
+        const month = now.getMonth();
+        const year = now.getFullYear();
+
+        try {
+            const newData = { ...userDataObj }
+            if (!newData?.[year]) {
+                newData[year] = {};
+            }
+
+            if (!newData?.[year]?.[month]) {
+                newData[year][month] = {};
+            }
+
+            newData[year][month][day] = mood;
+
+            // Update current state
+            setData(newData);
+
+            // Update global state
+            setUserDataObj(newData);
+
+            // Update firebase
+            const docRef = doc(db, 'users', currentUser.uid);
+            const res = await setDoc(docRef, {
+                [year]: {
+                    [month]: {
+                        [day]: mood
+                    }
+                }
+            }, { merge: true });
+
+
+        } catch (error) {
+            console.log('Failed to set data. Error: ', error.message);
+        }
+    }
+
     const statuses = {
         num_days: 14,
         time_remaining: '13:14:26',
@@ -17,6 +70,22 @@ export default function Dashboard() {
         'Embarrassed': '🥹',
         'High vibration': '🥳',
     };
+
+    useEffect(() => {
+        if (!currentUser || !userDataObj) return;
+
+        setData(userDataObj);
+
+    }, [currentUser, userDataObj]);
+
+
+    if (loading) {
+        return <Loading />;
+    }
+
+    if (!currentUser) {
+        return <Login />;
+    }
 
     return (
         <div className="flex flex-col flex-1 gap-8 sm:gap-12 md:gap-16">
@@ -36,14 +105,17 @@ export default function Dashboard() {
             <div className="flex items-strech flex-wrap gap-4">
                 {Object.keys(moods).map((mood, i) => {
                     return (
-                        <button key={i} className={'p-4 rounded-2xl purpleShadow duration-200 bg-indigo-50 hover:bg-indigo-100 text-center flex flex-col items-center gap-2 flex-1 '}>
+                        <button onCLick={() => {
+                            const currentMoodValue = moodIndex + 1;
+                            handleSetMood(currentMoodValue);
+                        }} key={i} className={'p-4 rounded-2xl purpleShadow duration-200 bg-indigo-50 hover:bg-indigo-100 text-center flex flex-col items-center gap-2 flex-1 '}>
                             <p className="text-4xl sm:text-5xl md:text-6xl">{moods[mood]}</p>
                             <p className={"text-indigo-500 " + fugaz.className}>{mood}</p>
                         </button>
                     )
                 })}
             </div>
-            <Calendar />
+            <Calendar data={data} handleSetMood={handleSetMood} />
         </div>
     );
 }
