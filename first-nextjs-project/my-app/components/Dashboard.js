@@ -43,6 +43,18 @@ export default function Dashboard() {
 
             // Update firebase
             const docRef = doc(db, 'users', currentUser.uid);
+
+            console.log({
+                [year]: {
+                    [month]: {
+                        [day]: mood
+                    }
+                }
+            });
+
+            console.log(docRef);
+            console.log(currentUser.uid);
+
             const res = await setDoc(docRef, {
                 [year]: {
                     [month]: {
@@ -51,9 +63,18 @@ export default function Dashboard() {
                 }
             }, { merge: true });
 
+            console.log('Data written successfully!');
 
         } catch (error) {
-            console.log('Failed to set data. Error: ', error.message);
+            console.error('Error writing data to Firestore:', error);
+            console.error('Request payload:', {
+                [year]: {
+                    [month]: {
+                        [day]: mood
+                    }
+                }
+            });
+            console.error('Error response:', error.response);
         }
     }
 
@@ -105,8 +126,8 @@ export default function Dashboard() {
             <div className="flex items-strech flex-wrap gap-4">
                 {Object.keys(moods).map((mood, i) => {
                     return (
-                        <button onCLick={() => {
-                            const currentMoodValue = moodIndex + 1;
+                        <button onClick={() => {
+                            const currentMoodValue = i + 1;
                             handleSetMood(currentMoodValue);
                         }} key={i} className={'p-4 rounded-2xl purpleShadow duration-200 bg-indigo-50 hover:bg-indigo-100 text-center flex flex-col items-center gap-2 flex-1 '}>
                             <p className="text-4xl sm:text-5xl md:text-6xl">{moods[mood]}</p>

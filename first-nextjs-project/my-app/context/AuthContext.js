@@ -44,20 +44,16 @@ export function AuthProvider({ children }) {
                     return;
                 };
 
-                // If user exists fetch data from firestore db
-
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
-                let firebaseData = {};
+                // if user exists, fetch data from firestore database
+                console.log('Fetching User Data')
+                const docRef = doc(db, 'users', user.uid)
+                const docSnap = await getDoc(docRef)
+                let firebaseData = {}
                 if (docSnap.exists()) {
-                    console.log('foun user data!');
-
-                    firebaseData = docSnap.data();
-
-                    console.log(firebaseData);
+                    console.log('Found User Data')
+                    firebaseData = docSnap.data()
                 }
-
-                setUserDataObj(firebaseData);
+                setUserDataObj(firebaseData)
 
             } catch (error) {
                 console.log('ERROR: ', error.message);

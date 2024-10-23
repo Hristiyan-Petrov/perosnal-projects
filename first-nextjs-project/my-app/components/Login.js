@@ -1,17 +1,38 @@
 'use client'
-import { Fugaz_One } from "next/font/google";
-import React, { useState } from "react";
-import Button from "./Button";
-
-const fugaz = Fugaz_One({ subsets: ["latin"], weight: '400' });
+import { Fugaz_One } from 'next/font/google';
+import React, { useState } from 'react'
+import Button from './Button';
+import { useAuth } from '@/context/AuthContext';
+const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] });
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isRegister, setIsRegister] = useState(false);
+    const [authenticating, setAuthenticating] = useState(false);
+
+    const { signUp, login } = useAuth();
 
     async function handleSubmit() {
-        
+        if (!email || !password || password.length < 6) {
+            return;
+        }
+
+        setAuthenticating(true);
+
+        try {
+            if (isRegister) {
+                console.log('Signing up a new user');
+                await signUp(email, password);
+            } else {
+                console.log('Logging in existing user');
+                await login(email, password);
+            }
+        } catch (error) {
+            console.log(error.message);
+        } finally {
+            setAuthenticating(false);
+        }
     }
 
     return (
@@ -40,12 +61,16 @@ export default function Login() {
                 type="password"
             />
             <div className="max-w-[400px] w-full mx-auto">
-                <Button text="Submit" full />
+                <Button
+                    text={authenticating ? 'Submitting' : "Submit"}
+                    clickHandler={handleSubmit}
+                    full
+                />
             </div>
             <p>{isRegister
-                ? 'Already have an account?' 
+                ? 'Already have an account?'
                 : 'Don\'t have an account?'
-                }
+            }
                 <button
                     onClick={() => {
                         setIsRegister(!isRegister);
