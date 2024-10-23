@@ -6,13 +6,23 @@ import './index.css'
 import App from './App.jsx'
 import Root from './routes/root.jsx'
 import ErrorPage from './routes/error-page.jsx'
+import Contact from './routes/contacts.jsx'
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <Root />,
-        errorElement: <ErrorPage />
-        // element: <div>Hello World!</div>
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: 'contacts/:contactId',
+                element: <Contact />
+            }
+        ]
+    }, 
+    {
+        path: 'contacts/:contactId',
+        element: <Contact />
     }
 ]);
 
