@@ -60,15 +60,7 @@ export default function Contact() {
                     <Form
                         method="post"
                         action="destroy"
-                        onSubmit={(event) => {
-                            if (
-                                !confirm(
-                                    "Please confirm you want to delete this record."
-                                )
-                            ) {
-                                event.preventDefault();
-                            }
-                        }}
+                        onSubmit={destroyHandler}
                     >
                         <button type="submit" className="delete">Delete</button>
                     </Form>
@@ -76,6 +68,16 @@ export default function Contact() {
             </div>
         </div>
     );
+}
+
+function destroyHandler(e) {
+    if (
+        !confirm(
+            "Please confirm you want to delete this record."
+        )
+    ) {
+        e.preventDefault();
+    }
 }
 
 function Favorite({ contact }) {

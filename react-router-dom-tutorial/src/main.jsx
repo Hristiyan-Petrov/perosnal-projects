@@ -14,6 +14,7 @@ import Contact, {
 import EditContact, {
     action as editAction
 } from './routes/edit.jsx'
+import { action as destroyAction } from './routes/destroy.jsx'
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,12 @@ const router = createBrowserRouter([
                 element: <EditContact />,
                 loader: contactLoader,
                 action: editAction
+            },
+            {
+                path: 'contacts/:contactId/destroy',
+                action: destroyAction,
+                // The error will be rendered inside the root el, because this route is a child of it
+                errorElement: <div>Oops! There was an error.</div>
             }
         ]
     },
