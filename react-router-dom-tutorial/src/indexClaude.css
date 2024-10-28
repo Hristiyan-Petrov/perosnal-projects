@@ -320,18 +320,73 @@ a.active {
 }
 
 #zero-state {
-    color:  #b6b6b6;  
+    color: #b6b6b6;
     font-size: 1.5rem;
-    font-weight:600;
+    font-weight: 600;
     display: flex;
     margin: 0 auto;
     flex-direction: column;
     flex-wrap: wrap;
     height: 20%;
     align-content: center;
-    justify-content: space-between 
+    justify-content: space-between
 }
 
 #zero-state a {
-    color:  #b6b6b6;  
+    color: #b6b6b6;
+}
+
+
+/* Style for the search spinner */
+#search-spinner {
+    width: 1rem;
+    height: 1rem;
+    background: transparent;
+    border: 2px solid #e3e3e3;
+    border-top-color: #0d6efd;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Position the spinner container properly */
+#search-form {
+    position: relative;
+}
+
+/* Loading state for the search input */
+#search-form input.loading {
+    padding-right: 2rem;
+    /* Make space for the spinner */
+    background: linear-gradient(90deg,
+            rgba(13, 110, 253, 0.1) 0%,
+            rgba(13, 110, 253, 0.1) 50%,
+            transparent 100%);
+    background-size: 200% 100%;
+    animation: loading-gradient 1.5s ease-in-out infinite;
+}
+
+/* Loading gradient animation */
+@keyframes loading-gradient {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Reuse the existing spin animation */
+@keyframes spin {
+    0% {
+        transform: translateY(-50%) rotate(0deg);
+    }
+
+    100% {
+        transform: translateY(-50%) rotate(360deg);
+    }
 }

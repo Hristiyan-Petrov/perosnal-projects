@@ -7,13 +7,15 @@ import { useEffect } from "react";
 
 export async function action() {
     console.log('Root action running...');
-
     const contact = await createContact();
     return { contact };
 }
 
 export async function loader({ request }) {
     console.log('Root loader running...');
+
+    // Wait for 1 seconds
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     const url = new URL(request.url);
     const query = url.searchParams.get('query');
@@ -27,6 +29,10 @@ export default function Root() {
     const navigation = useNavigation();
     const submit = useSubmit();
 
+    console.log('Navigation: ' + navigation);
+
+    const searching = navigation.location && new URLSearchParams(navigation.location.search).has('query');
+
     useEffect(() => {
         document.getElementById('query').value = query;
     }, [query])
@@ -39,22 +45,21 @@ export default function Root() {
                     <Form id="search-form" role="search">
                         <input
                             id="query"
+                            // className={searching ? 'loading' : ''}
                             aria-label="Search contacts"
                             placeholder="Search"
                             type="search"
                             name="query"
                             defaultValue={query}
-
                             onChange={e => {
-                                // console.log(e.currentTarget.form);
-                                // console.log(e.currentTarget.formAction);
                                 submit(e.currentTarget.form);
                             }}
                         />
                         <div
                             id="search-spinner"
                             aria-hidden
-                            hidden={true}
+                            // hidden={true}
+                            hidden={!searching}
                         />
                         <div
                             className="sr-only"
