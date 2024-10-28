@@ -1,4 +1,4 @@
-import { Outlet, useLoaderData, Form, NavLink, useNavigation } from "react-router-dom";
+import { Outlet, useLoaderData, Form, NavLink, useNavigation, useSubmit } from "react-router-dom";
 import { createContact, getContacts } from "../contacts";
 import LoadingSpinner from "../components/loading/LoadingSpinner";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
@@ -25,6 +25,7 @@ export async function loader({ request }) {
 export default function Root() {
     const { contacts, query } = useLoaderData();
     const navigation = useNavigation();
+    const submit = useSubmit();
 
     useEffect(() => {
         document.getElementById('query').value = query;
@@ -43,6 +44,12 @@ export default function Root() {
                             type="search"
                             name="query"
                             defaultValue={query}
+
+                            onChange={e => {
+                                // console.log(e.currentTarget.form);
+                                // console.log(e.currentTarget.formAction);
+                                submit(e.currentTarget.form);
+                            }}
                         />
                         <div
                             id="search-spinner"
