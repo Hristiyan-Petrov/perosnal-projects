@@ -10,6 +10,7 @@ import Root, {
 import ErrorPage from './routes/error-page.jsx'
 import Contact, {
     loader as contactLoader,
+    action as contactAction
 } from './routes/contact.jsx'
 import EditContact, {
     action as editAction
@@ -32,7 +33,8 @@ const router = createBrowserRouter([
             {
                 path: 'contacts/:contactId',
                 element: <Contact />,
-                loader: contactLoader
+                loader: contactLoader,
+                action: contactAction
             },
             {
                 path: 'contacts/:contactId/edit',
