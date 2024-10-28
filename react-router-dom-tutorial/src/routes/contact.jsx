@@ -3,9 +3,9 @@ import { getContact } from "../contacts";
 
 export const loader = async ({ params }) => {
     console.log('Contact loader running...');
-     
+
     // Wait for 1 seconds
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     return getContact(params.contactId);
 };
@@ -36,6 +36,7 @@ export default function Contact() {
                         : (
                             <i>No Name</i>
                         )}{" "}
+
                     <Favorite contact={contact} />
                 </h1>
 

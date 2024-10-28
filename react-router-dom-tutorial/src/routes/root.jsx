@@ -1,5 +1,8 @@
 import { Outlet, useLoaderData, Form, NavLink, useNavigation } from "react-router-dom";
 import { createContact, getContacts } from "../contacts";
+import LoadingSpinner from "../components/loading/LoadingSpinner";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export async function action() {
     console.log('Root action running...');
@@ -10,10 +13,6 @@ export async function action() {
 
 export async function loader() {
     console.log('Root loader running...');
-    
-    // Wait for 5 seconds
-    await new Promise(resolve => setTimeout(resolve, 500));
-
     const contacts = await getContacts();
     return { contacts };
 }
@@ -82,14 +81,31 @@ export default function Root() {
                     }
                 </nav>
             </div>
-            <div
-                id="detail"
-                className={
-                    navigation.state === 'loading' ? 'loading' : ''
+            <div id="detail">
+                {
+                    navigation.state === 'loading'
+                        ? <LoadingSpinner />
+                        // ? <SkeletonLoading />
+                        : <Outlet />
                 }
-            >
-                <Outlet />
             </div>
         </>
+    );
+}
+
+// Static skeleton 
+function SkeletonLoading() {
+    return (
+        <div id="contact">
+            <div style={{ width: '200px', height: '200px' }}>
+                <Skeleton height="100%" />
+            </div>
+            <div style={{ flex: 1 }}>
+                <h1><Skeleton width={300} height={40} /></h1>
+                <div style={{ marginTop: '1rem' }}>
+                    <Skeleton count={3} />
+                </div>
+            </div>
+        </div>
     );
 }
