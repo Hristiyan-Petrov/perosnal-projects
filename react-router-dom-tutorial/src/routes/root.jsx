@@ -15,7 +15,7 @@ export async function loader({ request }) {
     console.log('Root loader running...');
 
     // Wait for 1 seconds
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // await new Promise(resolve => setTimeout(resolve, 2000));
 
     const url = new URL(request.url);
     const query = url.searchParams.get('query');
@@ -52,7 +52,10 @@ export default function Root() {
                             name="query"
                             defaultValue={query}
                             onChange={e => {
-                                submit(e.currentTarget.form);
+                                const isFirstSearch = query == null;
+                                submit(e.currentTarget.form, {
+                                    replace: !isFirstSearch
+                                });
                             }}
                         />
                         <div
