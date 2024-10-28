@@ -3,6 +3,7 @@ import { createContact, getContacts } from "../contacts";
 import LoadingSpinner from "../components/loading/LoadingSpinner";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
+import { useEffect } from "react";
 
 export async function action() {
     console.log('Root action running...');
@@ -11,28 +12,37 @@ export async function action() {
     return { contact };
 }
 
-export async function loader() {
+export async function loader({ request }) {
     console.log('Root loader running...');
-    const contacts = await getContacts();
-    return { contacts };
+
+    const url = new URL(request.url);
+    const query = url.searchParams.get('query');
+
+    const contacts = await getContacts(query);
+    return { contacts, query };
 }
 
 export default function Root() {
-    const { contacts } = useLoaderData();
+    const { contacts, query } = useLoaderData();
     const navigation = useNavigation();
+
+    useEffect(() => {
+        document.getElementById('query').value = query;
+    }, [query])
 
     return (
         <>
             <div id="sidebar">
                 <h1>React Router Contacts</h1>
                 <div>
-                    <form id="search-form" role="search">
+                    <Form id="search-form" role="search">
                         <input
-                            id="q"
+                            id="query"
                             aria-label="Search contacts"
                             placeholder="Search"
                             type="search"
-                            name="q"
+                            name="query"
+                            defaultValue={query}
                         />
                         <div
                             id="search-spinner"
@@ -43,7 +53,7 @@ export default function Root() {
                             className="sr-only"
                             aria-live="polite"
                         ></div>
-                    </form>
+                    </Form>
                     <Form method="post">
                         <button type="submit">New</button>
                     </Form>
