@@ -11,6 +11,9 @@ import ErrorPage from './routes/error-page.jsx'
 import Contact, {
     loader as contactLoader,
 } from './routes/contact.jsx'
+import EditContact, {
+    action as editAction
+} from './routes/edit.jsx'
 
 const router = createBrowserRouter([
     {
@@ -21,9 +24,15 @@ const router = createBrowserRouter([
         action: rootAction,
         children: [
             {
-                path: '/contacts/:contactId',
+                path: 'contacts/:contactId',
                 element: <Contact />,
                 loader: contactLoader
+            },
+            {
+                path: 'contacts/:contactId/edit',
+                element: <EditContact />,
+                loader: contactLoader,
+                action: editAction
             }
         ]
     },

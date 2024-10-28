@@ -1,7 +1,14 @@
 import { Form, useLoaderData } from "react-router-dom";
 import { getContact } from "../contacts";
 
-export const loader = async ({ params }) => getContact(params.contactId);
+export const loader = async ({ params }) => {
+    console.log('Contact loader running...');
+     
+    // Wait for 1 seconds
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    return getContact(params.contactId);
+};
 
 export default function Contact() {
     const contact = useLoaderData();

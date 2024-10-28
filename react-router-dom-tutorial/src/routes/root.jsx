@@ -1,18 +1,26 @@
-import { Outlet, Link, useLoaderData, Form } from "react-router-dom";
+import { Outlet, useLoaderData, Form, NavLink, useNavigation } from "react-router-dom";
 import { createContact, getContacts } from "../contacts";
 
 export async function action() {
+    console.log('Root action running...');
+
     const contact = await createContact();
     return { contact };
 }
 
 export async function loader() {
+    console.log('Root loader running...');
+    
+    // Wait for 5 seconds
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     const contacts = await getContacts();
     return { contacts };
 }
 
 export default function Root() {
     const { contacts } = useLoaderData();
+    const navigation = useNavigation();
 
     return (
         <>
@@ -46,13 +54,23 @@ export default function Root() {
                         ? (<ul>
                             {contacts.map(contact => (
                                 <li key={contact.id}>
-                                    <Link to={`contacts/${contact.id}`}>
+
+                                    <NavLink
+                                        to={`contacts/${contact.id}`}
+                                        className={({ isActive, isPending }) =>
+                                            isActive
+                                                ? 'active'
+                                                : isPending
+                                                    ? 'pending'
+                                                    : ''
+                                        }
+                                    >
                                         {contact.first || contact.last
                                             ? <>{contact.first} {contact.last}</>
                                             : <i>No name</i>
                                         }
                                         {contact.favorite && <span>★</span>}
-                                    </Link>
+                                    </NavLink>
                                 </li>
                             ))}
                         </ul>)
@@ -64,7 +82,12 @@ export default function Root() {
                     }
                 </nav>
             </div>
-            <div id="detail">
+            <div
+                id="detail"
+                className={
+                    navigation.state === 'loading' ? 'loading' : ''
+                }
+            >
                 <Outlet />
             </div>
         </>
