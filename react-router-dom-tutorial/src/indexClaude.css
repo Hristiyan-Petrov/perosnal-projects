@@ -1,5 +1,6 @@
 /* Main layout */
 #root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     max-width: 1280px;
     margin: 0 auto;
     display: flex;
@@ -318,3 +319,19 @@ a.active {
     }
 }
 
+#zero-state {
+    color:  #b6b6b6;  
+    font-size: 1.5rem;
+    font-weight:600;
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 20%;
+    align-content: center;
+    justify-content: space-between 
+}
+
+#zero-state a {
+    color:  #b6b6b6;  
+}
