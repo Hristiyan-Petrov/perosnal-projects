@@ -90,9 +90,13 @@ function destroyHandler(e) {
 
 function Favorite({ contact }) {
     const fetcher = useFetcher();
-    const favorite = contact.favorite;
-    const [isHovedred, setIsHovered] = useState(false);
 
+    // Optimistic UI
+    const favorite = fetcher.formData
+    ? fetcher.formData.get('favorite') === 'true'
+    : contact.favorite;
+    
+    const [isHovedred, setIsHovered] = useState(false);
     const toggleHover = () => setIsHovered(prevState => !prevState);
 
     return (
@@ -113,13 +117,15 @@ function Favorite({ contact }) {
                     ? (isHovedred ? "☆" : "★")
                     : (isHovedred ? "★" : "☆")
                 }
+
+                {/* Textbox when hover with action */}
                 {/* {isHovedred && <FavoriteLabel favorite={favorite} />} */}
             </button>
         </fetcher.Form>
     );
 }
 
-function FavoriteLabel({favorite}) {
+function FavoriteLabel({ favorite }) {
     return (
         <div className="favorite-hover-text">
             {favorite ? 'Remove from favorites' : 'Add to favorites'}

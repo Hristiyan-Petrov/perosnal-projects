@@ -29,7 +29,7 @@ export default function Root() {
     const navigation = useNavigation();
     const submit = useSubmit();
 
-    console.log('Navigation: ' + navigation);
+    // console.log('Navigation: ' + navigation);
 
     const searching = navigation.location && new URLSearchParams(navigation.location.search).has('query');
 
