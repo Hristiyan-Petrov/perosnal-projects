@@ -80,7 +80,10 @@ export default function Root() {
                                 <li key={contact.id}>
 
                                     <NavLink
-                                        to={`contacts/${contact.id}`}
+                                        to={query
+                                            ? `contacts/${contact.id}/?query=${query}`
+                                            : `contacts/${contact.id}`
+                                        }
                                         className={({ isActive, isPending }) =>
                                             isActive
                                                 ? 'active'
