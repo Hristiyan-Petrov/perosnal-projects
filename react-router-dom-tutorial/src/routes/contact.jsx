@@ -1,5 +1,6 @@
 import { Form, useFetcher, useLoaderData } from "react-router-dom";
 import { getContact, updateContact } from "../contacts";
+import { useState } from "react";
 
 export async function action({ request, params }) {
     const formData = await request.formData();
@@ -12,7 +13,7 @@ export const loader = async ({ params }) => {
     console.log('Contact loader running...');
 
     // Wait for 1 seconds
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // await new Promise(resolve => setTimeout(resolve, 1000));
 
     return getContact(params.contactId);
 };
@@ -90,20 +91,38 @@ function destroyHandler(e) {
 function Favorite({ contact }) {
     const fetcher = useFetcher();
     const favorite = contact.favorite;
+    const [isHovedred, setIsHovered] = useState(false);
+
+    const toggleHover = () => setIsHovered(prevState => !prevState);
 
     return (
         <fetcher.Form method="post">
             <button
+                className="favorite-button"
                 name="favorite"
                 value={favorite ? "false" : "true"}
+                onMouseEnter={toggleHover}
+                onMouseLeave={toggleHover}
                 aria-label={
                     favorite
                         ? "Remove from favorites"
                         : "Add to favorites"
                 }
             >
-                {favorite ? "★" : "☆"}
+                {favorite
+                    ? (isHovedred ? "☆" : "★")
+                    : (isHovedred ? "★" : "☆")
+                }
+                {/* {isHovedred && <FavoriteLabel favorite={favorite} />} */}
             </button>
         </fetcher.Form>
     );
+}
+
+function FavoriteLabel({favorite}) {
+    return (
+        <div className="favorite-hover-text">
+            {favorite ? 'Remove from favorites' : 'Add to favorites'}
+        </div>
+    )
 }
