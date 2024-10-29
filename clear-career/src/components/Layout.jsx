@@ -1,30 +1,30 @@
 import { Fragment } from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 export default function Layout() {
     return (
         <Fragment>
             <header>
                 {/* <!-- Navigation --> */}
-                <a id="logo" href="/"
-                ><img id="logo-img" src="/public/images/logo.jpg" alt="logo"
-                    /></a>
+                <Link id="logo" to="/">
+                    <img id="logo-img" src="/public/images/logo.jpg" alt="logo" />
+                </Link>
 
                 <nav>
                     <div>
-                        <a href="#">Dashboard</a>
+                        <Link to="/dashboard">Dashboard</Link>
                     </div>
 
                     {/* <!-- Logged-in users --> */}
-                    <div class="user">
-                        <a href="#">Create Offer</a>
-                        <a href="#">Logout</a>
+                    <div className="user">
+                        <Link to="#">Create Offer</Link>
+                        <Link to="#">Logout</Link>
                     </div>
 
                     {/* <!-- Guest users --> */}
-                    <div class="guest">
-                        <a href="#">Login</a>
-                        <a href="#">Register</a>
+                    <div className="guest">
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>
                     </div>
                 </nav>
             </header>
