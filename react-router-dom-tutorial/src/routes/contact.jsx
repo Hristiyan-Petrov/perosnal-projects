@@ -15,7 +15,11 @@ export const loader = async ({ params }) => {
     // Wait for 1 seconds
     // await new Promise(resolve => setTimeout(resolve, 1000));
 
-    return getContact(params.contactId);
+    const contact = await getContact(params.contactId);
+    if (!contact) {
+        throw new Error("Contact not found");
+    }
+    return contact;
 };
 
 export default function Contact() {

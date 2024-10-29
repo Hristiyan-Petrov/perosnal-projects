@@ -22,32 +22,38 @@ const router = createBrowserRouter([
     {
         path: '/',
         element: <Root />,
-        errorElement: <ErrorPage />,
         loader: rootLoader,
         action: rootAction,
+        errorElement: <ErrorPage />,
         children: [
             {
-                index: true,
-                element: <Index />
-            },
-            {
-                path: 'contacts/:contactId',
-                element: <Contact />,
-                loader: contactLoader,
-                action: contactAction
-            },
-            {
-                path: 'contacts/:contactId/edit',
-                element: <EditContact />,
-                loader: contactLoader,
-                action: editAction
-            },
-            {
-                path: 'contacts/:contactId/destroy',
-                action: destroyAction,
-                // The error will be rendered inside the root el, because this route is a child of it
-                errorElement: <div>Oops! There was an error.</div>
+                errorElement: <ErrorPage />,
+                children: [
+                    {
+                        index: true,
+                        element: <Index />
+                    },
+                    {
+                        path: 'contacts/:contactId',
+                        element: <Contact />,
+                        loader: contactLoader,
+                        action: contactAction
+                    },
+                    {
+                        path: 'contacts/:contactId/edit',
+                        element: <EditContact />,
+                        loader: contactLoader,
+                        action: editAction
+                    },
+                    {
+                        path: 'contacts/:contactId/destroy',
+                        action: destroyAction,
+                        // The error will be rendered inside the root el, because this route is a child of it
+                        errorElement: <div>Oops! There was an error.</div>
+                    }
+                ]
             }
+
         ]
     },
 ]);
