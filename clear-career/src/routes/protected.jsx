@@ -1,11 +1,12 @@
-import { Navigate, Outlet, redirect } from "react-router-dom";
-import Dashboard from "./public/dashboard";
+import { Link, Navigate, Outlet } from "react-router-dom";
+import Dashboard from "./protected/dashboard";
+import CreateOffer from "./protected/createOffer";
 import { toast } from "react-toastify";
 import { AUTH_MESSAGES } from "../constants/messages";
 import { useEffect } from "react";
 
 function ProtectedRoute() {
-    const isAuthenticated = false; // TODO
+    const isAuthenticated = true; // TODO
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -28,6 +29,10 @@ export const protectedRoutes = [
                 path: 'dashboard',
                 element: <Dashboard />
             },
+            {
+                path: 'create',
+                element: <CreateOffer />
+            }
         ]
     }
 ] 

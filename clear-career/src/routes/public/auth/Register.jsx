@@ -1,33 +1,41 @@
 import { Link } from "react-router-dom";
+import FormView from "../../../components/FormView";
 
 export default function Register() {
+    const inputFields = [
+        {
+            type: 'text',
+            name: "email",
+            id: "register-email",
+            placeholder: "Email",
+        },
+        {
+            type: "password",
+            name: "Password",
+            id: "register-password",
+            placeholder: "Password",
+        },
+        {
+            type: "assword",
+            name: "re-password",
+            id: "repeat-password",
+            placeholder: "Repeat password",
+        }
+    ]
     return (
-        <section id="register">
-            <div className="form">
-                <h2>Register</h2>
-                <form className="login-form">
-                    <input
-                        type="text"
-                        name="email"
-                        id="register-email"
-                        placeholder="email"
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        id="register-password"
-                        placeholder="password"
-                    />
-                    <input
-                        type="password"
-                        name="re-password"
-                        id="repeat-password"
-                        placeholder="repeat password"
-                    />
-                    <button type="submit">register</button>
-                    <p className="message">Already registered? <Link to="/login">Login</Link></p>
-                </form>
-            </div>
-        </section>
+        <FormView
+            title={'Register'}
+            inputFields={inputFields}
+            buttonText={'Register'}
+            extraContent={<Message />}
+        />
     );
+}
+
+function Message() {
+    return (
+        <p className="message">
+            Already registered? <Link to="/login">Login to your account</Link>
+        </p>
+    )
 }

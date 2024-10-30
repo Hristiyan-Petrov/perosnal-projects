@@ -1,22 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
     return (
         <header>
-            {/* <!-- Navigation --> */}
             <Link id="logo" to="/">
                 <img id="logo-img" src="/public/images/logo.jpg" alt="logo" />
             </Link>
 
-            <nav>
+            <nav className="navigation">
                 <div>
-                    <Link to="/dashboard">Dashboard</Link>
+                    <NavLink
+                        to="/dashboard"
+                        className={({ isActive }) =>
+                            isActive
+                                ? 'active'
+                                : ''
+                        }
+                    >
+                        Dashboard</NavLink>
                 </div>
 
                 {/* <!-- Logged-in users --> */}
                 <div className="user">
-                    <Link to="#">Create Offer</Link>
-                    <Link to="#">Logout</Link>
+                    <Link to="/create">Create Offer</Link>
+                    <Link to="/logout">Logout</Link>
                 </div>
 
                 {/* <!-- Guest users --> */}
