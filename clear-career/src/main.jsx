@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client'
 
 
 createRoot(document.getElementById('wrapper')).render(
-	<StrictMode>
+	// <StrictMode>
 		<App />
-	</StrictMode>
+	// </StrictMode>
 )

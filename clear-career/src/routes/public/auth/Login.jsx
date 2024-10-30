@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Login() {
     return (
         <section id="login">
@@ -13,7 +15,7 @@ export default function Login() {
                     />
                     <button type="submit">login</button>
                     <p className="message">
-                        Not registered? <a href="#">Create an account</a>
+                        Not registered? <Link to="/register">Create an account</Link>
                     </p>
                 </form>
             </div>
