@@ -10,7 +10,7 @@ export default function FormView({
         <section>
             <div className="form">
                 <h2>{title}</h2>
-                <Form className="form-view">
+                <Form method="post" className="form-view">
                     {inputFields.map(({ type, name, id, placeholder }, index) => {
                         return <input
                             key={index}
@@ -21,7 +21,7 @@ export default function FormView({
                         >
                         </input>
                     })}
-                    <button>{buttonText}</button>
+                    <button type="submit">{buttonText}</button>
 
                     {extraContent && <div className="extra-content">{extraContent}</div>}
                 </Form>

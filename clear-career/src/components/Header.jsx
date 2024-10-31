@@ -1,35 +1,53 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
+const setActive = isActive => {
+    isActive
+        ? 'active'
+        : ''
+}
 
 export default function Header() {
     return (
         <header>
-            <Link id="logo" to="/">
+            <NavLink id="logo" to="/">
                 <img id="logo-img" src="/public/images/logo.jpg" alt="logo" />
-            </Link>
+            </NavLink>
 
             <nav className="navigation">
                 <div>
                     <NavLink
                         to="/dashboard"
-                        className={({ isActive }) =>
-                            isActive
-                                ? 'active'
-                                : ''
-                        }
+                        className={setActive()}
                     >
                         Dashboard</NavLink>
                 </div>
 
                 {/* <!-- Logged-in users --> */}
                 <div className="user">
-                    <Link to="/create">Create Offer</Link>
-                    <Link to="/logout">Logout</Link>
+                    <NavLink
+                        to="/create"
+                        className={setActive()}
+                    >
+                        Create Offer</NavLink>
+                    <NavLink
+                        to="/logout"
+                        className={setActive()}
+                    >
+                        Logout</NavLink>
                 </div>
 
                 {/* <!-- Guest users --> */}
                 <div className="guest">
-                    <Link to="/login">Login</Link>
-                    <Link to="/register">Register</Link>
+                    <NavLink
+                        to="/login"
+                        className={setActive()}
+                    >
+                        Login</NavLink>
+                    <NavLink
+                        to="/register"
+                        className={setActive()}
+                    >
+                        Register</NavLink>
                 </div>
             </nav>
         </header>
