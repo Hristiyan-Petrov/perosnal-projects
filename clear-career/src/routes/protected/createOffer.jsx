@@ -45,7 +45,7 @@ export default function createOffer() {
         <FormView
             title={'Create Offer'}
             inputFields={inputFields}
-            buttonText={'Post Offer'}
+            buttonContent={'Post Offer'}
         />
     );
 }

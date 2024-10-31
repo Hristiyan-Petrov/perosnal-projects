@@ -10,7 +10,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.3em 3em;
+  padding: 0px 30px 15px 30px;
   background: #e0ecf1;
 }
 
@@ -23,12 +23,13 @@ nav {
 }
 
 #logo {
+  margin-top: 15px;
   font-style: italic;
   font-size: 30px;
 }
 
 #logo-img {
-  height: 70px;
+  height: 50px;
 }
 
 nav a {
@@ -76,4 +77,39 @@ section {
   font-size: 33px;
   color: rgb(12 100 120);
   text-align: center;
+}
+
+.navigation a.active {
+  background: #5c9596;
+  border-radius: 10px;
+  padding: 10px;
+  color: #ffffff;
+}
+
+.navigation a:hover {
+  background: rgb(180, 227, 232);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.navigation a {
+  margin: 5px 5px 5px 5px;
+}
+
+.navigation button {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  color: #0a0a0a;
+  font-weight: 400;
+  border: none;
+  background: none;
+  padding: 10px;
+  text-decoration: none;
+  cursor: pointer
+}
+
+.navigation button:hover {
+  background: rgb(180, 227, 232);
+  border-radius: 10px;
+  padding: 10px;
 }

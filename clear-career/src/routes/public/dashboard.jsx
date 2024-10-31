@@ -1,4 +1,13 @@
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useAuthNotification } from "../../hooks/useAuthNotification";
+import { AUTH_KEYS, AUTH_MESSAGES } from "../../constants/messages";
+
 export default function Dashboard() {
+    const { isAuthenticated, isLoading } = useAuth0();
+    useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, AUTH_KEYS.loginNotificationLocalStorageKey);
+
     return (
         <section id="dashboard">
             <h2>Job Offers</h2>

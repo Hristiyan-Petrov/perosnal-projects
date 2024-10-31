@@ -1,9 +1,10 @@
+import React from "react";
 import { Form } from "react-router-dom";
 
 export default function FormView({
     title,
     inputFields,
-    buttonText,
+    buttonContent,
     extraContent
 }) {
     return (
@@ -21,7 +22,12 @@ export default function FormView({
                         >
                         </input>
                     })}
-                    <button type="submit">{buttonText}</button>
+
+                    {typeof buttonContent === 'string'
+                        ? <button type="submit">{buttonContent}</button>
+                        : buttonContent
+                    }
+                    
 
                     {extraContent && <div className="extra-content">{extraContent}</div>}
                 </Form>

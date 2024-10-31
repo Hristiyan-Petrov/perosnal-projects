@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import FormView from "../../../components/FormView";
+import LoginButton from "../../../components/LoginButton";
 
 export async function action({ request }) {
     const formData = await request.formData();
@@ -29,7 +30,7 @@ export default function Login() {
         <FormView
             title={'Login'}
             inputFields={inputFields}
-            buttonText={'Login'}
+            buttonContent={<LoginButton />}
             extraContent={<Message />}
         />
     );

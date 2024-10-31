@@ -26,7 +26,7 @@ export default function Register() {
         <FormView
             title={'Register'}
             inputFields={inputFields}
-            buttonText={'Register'}
+            buttonContent={'Register'}
             extraContent={<Message />}
         />
     );
