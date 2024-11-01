@@ -1,7 +1,7 @@
 import Homepage from "./public/homepage";
 import Login, {action as loginAction} from "./public/auth/Login";
 import Register from "./public/auth/Register";
-import Dashboard from "./public/dashboard";
+import Dashboard, { loader as dashboardLoader  } from "./public/dashboard";
 
 // import { lazy } from "react";
 // const Login = lazy(() => import('../components/auth/Login'));
@@ -23,6 +23,7 @@ export const publicRoutes = [
     },
     {
         path: 'dashboard',
-        element: <Dashboard />
+        element: <Dashboard />,
+        loader: dashboardLoader
     },
 ]

@@ -1,12 +1,28 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { useAuthNotification } from "../../hooks/useAuthNotification";
 import { AUTH_KEYS, AUTH_MESSAGES } from "../../constants/messages";
+import { useLoaderData } from "react-router-dom";
+
+export const loader = () => {
+    return fetch('http://localhost:5000/status')
+        .then(res => res.json())
+        .then(res => {
+            // console.log(res)
+            return res;
+        })
+        .catch(err => {
+            console.log(err)
+            return null;
+        })
+}
 
 export default function Dashboard() {
-    const { isAuthenticated, isLoading } = useAuth0();
+    const { user, isAuthenticated, isLoading } = useAuth0();
     useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, AUTH_KEYS.loginNotificationLocalStorageKey);
+
+    const result = useLoaderData();
+    console.log(user);
+    console.log(result);
 
     return (
         <section id="dashboard">
