@@ -12,6 +12,7 @@ h2 {
   margin-right: 50px;
   height: 170px;
   width: 170px;
+  border-radius: 20px 0 0 20px;
 }
 
 .title,
@@ -25,7 +26,7 @@ h2 {
   max-width: 70%;
   margin: 25px auto;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 20px;
   border: 2px ridge rgb(210, 208, 208);
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
 }
@@ -39,6 +40,11 @@ h2 {
   text-align: center;
   color: white;
   background: #5c9596;
+  border-radius: 10px;
+}
+
+.details-btn:hover {
+  background: rgb(180, 227, 232);
 }
 
 .offer p {
