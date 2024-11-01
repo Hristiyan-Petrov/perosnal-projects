@@ -14,4 +14,4 @@ const config = {
 
 const env = process.env.NODE_ENV || 'development'; // default to 'development' if NODE_ENV is not set
 
-export default config[env.trim()];
+module.exports = config[env.trim()];

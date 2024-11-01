@@ -1,7 +1,8 @@
-import express from 'express';
-import cors from 'cors';
-import mongooseConnector from './config/mongoose.js';
-import config from './config/index.js';
+const express = require('express');
+const cors = require('cors');
+const mongooseConnector = require('./config/mongoose');
+const config = require('./config');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -9,6 +10,8 @@ app.use(express.json());
 app.use(cors());
 
 mongooseConnector();
+
+app.use('/api/users', userRoutes);
 
 app.get('/status', (req, res) => {
     res.send({
