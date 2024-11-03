@@ -10,7 +10,7 @@ createRoot(document.getElementById('wrapper')).render(
 			domain={import.meta.env.VITE_OAUTH_DOMAIN}
 			clientId={import.meta.env.VITE_OAUTH_CLIENT_ID}
 			authorizationParams={{
-				redirect_uri: 'http://localhost:5173/dashboard'
+				redirect_uri: 'http://localhost:5173/auth-callback'
 			}}
 		>
 			<App />

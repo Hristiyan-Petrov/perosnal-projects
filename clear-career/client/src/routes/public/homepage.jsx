@@ -6,7 +6,7 @@ import { AUTH_KEYS, AUTH_MESSAGES } from "../../constants/messages";
 
 export default function Homepage() {
     const { isAuthenticated, isLoading } = useAuth0();
-    useAuthNotification(!isAuthenticated, isLoading, AUTH_MESSAGES.logoutSuccess, AUTH_KEYS.logoutNotificationLocalStorageKey);
+    // useAuthNotification(!isAuthenticated, isLoading, AUTH_MESSAGES.logoutSuccess, AUTH_KEYS.logoutNotificationLocalStorageKey);
 
     return (
         <section id="home">

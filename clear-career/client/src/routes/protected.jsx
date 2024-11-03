@@ -3,8 +3,9 @@ import CreateOffer from "./protected/createOffer";
 import { toast } from "react-toastify";
 import { AUTH_MESSAGES } from "../constants/messages";
 import { useEffect } from "react";
-import Profile from "./public/auth/profile";
+import Profile from "./protected/profile";
 import { useAuth0 } from "@auth0/auth0-react";
+import SetRole from "./protected/setRole";
 
 function ProtectedRoute() {
     const { isAuthenticated } = useAuth0(); // TODO
@@ -26,6 +27,10 @@ export const protectedRoutes = [
     {
         element: <ProtectedRoute />,
         children: [
+            {
+                path: 'set-role',
+                element: <SetRole />
+            },
             {
                 path: 'create',
                 element: <CreateOffer />

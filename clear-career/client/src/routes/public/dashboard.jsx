@@ -3,26 +3,24 @@ import { useAuthNotification } from "../../hooks/useAuthNotification";
 import { AUTH_KEYS, AUTH_MESSAGES } from "../../constants/messages";
 import { useLoaderData } from "react-router-dom";
 
-export const loader = () => {
-    return fetch('http://localhost:5000/status')
-        .then(res => res.json())
-        .then(res => {
-            // console.log(res)
-            return res;
-        })
-        .catch(err => {
-            console.log(err)
-            return null;
-        })
-}
+// export const loader = () => {
+//     return fetch('http://localhost:3000/status')
+//         .then(res => res.json())
+//         .then(res => {
+//             // console.log(res)
+//             return res;
+//         })
+//         .catch(err => console.log(err))
+//         .finally(res => res);
+// }
 
 export default function Dashboard() {
     const { user, isAuthenticated, isLoading } = useAuth0();
-    useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, AUTH_KEYS.loginNotificationLocalStorageKey);
-
-    const result = useLoaderData();
+    // useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, AUTH_KEYS.loginNotificationLocalStorageKey);
+    
+    // const result = useLoaderData();
     console.log(user);
-    console.log(result);
+    // console.log(result);
 
     return (
         <section id="dashboard">
