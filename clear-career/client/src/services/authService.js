@@ -10,6 +10,4 @@ export const setRoleService = (auth0Id, role) => {
     });
 }
 
-export const getUser = (userId) =>  {
-    return fetch(apiEndpoint + `/api/users/${userId}`);
-}
+export const getUser = userId => fetch(apiEndpoint + `/api/users/${userId}`);

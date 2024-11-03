@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUser, } from "../services/authService";
+import LoadingAnimation from "./LoadingAnimation";
 
 export default function AuthCallback() {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -22,5 +23,5 @@ export default function AuthCallback() {
         }
     }, [user, isAuthenticated, isLoading, navigate]);
 
-    return <div>Logging in... Please wait</div>;    // Show loading indicator
+    return <LoadingAnimation />;    // Show loading indicator
 }

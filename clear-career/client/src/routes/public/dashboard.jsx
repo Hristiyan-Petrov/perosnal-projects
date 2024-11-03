@@ -16,12 +16,8 @@ import { useLoaderData } from "react-router-dom";
 
 export default function Dashboard() {
     const { user, isAuthenticated, isLoading } = useAuth0();
-    // useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, AUTH_KEYS.loginNotificationLocalStorageKey);
+    useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, AUTH_KEYS.loginNotificationLocalStorageKey);
     
-    // const result = useLoaderData();
-    console.log(user);
-    // console.log(result);
-
     return (
         <section id="dashboard">
             <h2>Job Offers</h2>

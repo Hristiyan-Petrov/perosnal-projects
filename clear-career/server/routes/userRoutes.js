@@ -7,8 +7,6 @@ router.get('/:auth0Id', async (req, res) => {
         const { auth0Id } = req.params;
         const user = await User.findOne({ auth0Id });
 
-        console.log('HERE');
-        
         if (user) {
             res.json({ isNewUser: false, user });
         } else {
