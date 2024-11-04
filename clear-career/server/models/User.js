@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['job-seeker', 'job-offerer'],
-        required: true
     },
     appliedOffers: {
         type: [mongoose.Types.ObjectId],

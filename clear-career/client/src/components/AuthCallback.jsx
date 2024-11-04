@@ -1,21 +1,36 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUser, } from "../services/authService";
+import * as authService from "../services/authService";
 import LoadingAnimation from "./LoadingAnimation";
+import { AUTH_LOCAL_STORAGE_KEYS } from "../constants/messages";
+import { toast } from "react-toastify";
 
 export default function AuthCallback() {
     const { user, isAuthenticated, isLoading } = useAuth0();
     const navigate = useNavigate();
 
+
     useEffect(() => {
         if (isAuthenticated && user && !isLoading) {
-            getUser(user.sub)
+            authService.getUser(user.sub)
                 .then(res => res.json())
-                .then(data => {
-                    if (data.isNewUser) {
-                        navigate('/set-role'); // Redirect new users
+                .then(userData => {
+                    // If is new user
+                    if (!userData._id) {
+                        authService.createUser(user.sub)
+                            .then(response => response.json())
+                            .then(response => {
+                                toast.success(response.message);
+                                localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
+                                navigate('/set-role'); // Redirect new users
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                toast.error(err);
+                            });
                     } else {
+                        localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification, true);
                         navigate('/dashboard'); // Redirect existing users
                     }
                 })

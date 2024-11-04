@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthNotification } from "../../hooks/useAuthNotification";
-import { AUTH_KEYS, AUTH_MESSAGES } from "../../constants/messages";
+import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../constants/messages";
 import { useLoaderData } from "react-router-dom";
 
 // export const loader = () => {
@@ -18,7 +18,7 @@ export default function Dashboard() {
     const { user, isAuthenticated, isLoading } = useAuth0();
     console.log(user);
     
-    useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, AUTH_KEYS.loginNotificationLocalStorageKey);
+    useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, AUTH_LOCAL_STORAGE_KEYS.loginNotification);
     
     return (
         <section id="dashboard">

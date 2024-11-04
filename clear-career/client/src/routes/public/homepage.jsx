@@ -1,10 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthNotification } from "../../hooks/useAuthNotification";
-import { AUTH_KEYS, AUTH_MESSAGES } from "../../constants/messages";
+import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../constants/messages";
 
 export default function Homepage() {
     const { isAuthenticated, isLoading } = useAuth0();
-    useAuthNotification(!isAuthenticated, isLoading, AUTH_MESSAGES.logoutSuccess, AUTH_KEYS.logoutNotificationLocalStorageKey);
+    useAuthNotification(!isAuthenticated, isLoading, AUTH_MESSAGES.logoutSuccess, AUTH_LOCAL_STORAGE_KEYS.logoutNotification);
 
     return (
         <section id="home">

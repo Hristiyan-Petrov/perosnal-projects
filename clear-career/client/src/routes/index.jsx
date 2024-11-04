@@ -6,7 +6,7 @@ import { protectedRoutes } from './protected';
 export const router = createBrowserRouter([
     {
         path: '/',
-        element: < Layout />,
+        element: <Layout />,
         children: [
             ...publicRoutes,
             ...protectedRoutes

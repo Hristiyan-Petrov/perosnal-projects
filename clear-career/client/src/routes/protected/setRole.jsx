@@ -1,9 +1,11 @@
 import styles from './setRole.module.scss'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import { setRoleService } from "../../services/authService";
+import * as authService from "../../services/authService";
 import { useState } from "react";
 import { AlertCircle, Briefcase, ChevronRight, Search } from 'lucide-react'
+import { toast } from 'react-toastify';
+import { AUTH_LOCAL_STORAGE_KEYS } from '../../constants/messages';
 
 export default function SetRole() {
     const { user, isAuthenticated } = useAuth0();
@@ -12,17 +14,41 @@ export default function SetRole() {
 
     const handleSetRole = role => {
         setIsLoading(true);
-        setRoleService(user.sub, role)
+
+        if (!isAuthenticated) return;
+        authService.getUser(user.sub)
             .then(res => res.json())
-            .then(user => {
-                console.log('NEW user created!');
-                console.log(user);
+            .then(userData => {
+                if (userData.role) return;
+                return authService.updateSetRoleUser(user.sub, role);
+            })
+            .then(res => res.json())
+            .then(res => {
+                toast.success(res.message);
+                localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
                 navigate('/dashboard');
             })
             .catch(err => {
-                console.log('Error setting role:', err)
-                setIsLoading(false);
-            });
+                console.log(err);
+            })
+            .finally(() => setIsLoading(false));
+
+
+
+
+        // setRoleUpdate(user.sub, role)
+        //     .then(res => res.json())
+        //     .then(res => {
+        //         console.log('User role set!');
+        //         console.log(res.message);
+        //         console.log(res.user);
+        //         toast.warning(res.message);
+        //         navigate('/dashboard');
+        //     })
+        //     .catch(err => {
+        //         console.log('Error setting role:', err)
+        //     })
+        //     .finally(() => setIsLoading(false));
     }
 
     const roleInfo = {
@@ -51,7 +77,8 @@ export default function SetRole() {
     return (
         <div className={styles.container}>
             <div className={styles.wrapper}>
-                <h1 className={styles.title}>Choose Your Role</h1>
+                <h1 className={styles.title}>You succesfully created Profile, {user.given_name || user.name || user.nickname}</h1>
+                <h1 className={styles.title}>Now Choose Your Role</h1>
 
                 <div className={styles.grid}>
                     {Object.entries(roleInfo).map(([role, info]) => {

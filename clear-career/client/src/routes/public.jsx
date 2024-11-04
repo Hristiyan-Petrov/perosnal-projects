@@ -17,15 +17,15 @@ export const publicRoutes = [
         path: 'auth-callback',
         element: <AuthCallback />
     },
-    {
-        path: 'login',
-        element: <Login />,
-        action: loginAction
-    },
-    {
-        path: 'register',
-        element: <Register />
-    },
+    // {
+    //     path: 'login',
+    //     element: <Login />,
+    //     action: loginAction
+    // },
+    // {
+    //     path: 'register',
+    //     element: <Register />
+    // },
     {
         path: 'dashboard',
         element: <Dashboard />,
