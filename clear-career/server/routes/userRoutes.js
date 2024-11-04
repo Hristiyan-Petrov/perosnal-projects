@@ -18,6 +18,9 @@ router.get('/:auth0Id', async (req, res) => {
 });
 
 router.post('/set-role', async (req, res) => {
+    // TODO: Add jwt creation in this action (jwt.sign)
+    // TODO: add auth middleware
+
     const { auth0Id, role } = req.body;
 
         User.findOne({ auth0Id })
