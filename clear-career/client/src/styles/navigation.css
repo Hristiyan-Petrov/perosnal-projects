@@ -1,0 +1,115 @@
+body {
+  color: rgb(12 100 120);
+  background: #f3f7f7;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 30px 15px 30px;
+  background: #e0ecf1;
+}
+
+nav {
+  background-color: #dddddd;
+  height: 0px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#logo {
+  margin-top: 15px;
+  font-style: italic;
+  font-size: 30px;
+}
+
+#logo-img {
+  height: 50px;
+}
+
+nav a {
+  /* font-size: 1.5rem; */
+  color: #0a0a0a;
+  font-weight: 400;
+}
+
+header a {
+  padding: 0 10px;
+  text-decoration: none;
+}
+
+footer {
+  background-color: #e0ecf1;
+  color: black;
+  font-weight: bolder;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+}
+
+section {
+  margin-bottom: 100px;
+}
+
+#home {
+  margin-top: 60px;
+}
+
+#home img {
+  display: block;
+  margin: auto;
+  height: 30%;
+  width: 30%;
+  background-color: transparent;
+}
+
+#home h2,
+#home h3 {
+  font-size: 33px;
+  color: rgb(12 100 120);
+  text-align: center;
+}
+
+.navigation a.active {
+  background: #5c9596;
+  border-radius: 10px;
+  padding: 10px;
+  color: #ffffff;
+}
+
+.navigation a:hover {
+  background: rgb(180, 227, 232);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.navigation a {
+  margin: 5px 5px 5px 5px;
+}
+
+.navigation button {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  color: #0a0a0a;
+  font-weight: 400;
+  border: none;
+  background: none;
+  padding: 10px;
+  text-decoration: none;
+  cursor: pointer
+}
+
+.navigation button:hover {
+  background: rgb(180, 227, 232);
+  border-radius: 10px;
+  padding: 10px;
+}
