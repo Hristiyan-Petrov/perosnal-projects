@@ -16,6 +16,8 @@ import { useLoaderData } from "react-router-dom";
 
 export default function Dashboard() {
     const { user, isAuthenticated, isLoading } = useAuth0();
+    console.log(user);
+    
     useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, AUTH_KEYS.loginNotificationLocalStorageKey);
     
     return (
