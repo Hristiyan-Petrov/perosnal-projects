@@ -6,7 +6,8 @@ export const AUTH_MESSAGES = {
     logoutSuccess: 'Successfully logged out!',
 }
 
-export const AUTH_KEYS = {
-    loginNotificationLocalStorageKey: 'hasLoggedIn', 
-    logoutNotificationLocalStorageKey: 'hasLoggedOut', 
+export const AUTH_LOCAL_STORAGE_KEYS = {
+    loginNotification: 'hasLoggedIn', 
+    logoutNotification: 'hasLoggedOut', 
+
 }
