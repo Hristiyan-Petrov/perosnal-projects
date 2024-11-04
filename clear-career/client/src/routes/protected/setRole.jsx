@@ -85,6 +85,7 @@ export default function SetRole() {
                         // const Icon = info.icon;
                         return (
                             <RoleSelectButtonCard
+                                key={role}
                                 role={role}
                                 Icon={info.icon}
                                 title={info.title}
@@ -119,7 +120,6 @@ function RoleSelectButtonCard({
 }) {
     return (
         <button
-            key={role}
             onClick={() => handleSetRole(role)}
             className={`${styles.roleButton} ${isLoading ? styles.disabled : ''}`}
             disabled={isLoading}

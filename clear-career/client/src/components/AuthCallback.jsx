@@ -16,7 +16,7 @@ export default function AuthCallback() {
             authService.getUser(user.sub)
                 .then(res => res.json())
                 .then(userData => {
-                    // If is new user
+                    // Create new user
                     if (!userData._id) {
                         authService.createUser(user.sub)
                             .then(response => response.json())
@@ -30,8 +30,15 @@ export default function AuthCallback() {
                                 toast.error(err);
                             });
                     } else {
-                        localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification, true);
-                        navigate('/dashboard'); // Redirect existing users
+                        // If user interrupted the setting role (He has user db doc wihout role set)
+                        if (!userData.role) {
+                            toast.warning('Welcome back! Please set role to complete your profile');
+                            navigate('/set-role');
+                        // Login existing user
+                        } else {
+                            localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification, true);
+                            navigate('/dashboard'); // Redirect existing users
+                        }
                     }
                 })
                 .catch(err => console.error('Error checking user existence from client:', err));

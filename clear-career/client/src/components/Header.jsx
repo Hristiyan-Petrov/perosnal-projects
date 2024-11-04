@@ -11,7 +11,6 @@ const setActive = isActive => {
 
 export default function Header() {
     const { isAuthenticated } = useAuth0();
-
     const location = useLocation();
     const isSettingRole = location.pathname === '/set-role';
 
