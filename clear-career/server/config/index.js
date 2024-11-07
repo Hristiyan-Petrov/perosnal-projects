@@ -14,4 +14,12 @@ const config = {
 
 const env = process.env.NODE_ENV || 'development'; // default to 'development' if NODE_ENV is not set
 
-module.exports = config[env.trim()];
+const resources = {
+    ERROR_HANDLER_MESSAGE: 'Something went wrong',
+    NON_MATCHING_ERROR: 'The API route is found'
+};
+
+module.exports = {
+    config: config[env.trim()],
+    resources
+}
