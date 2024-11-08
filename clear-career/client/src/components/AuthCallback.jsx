@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as authService from "../services/authService";
 import LoadingAnimation from "./LoadingAnimation";
@@ -9,41 +9,47 @@ import { toast } from "react-toastify";
 export default function AuthCallback() {
     const { user, isAuthenticated, isLoading } = useAuth0();
     const navigate = useNavigate();
-
+    const isCreatingUser = useRef(false);
 
     useEffect(() => {
-        if (isAuthenticated && user && !isLoading) {
-            authService.getUser(user.sub)
-                .then(res => res.json())
-                .then(userData => {
-                    // Create new user
-                    if (!userData._id) {
-                        authService.createUser(user.sub)
-                            .then(response => response.json())
-                            .then(response => {
-                                toast.success(response.message);
-                                localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
-                                navigate('/set-role'); // Redirect new users
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                toast.error(err);
-                            });
+
+        const handleAuth0Login = async () => {
+            if (!isAuthenticated && !user && isLoading) return;
+
+            try {
+                if (isCreatingUser.current) return;
+                isCreatingUser.current = true;
+                const userResponse = await authService.getUser(user.sub);
+                const userData = await userResponse.json();
+
+                if (!userData._id) {
+                    const createResponse = await authService.createUser(user.sub);
+                    const createData = await createResponse.json();
+
+                    if (createResponse.ok) {
+                        toast.success(createData.message);
+                        localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
+                        navigate('/set-role'); // Redirect new users
                     } else {
-                        // If user interrupted the setting role (He has user db doc wihout role set)
-                        if (!userData.role) {
-                            toast.warning('Welcome back! Please set role to complete your profile');
-                            navigate('/set-role');
-                        // Login existing user
-                        } else {
-                            localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification, true);
-                            navigate('/dashboard'); // Redirect existing users
-                        }
+                        // TODO: If creation failed because user already exists
                     }
-                })
-                .catch(err => console.error('Error checking user existence from client:', err));
+                } else if (userData._id && !userData.role) {
+                    // If user interrupted the setting role (He has user db doc wihout role set)
+                    toast.warning('Welcome back! Please set role to complete your profile');
+                    navigate('/set-role');
+                } else if (userData._id && userData.role) {
+                    // Login existing user
+                    localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification, true);
+                    navigate('/dashboard');
+                }
+            } catch (error) {
+                console.error('Error in auth callback:', err);
+                toast.error('An error occurred during authentication');
+            }
         }
-    }, [user, isAuthenticated, isLoading, navigate]);
+        
+        handleAuth0Login();
+    }, [isAuthenticated, isLoading]);
 
     return <LoadingAnimation />;    // Show loading indicator
 }

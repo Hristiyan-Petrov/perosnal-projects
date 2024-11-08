@@ -9,5 +9,5 @@ export const useAuthNotification = (checkCondition, isLoading, message, key) => 
             localStorage.removeItem(key);
             toast.success(message);
         }
-    }, [isLoading, checkCondition]);
+    }, [isLoading]);
 }
