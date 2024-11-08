@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as authService from "../services/authService";
 import LoadingAnimation from "./LoadingAnimation";
-import { AUTH_LOCAL_STORAGE_KEYS } from "../constants/messages";
+import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../constants/messages";
 import { toast } from "react-toastify";
 
 export default function AuthCallback() {
@@ -12,44 +12,60 @@ export default function AuthCallback() {
     const isCreatingUser = useRef(false);
 
     useEffect(() => {
-
         const handleAuth0Login = async () => {
-            if (!isAuthenticated && !user && isLoading) return;
+            if (!isAuthenticated || !user || isLoading || isCreatingUser.current) return;
+            isCreatingUser.current = true;
 
             try {
-                if (isCreatingUser.current) return;
-                isCreatingUser.current = true;
                 const userResponse = await authService.getUser(user.sub);
                 const userData = await userResponse.json();
 
                 if (!userData._id) {
-                    const createResponse = await authService.createUser(user.sub);
-                    const createData = await createResponse.json();
-
-                    if (createResponse.ok) {
-                        toast.success(createData.message);
-                        localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
-                        navigate('/set-role'); // Redirect new users
-                    } else {
-                        // TODO: If creation failed because user already exists
-                    }
+                    await createUserAndNavigate(user.sub);
                 } else if (userData._id && !userData.role) {
                     // If user interrupted the setting role (He has user db doc wihout role set)
-                    toast.warning('Welcome back! Please set role to complete your profile');
-                    navigate('/set-role');
-                } else if (userData._id && userData.role) {
+                    handleRoleCompletion();
+                } else {
                     // Login existing user
-                    localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification, true);
-                    navigate('/dashboard');
+                    handleExistingUser();
                 }
             } catch (error) {
-                console.error('Error in auth callback:', err);
+                console.error('Error in auth callback:', error);
                 toast.error('An error occurred during authentication');
+            } finally {
+                isCreatingUser.current = false;
             }
-        }
-        
+        };
+
         handleAuth0Login();
     }, [isAuthenticated, isLoading]);
+
+    const createUserAndNavigate = async userId => {
+        try {
+            const createResponse = await authService.createUser(userId);
+            const createData = await createResponse.json();
+            if (createResponse.ok) {
+                toast.success(createData.message);
+                localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
+                navigate('/set-role'); // Redirect new users
+            } else {
+                // TODO: If creation failed because user already exists
+            }
+        } catch (error) {
+            console.error('Failed to create user:', err);
+            toast.error('An error occurred while creating user');
+        }
+    };
+
+    const handleRoleCompletion = () => {
+        toast.warning(AUTH_MESSAGES.roleCompletion);
+        navigate('/set-role');
+    };
+
+    const handleExistingUser = () => {
+        localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification, true);
+        navigate('/dashboard');
+    };
 
     return <LoadingAnimation />;    // Show loading indicator
 }
