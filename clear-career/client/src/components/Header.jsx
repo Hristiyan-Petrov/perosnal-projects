@@ -36,7 +36,7 @@ export default function Header() {
                             ?
                             <>
                                 <NavLink
-                                    to="/create"
+                                    to="offer/create"
                                     className={setActive()}
                                 >
                                     Create Offer

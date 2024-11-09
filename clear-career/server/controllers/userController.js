@@ -49,9 +49,6 @@ router.post('/create', async (req, res) => {
 
                 userService.create(auth0Id, email)
                     .then(userData => {
-                        console.log('Created!');
-                        console.log(userData);
-                        
                         res.status(201).json({ message: 'User profile created successfully', user: userData });
                     })
                     .catch(err => {
