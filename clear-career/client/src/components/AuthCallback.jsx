@@ -19,7 +19,7 @@ export default function AuthCallback() {
             try {
                 const userData = await authService.getUserInitial(user.sub);
 
-                if (!userData.exist) {
+                if (userData.initialLogin) {
                     await createUserAndNavigate(user.sub);
                 } else if (userData._id && !userData.role) {
                     // If user interrupted the setting role (He has user db doc wihout role set)

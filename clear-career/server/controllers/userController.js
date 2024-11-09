@@ -21,7 +21,7 @@ router.get('/:auth0Id/initial', async (req, res) => {
         res.json(user);
     } else {
         // Not throwing 4xx code to not break client logic
-        res.json({ exist: false });
+        res.json({ initialLogin: true });
     }
 });
 

@@ -8,12 +8,6 @@ const apiRequest = async (url, options = {}) => {
 
         if (!response.ok) {
             const errorData = await response.json();
-
-            // Specific case for initial user creation. do not change!
-            // if (errorData.message === 'No such user') {
-            //     return errorData;
-            // }
-
             throw new Error(errorData.message || ERROR_MESSAGES.apiRequest);
         }
 
