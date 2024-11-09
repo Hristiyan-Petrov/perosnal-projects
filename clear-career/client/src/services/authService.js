@@ -12,21 +12,20 @@ const apiRequest = async (url, options = {}) => {
         }
 
         return await response.json();
-        return response;
     } catch (error) {
         console.error('API request error:', error);
         throw error; // Re-throw the error to handle it in the calling function
     }
 };
 
-export const createUser = auth0Id => {
+export const createUser = (auth0Id, email) => {
     return apiRequest(`${usersEndpoint}/create`,
         {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ auth0Id })
+            body: JSON.stringify({ auth0Id, email })
         });
 };
 
@@ -42,3 +41,4 @@ export const updateSetRoleUser = (auth0Id, role) => {
 
 export const getUser = userId => apiRequest(`${usersEndpoint}/${userId}`);
 export const getUserInitial = userId => apiRequest(`${usersEndpoint}/${userId}/initial`);
+export const getUserRole = userId => apiRequest(`${usersEndpoint}/${userId}/role`);

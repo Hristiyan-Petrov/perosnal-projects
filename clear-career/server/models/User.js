@@ -19,6 +19,12 @@ const userSchema = new mongoose.Schema({
         type: [mongoose.Types.ObjectId],
         ref: 'Offer',
         default: []
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true
     }
 });
 

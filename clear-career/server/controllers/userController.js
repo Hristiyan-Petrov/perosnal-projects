@@ -5,7 +5,7 @@ const userService = require('../services/userService');
 
 router.get('/:auth0Id', async (req, res) => {
     const { auth0Id } = req.params;
-    const user = await User.findOne({ auth0Id })?.lean();
+    const user = await userService.getOne(auth0Id);
     if (user) {
         res.json(user);
     } else {
@@ -16,7 +16,7 @@ router.get('/:auth0Id', async (req, res) => {
 // For Auth callback specific
 router.get('/:auth0Id/initial', async (req, res) => {
     const { auth0Id } = req.params;
-    const user = await User.findOne({ auth0Id })?.lean();
+    const user = await userService.getOne(auth0Id);
     if (user) {
         res.json(user);
     } else {
@@ -25,16 +25,38 @@ router.get('/:auth0Id/initial', async (req, res) => {
     }
 });
 
-router.post('/create', async (req, res) => {
-    const { auth0Id } = req.body;
+router.get('/:auth0Id/role', async (req, res) => {
+    const { auth0Id } = req.params;
+    userService.getRole(auth0Id)
+        .then(role => {
+            console.log(role);
+            res.json(role);
+        })
+        .catch(err => {
+            console.log(err);
 
-    User.findOne({ auth0Id })
+        })
+});
+
+router.post('/create', async (req, res) => {
+    const { auth0Id, email } = req.body;
+    userService.getOne(auth0Id)
         .then(user => {
             if (!user) {
-                user = new User({ auth0Id, role: null, appliedOffers: [], postedOffers: [] });
-                user.save()
+
+                // user = new User({ auth0Id, role: null, appliedOffers: [], postedOffers: [] });
+                // user.save()
+
+                userService.create(auth0Id, email)
                     .then(userData => {
+                        console.log('Created!');
+                        console.log(userData);
+                        
                         res.status(201).json({ message: 'User profile created successfully', user: userData });
+                    })
+                    .catch(err => {
+                        console.log('Error while creating user: ', err);
+                        throw (err);
                     });
             } else {
                 res.status(400).json({ message: 'User already exists' });

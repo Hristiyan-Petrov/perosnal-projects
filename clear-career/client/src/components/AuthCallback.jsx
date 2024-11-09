@@ -20,7 +20,7 @@ export default function AuthCallback() {
                 const userData = await authService.getUserInitial(user.sub);
 
                 if (userData.initialLogin) {
-                    await createUserAndNavigate(user.sub);
+                    await createUserAndNavigate(user.sub, user.email);
                 } else if (userData._id && !userData.role) {
                     // If user interrupted the setting role (He has user db doc wihout role set)
                     handleRoleCompletion();
@@ -39,9 +39,9 @@ export default function AuthCallback() {
         handleAuth0Login();
     }, [isAuthenticated, isLoading]);
 
-    const createUserAndNavigate = async userId => {
+    const createUserAndNavigate = async (userId, email) => {
         try {
-            const createData = await authService.createUser(userId);
+            const createData = await authService.createUser(userId, email);
             if (createData.user) {
                 toast.success(createData.message);
                 localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
