@@ -17,10 +17,9 @@ export default function AuthCallback() {
             isCreatingUser.current = true;
 
             try {
-                const userResponse = await authService.getUser(user.sub);
-                const userData = await userResponse.json();
+                const userData = await authService.getUserInitial(user.sub);
 
-                if (!userData._id) {
+                if (!userData.exist) {
                     await createUserAndNavigate(user.sub);
                 } else if (userData._id && !userData.role) {
                     // If user interrupted the setting role (He has user db doc wihout role set)
@@ -42,9 +41,8 @@ export default function AuthCallback() {
 
     const createUserAndNavigate = async userId => {
         try {
-            const createResponse = await authService.createUser(userId);
-            const createData = await createResponse.json();
-            if (createResponse.ok) {
+            const createData = await authService.createUser(userId);
+            if (createData.user) {
                 toast.success(createData.message);
                 localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
                 navigate('/set-role'); // Redirect new users
@@ -67,5 +65,5 @@ export default function AuthCallback() {
         navigate('/dashboard');
     };
 
-    return <LoadingAnimation />;    // Show loading indicator
+    return <LoadingAnimation />;
 }

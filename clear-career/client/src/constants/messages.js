@@ -16,5 +16,6 @@ export const AUTH_LOCAL_STORAGE_KEYS = {
 export const ERROR_MESSAGES = {
     defaultMessage: 'Whoopsy! Somehting went wrong!',
     defaultCode: '404',
-    defaultDescription: 'We’re sorry, but the page you’re looking for doesn’t exist or an unexpected error has occurred.', 
+    defaultDescription: 'We’re sorry, but the page you’re looking for doesn’t exist or an unexpected error has occurred.',
+    apiRequest: 'API request failed'
 };

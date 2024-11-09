@@ -17,12 +17,10 @@ export default function SetRole() {
 
         if (!isAuthenticated) return;
         authService.getUser(user.sub)
-            .then(res => res.json())
             .then(userData => {
                 if (userData.role) return;
                 return authService.updateSetRoleUser(user.sub, role);
             })
-            .then(res => res.json())
             .then(res => {
                 toast.success(res.message);
                 localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
@@ -32,23 +30,6 @@ export default function SetRole() {
                 console.log(err);
             })
             .finally(() => setIsLoading(false));
-
-
-
-
-        // setRoleUpdate(user.sub, role)
-        //     .then(res => res.json())
-        //     .then(res => {
-        //         console.log('User role set!');
-        //         console.log(res.message);
-        //         console.log(res.user);
-        //         toast.warning(res.message);
-        //         navigate('/dashboard');
-        //     })
-        //     .catch(err => {
-        //         console.log('Error setting role:', err)
-        //     })
-        //     .finally(() => setIsLoading(false));
     }
 
     const roleInfo = {

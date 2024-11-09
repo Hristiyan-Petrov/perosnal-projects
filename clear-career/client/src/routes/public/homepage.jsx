@@ -16,7 +16,6 @@ export default function Homepage() {
         const redirectIfRoleUnset = () => {
             if (isAuthenticated) {
                 authService.getUser(user.sub)
-                    .then(res => res.json())
                     .then(userData => {
                         if (userData._id && !userData.role) {
                             toast.warning('Please set role to complete your profile');

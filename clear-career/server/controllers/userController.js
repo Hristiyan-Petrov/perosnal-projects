@@ -13,6 +13,18 @@ router.get('/:auth0Id', async (req, res) => {
     }
 });
 
+// For Auth callback specific
+router.get('/:auth0Id/initial', async (req, res) => {
+    const { auth0Id } = req.params;
+    const user = await User.findOne({ auth0Id })?.lean();
+    if (user) {
+        res.json(user);
+    } else {
+        // Not throwing 4xx code to not break client logic
+        res.json({ exist: false });
+    }
+});
+
 router.post('/create', async (req, res) => {
     const { auth0Id } = req.body;
 
