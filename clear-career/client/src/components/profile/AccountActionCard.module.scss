@@ -1,0 +1,156 @@
+// components/common/ActionCard.module.scss
+
+.actionCard {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    transition: all 0.3s ease;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-bottom: 1.5rem;
+
+    &:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    }
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+
+    svg {
+        color: #4299e1;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        color: #2d3748;
+        margin: 0;
+    }
+}
+
+.cardContent {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.description {
+    color: #4a5568;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.actionButton {
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+
+    &:hover:not(:disabled) {
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    // Button variants
+    &.primary {
+        background-color: #4299e1;
+        color: white;
+
+        &:hover:not(:disabled) {
+            background-color: #3182ce;
+        }
+    }
+
+    &.danger {
+        background-color: #f56565;
+        color: white;
+
+        &:hover:not(:disabled) {
+            background-color: #e53e3e;
+        }
+    }
+
+    // &.warning {
+    //     background-color: #ed8936;
+    //     color: white;
+
+    //     &:hover:not(:disabled) {
+    //         background-color: #dd6b20;
+    //     }
+    // }
+
+    // &.success {
+    //     background-color: #48bb78;
+    //     color: white;
+
+    //     &:hover:not(:disabled) {
+    //         background-color: #38a169;
+    //     }
+    // }
+}
+
+.statusMessage {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+
+    p {
+        margin: 0;
+    }
+
+    &.success {
+        background-color: #c6f6d5;
+        color: #2f855a;
+        border: 1px solid #9ae6b4;
+
+        svg {
+            color: #38a169;
+        }
+    }
+
+    &.error {
+        background-color: #fed7d7;
+        color: #c53030;
+        border: 1px solid #feb2b2;
+
+        svg {
+            color: #e53e3e;
+        }
+    }
+}
+
+.infoText {
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+
+    p {
+        font-size: 0.875rem;
+        color: #718096;
+        margin: 0;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 768px) {
+    .actionCard {
+        padding: 1.5rem;
+    }
+}
