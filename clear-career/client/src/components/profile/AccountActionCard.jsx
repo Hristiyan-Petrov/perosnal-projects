@@ -27,10 +27,10 @@ export default function AccountActionCard({
 
                 <button
                     onClick={onClickHandler}
-                    disabled={disabled || isLoading}
+                    disabled={disabled || status === 'loading'}
                     className={`${styles.actionButton} ${styles[buttonVariant]}`}
                 >
-                    {isLoading ? loadingText : buttonText}
+                    {status === 'loading' ? loadingText : buttonText}
                 </button>
 
                 {status === 'success' && (
