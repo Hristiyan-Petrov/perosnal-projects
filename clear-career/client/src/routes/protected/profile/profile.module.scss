@@ -1,0 +1,136 @@
+// ProfilePage.module.scss
+
+.profileContainer {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2.5rem;
+}
+
+.profileImage {
+    img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.profileInfo {
+    h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+    }
+
+    p {
+        color: #4a5568;
+        margin-bottom: 1rem;
+    }
+}
+
+.roleBadge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #4299e1;
+    color: white;
+    border-radius: 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.navigationGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.navigationCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #2d3748;
+    border: 2px solid transparent;
+    margin: 10px;
+    width: 25%;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+        border-color: #4299e1;
+
+        .iconWrapper {
+            background: #4299e1;
+            color: white;
+        }
+    }
+}
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: #f7fafc;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    color: #4299e1;
+}
+
+.navigationCard h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #2d3748;
+}
+
+.navigationCard p {
+    font-size: 0.875rem;
+    color: #718096;
+    margin: 0;
+}
+
+.contentArea {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    min-height: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+    .profileHeader {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .navigationCard {
+        width: 60%;
+    }
+
+    .navigationCard {
+        padding: 1.5rem;
+    }
+}

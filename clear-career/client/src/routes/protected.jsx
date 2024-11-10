@@ -3,9 +3,10 @@ import CreateOffer from "./protected/createOffer";
 import { toast } from "react-toastify";
 import { AUTH_MESSAGES } from "../constants/messages";
 import { useEffect } from "react";
-import Profile, {  } from "./protected/profile";
+import Profile, { } from "./protected/profile/profile";
 import { useAuth0 } from "@auth0/auth0-react";
 import SetRole from "./protected/setRole";
+import AccountInfo from "./protected/profile/account";
 
 function ProtectedRoute() {
     const { isAuthenticated } = useAuth0(); // TODO
@@ -28,21 +29,22 @@ export const protectedRoutes = [
         element: <ProtectedRoute />,
         children: [
             {
-                path: 'set-role',
+                path: '/set-role',
                 element: <SetRole />
             },
             {
-                path: 'offer/create',
+                path: '/offer/create',
                 element: <CreateOffer />
             },
             {
-                path: 'profile',
+                path: '/profile',
                 element: <Profile />,
                 // loader: userLoader
-                // children: {
-
-                // }
-            }
+            },
+            {
+                path: '/profile/account',
+                element: <AccountInfo />
+            },
         ]
     }
 ] 
