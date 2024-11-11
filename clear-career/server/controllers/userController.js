@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
 const userService = require('../services/userService');
 
 router.get('/:auth0Id', async (req, res) => {
@@ -11,6 +10,22 @@ router.get('/:auth0Id', async (req, res) => {
     } else {
         res.status(404).json({ message: 'No such user' });
     }
+});
+
+router.delete('/:auth0Id', async (req, res) => {
+    const { auth0Id, accessToken } = req.params;
+
+    userService.delete(auth0Id)
+        .then(user => {
+            res.json({ message: 'Account successfully deleted' });
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                message: 'Failed to delete account',
+                error
+            });
+        });
 });
 
 // For Auth callback specific
@@ -29,13 +44,12 @@ router.get('/:auth0Id/role', async (req, res) => {
     const { auth0Id } = req.params;
     userService.getRole(auth0Id)
         .then(role => {
-            console.log(role);
             res.json(role);
         })
         .catch(err => {
             console.log(err);
-
-        })
+            res.status(404).json({ message: `Role of ${auth0Id} not found` });
+        });
 });
 
 router.post('/create', async (req, res) => {

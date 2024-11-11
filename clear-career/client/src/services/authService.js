@@ -1,6 +1,9 @@
 import { ERROR_MESSAGES } from "../constants/messages";
 
 const usersEndpoint = import.meta.env.VITE_API_ENDPOINT + '/users';
+const auth0Endpoints = {
+    resetPassword: `https://${import.meta.VITE_AUTH0_DOMAIN}/dbconnections/change_password`,
+};
 
 const apiRequest = async (url, options = {}) => {
     try {
@@ -14,7 +17,7 @@ const apiRequest = async (url, options = {}) => {
         if (url.includes('auth0')) {
             return response;
         }
-        
+
         return await response.json();
     } catch (error) {
         console.error('API request error:', error);
@@ -41,14 +44,14 @@ export const updateSetRoleUser = (auth0Id, role) => {
         },
         body: JSON.stringify({ auth0Id, role })
     });
-}
+};
 
 export const getUser = userId => apiRequest(`${usersEndpoint}/${userId}`);
 export const getUserInitial = userId => apiRequest(`${usersEndpoint}/${userId}/initial`);
 export const getUserRole = userId => apiRequest(`${usersEndpoint}/${userId}/role`);
 
 export const resetPassword = email => {
-    return apiRequest(import.meta.env.VITE_APP_AUTH0_RESET_PASSWORD_DOMAIN, {
+    return apiRequest(auth0Endpoints.resetPassword, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -58,5 +61,15 @@ export const resetPassword = email => {
             email,
             connection: 'Username-Password-Authentication'
         })
-    })
+    });
+};
+
+export const deleteAccount = (userId, accessToken) => {
+    return apiRequest(`${usersEndpoint}/${userId}`, {
+        method: 'delete',
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        }
+    });
 }

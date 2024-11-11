@@ -9,8 +9,7 @@ export default function AccountActionCard({
     description,
     buttonText,
     buttonVariant = 'primary', // primary, danger, warning, success
-    onClick: onClickHandler,
-    isLoading = false,
+    onClickHandler,
     loadingText,
     infoText,
     disabled = false,
