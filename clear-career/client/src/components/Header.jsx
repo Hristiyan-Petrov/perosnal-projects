@@ -3,12 +3,6 @@ import LogoutButton from "./LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "./LoginButton";
 
-const setActive = isActive => {
-    isActive
-        ? 'active'
-        : ''
-}
-
 export default function Header() {
     const { isAuthenticated } = useAuth0();
     const location = useLocation();
@@ -27,7 +21,6 @@ export default function Header() {
                     : <div>
                         <NavLink
                             to="/dashboard"
-                            className={setActive()}
                         >
                             Dashboard</NavLink>
 
@@ -36,26 +29,13 @@ export default function Header() {
                             ?
                             <>
                                 <NavLink
-                                    to="offer/create"
-                                    className={setActive()}
-                                >
-                                    Create Offer
-                                </NavLink>
-                                <NavLink
                                     to={'/profile'}
-                                    className={setActive()}
                                 >
                                     Profile
                                 </NavLink>
                                 <LogoutButton />
                             </>
                             :
-                            // Guest users 
-                            // <NavLink
-                            //     to="/login"
-                            //     className={setActive()}
-                            // >
-                            //     Login</NavLink>
                             <LoginButton />
                         }
                     </div>
