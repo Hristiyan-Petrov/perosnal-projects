@@ -18,7 +18,7 @@ export const publicRoutes = [
         element: <AuthCallback />
     },
     {
-        path: 'dashboard',
+        path: 'offers',
         element: <Dashboard />,
     },
 ]

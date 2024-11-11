@@ -22,7 +22,7 @@ export default function Header() {
                     ? null
                     : <div>
                         <NavLink
-                            to="/dashboard"
+                            to="/offers"
                         >
                             Dashboard</NavLink>
 

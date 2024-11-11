@@ -24,7 +24,7 @@ export default function SetRole() {
             .then(res => {
                 toast.success(res.message);
                 localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
-                navigate('/dashboard');
+                navigate('/offers');
             })
             .catch(err => {
                 console.log(err);

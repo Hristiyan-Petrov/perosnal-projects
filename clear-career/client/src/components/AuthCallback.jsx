@@ -62,7 +62,7 @@ export default function AuthCallback() {
 
     const handleExistingUser = () => {
         localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification, true);
-        navigate('/dashboard');
+        navigate('/offers');
     };
 
     return <LoadingAnimation />;
