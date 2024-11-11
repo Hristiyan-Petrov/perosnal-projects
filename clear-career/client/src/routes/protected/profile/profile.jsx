@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import * as authService from '../../../services/authService';
 import { NavLink, Outlet } from 'react-router-dom';
+import useUserRole from '../../../hooks/useUserRole';
 
 // export const loader = async () => {
 //     const { user } = useAuth0();
@@ -21,13 +22,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 
 export default function Profile() {
     const { user } = useAuth0();
-    const [userRole, setUserRole] = useState('');
-
-    useEffect(() => {
-        authService.getUserRole(user.sub)
-            .then(res => setUserRole(res.role))
-            .catch(err => console.log(err));
-    }, []);
+    const { role } = useUserRole();
 
     const seekerNavItems = [
         {
@@ -113,7 +108,7 @@ export default function Profile() {
         }
     ];
 
-    const navItems = userRole === 'job-seeker' ? seekerNavItems : offererNavItems;
+    const navItems = role === 'job-seeker' ? seekerNavItems : offererNavItems;
 
     return (
         <div className={styles.profileContainer}>
@@ -125,7 +120,7 @@ export default function Profile() {
                     <h2>{'Hello, ' + user?.nickname || user?.name}</h2>
                     <p>{user?.email}</p>
                     <span className={styles.roleBadge}>
-                        {userRole === 'job-seeker' ? 'Job Seeker' : 'Job Offerer'}
+                        {role === 'job-seeker' ? 'Job Seeker' : 'Job Offerer'}
                     </span>
                 </div>
             </div>
@@ -149,13 +144,3 @@ export default function Profile() {
         </div>
     );
 }
-
-// {
-//     "nickname": "hris",
-//     "name": "hris@abv.bg",
-//     "picture": "https://s.gravatar.com/avatar/df2d7d41b2195f3a2a8a3198a549dd5c?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fhr.png",
-//     "updated_at": "2024-11-09T14:54:51.012Z",
-//     "email": "hris@abv.bg",
-//     "email_verified": false,
-//     "sub": "auth0|672373156300478ffbff21b9"
-// }
