@@ -8,7 +8,6 @@ import styles from './OfferDashboardCard.module.scss';
 
 export default function OfferDashboardCard({
     _id,
-    imageUrl,
     title,
     salary,
     company,
@@ -59,7 +58,7 @@ export default function OfferDashboardCard({
             <div className={styles.wrapper}>
                 <div className={styles.imageContainer}>
                     <img
-                        src={imageUrl}
+                        src={company.imageUrl}
                         alt={title}
                     />
                 </div>
@@ -67,7 +66,7 @@ export default function OfferDashboardCard({
                 <div className={styles.details}>
                     <div className={styles.header}>
                         <h3 className={styles.title}>{title}</h3>
-                        <span className={styles.company}>{company}</span>
+                        <span className={styles.company}>{company.name}</span>
                     </div>
 
                     <div className={styles.metaInfo}>
