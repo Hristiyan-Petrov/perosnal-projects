@@ -9,10 +9,11 @@ import {
     Briefcase,
     MessageSquarePlus,
     Users,
-    FilePlus2
+    FilePlus2,
+    Building2
 } from 'lucide-react';
 import * as authService from '../../../services/authService';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, } from 'react-router-dom';
 import useUserRole from '../../../hooks/useUserRole';
 
 // export const loader = async () => {
@@ -71,11 +72,17 @@ export default function Profile() {
             description: 'Manage your job listings'
         },
         {
-            path: 'account',
-            label: 'Account Information',
-            icon: <UserCog />,
-            description: 'Manage your personal profile'
+            path: 'company',
+            label: 'Company Profile',
+            icon: <Building2 />,
+            description: 'Update your company information'
         },
+        // {
+        //     path: 'account',
+        //     label: 'Account Information',
+        //     icon: <UserCog />,
+        //     description: 'Manage your personal profile'
+        // },
         {
             path: 'applicants',
             label: 'Applicant Tracking',
@@ -88,12 +95,6 @@ export default function Profile() {
             icon: <FilePlus2 />,
             description: 'Update your company information'
         },
-        // {
-        //     path: 'company',
-        //     label: 'Company Profile',
-        //     icon: <Building2 />,
-        //     description: 'Update your company information'
-        // },
         // {
         //     path: 'notifications',
         //     label: 'Notifications',
