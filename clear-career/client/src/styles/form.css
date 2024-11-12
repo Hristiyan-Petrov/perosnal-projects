@@ -44,6 +44,31 @@
   background-color: rgb(242, 242, 242);
 }
 
+.form select {
+  /* border: 1px solid $input-border; */
+  /* border-radius: $border-radius;
+  color: $input-text;
+  font-size: $font-size-base; */
+  padding: 0.75rem 1rem;
+  /* transition: border-color $transition-duration; */
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #93c5fd;
+  outline: none;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin: 15px;
+}
+
 .form button {
   /* font-family: "Roboto", sans-serif; */
   font-weight: 600;
@@ -66,12 +91,6 @@
 .form button:hover {
   background: rgb(180, 227, 232);
 }
-
-/* .form button:hover,
-.form button:active,
-.form button:focus {
-  background: #5c9596;
-} */
 
 .form .register-form {
   display: none;

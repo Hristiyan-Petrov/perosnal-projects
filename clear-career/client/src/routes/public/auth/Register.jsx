@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import FormView from "../../../components/FormView";
+import FormView from "../../../components/FormView/FormView";
 
 export default function Register() {
     const inputFields = [
@@ -16,7 +16,7 @@ export default function Register() {
             placeholder: "Password",
         },
         {
-            type: "assword",
+            type: "password",
             name: "re-password",
             id: "repeat-password",
             placeholder: "Repeat password",
