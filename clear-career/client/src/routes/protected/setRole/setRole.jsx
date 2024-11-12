@@ -1,11 +1,11 @@
 import styles from './setRole.module.scss'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import * as authService from "../../services/authService";
+import * as authService from "../../../services/authService";
 import { useState } from "react";
 import { AlertCircle, Briefcase, ChevronRight, Search } from 'lucide-react'
 import { toast } from 'react-toastify';
-import { AUTH_LOCAL_STORAGE_KEYS } from '../../constants/messages';
+import { AUTH_LOCAL_STORAGE_KEYS } from '../../../constants/messages';
 
 export default function SetRole() {
     const { user, isAuthenticated } = useAuth0();

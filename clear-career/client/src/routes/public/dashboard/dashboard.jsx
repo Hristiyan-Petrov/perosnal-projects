@@ -1,8 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAuthNotification } from "../../hooks/useAuthNotification";
-import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../constants/messages";
+import { useAuthNotification } from "../../../hooks/useAuthNotification";
+import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../../constants/messages";
 import { useLoaderData } from "react-router-dom";
-import OfferDashboardCard from "../../components/offers/OfferDashboardCard";
+import OfferDashboardCard from "../../../components/offers/OfferDashboardCard/OfferDashboardCard";
 import styles from './dashboard.module.scss';
 
 // export const loader = () => {

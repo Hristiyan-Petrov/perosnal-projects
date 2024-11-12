@@ -5,9 +5,9 @@ import {
     KeyRound,
     Trash2,
 } from 'lucide-react';
+import AccountActionCard from '../../../../components/profile/AccountActionCard/AccountActionCard'
 import styles from './account.module.scss';
-import AccountActionCard from '../../../components/profile/AccountActionCard';
-import { deleteAccount, resetPassword } from '../../../services/authService';
+import { deleteAccount, resetPassword } from '../../../../services/authService';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';

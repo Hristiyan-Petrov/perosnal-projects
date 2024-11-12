@@ -5,8 +5,8 @@ import { AUTH_MESSAGES } from "../constants/messages";
 import { useEffect } from "react";
 import Profile, { } from "./protected/profile/profile";
 import { useAuth0 } from "@auth0/auth0-react";
-import SetRole from "./protected/setRole";
-import AccountInfo from "./protected/profile/account";
+import SetRole from "./protected/setRole/setRole";
+import AccountInfo from "./protected/profile/account/account";
 
 function ProtectedRoute() {
     const { isAuthenticated } = useAuth0(); // TODO

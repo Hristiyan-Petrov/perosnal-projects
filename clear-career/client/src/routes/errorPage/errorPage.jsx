@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES } from '../constants/messages';
+import { ERROR_MESSAGES } from '../../constants/messages';
 import styles from './errorPage.module.scss';
 import { useNavigate, useRouteError } from "react-router-dom";
 
