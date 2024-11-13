@@ -12,16 +12,23 @@ export default function Companies() {
 
     const addClickHandler = () => {
         navigate('create');
-    }
+    };
 
     if (userCompanies.length === 0) {
         return (
             <div>
-                <h2>No offers yet</h2>
-                <button>Create Company Profile</button>
+                <h2>You Have No Companies</h2>
+                <div className={styles.btnContainer}>
+                    <button
+                        className={`${styles.btn} ${styles.large} ${styles.centered} ${styles.pulse}`}
+                        onClick={addClickHandler}
+                    >
+                        Add Your First Company
+                    </button>
+                </div>
             </div>
         );
-    }
+    };
 
     return (
         <div>
@@ -35,7 +42,11 @@ export default function Companies() {
                     />
                 ))}
             </div>
-            <button onClick={addClickHandler}>Add another company</button>
+            <div className={styles.btnContainer}>
+                <button onClick={addClickHandler} className={styles.btn}>
+                    Add another company
+                </button>
+            </div>
         </div>
     )
 };
