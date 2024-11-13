@@ -1,6 +1,21 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import FormView from "../../components/FormView/FormView";
+import useUserCompanies from "../../hooks/useUserCompanies";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function createOffer() {
+    const { user } = useAuth0();
+    const navigate = useNavigate();
+    const { userCompanies, loading, error } = useUserCompanies(user.sub);
+
+    if (!loading && userCompanies.length === 0) {
+        toast.warning('Create company profile first to create offer');
+        return navigate('/companies');
+    }
+
+    const userCompaniesFormatted = userCompanies.map(company => company.name);
+
     const inputFields = [
         {
             type: "text",
@@ -24,14 +39,7 @@ export default function createOffer() {
             type: "select",
             name: "company",
             placeholder: "Company",
-            options: [
-                // Get user companies (from company builder)
-                'IT',
-                'Agriculture',
-                'Restaurants and tourism',
-                'Finance',
-                'Psychology'
-            ]
+            options: userCompaniesFormatted
         },
         {
             type: "textarea",
@@ -51,6 +59,7 @@ export default function createOffer() {
             placeholder: "Salary Range",
         },
     ]
+
     return (
         <FormView
             title={'Create Offer'}

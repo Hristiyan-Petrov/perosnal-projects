@@ -7,6 +7,7 @@ import Profile, { } from "./protected/profile/profile";
 import { useAuth0 } from "@auth0/auth0-react";
 import SetRole from "./protected/setRole/setRole";
 import AccountInfo from "./protected/profile/account/account";
+import Companies from "./protected/companies/companies";
 
 function ProtectedRoute() {
     const { isAuthenticated } = useAuth0(); // TODO
@@ -23,6 +24,8 @@ function ProtectedRoute() {
             : <Outlet />
     )
 }
+
+// TODO: Add route guard for role specific paths 
 
 export const protectedRoutes = [
     {
@@ -44,6 +47,10 @@ export const protectedRoutes = [
             {
                 path: '/profile/account',
                 element: <AccountInfo />
+            },
+            {
+                path: '/companies',
+                element: <Companies />
             },
         ]
     }

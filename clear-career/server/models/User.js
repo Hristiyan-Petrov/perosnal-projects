@@ -6,6 +6,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true
+    },
     role: {
         type: String,
         enum: ['job-seeker', 'job-offerer'],
@@ -20,11 +26,10 @@ const userSchema = new mongoose.Schema({
         ref: 'Offer',
         default: []
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true
+    companies: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'Company',
+        default: []
     }
 });
 

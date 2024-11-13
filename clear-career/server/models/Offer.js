@@ -4,23 +4,26 @@ const offerSchema = new mongoose.Schema({
     title: {
         type: String,
     },
-    imageUrl: {
-        type: String,
-    },
     category: {
         type: String,
     },
+    company: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Company'
+    },
     description: {
-        rows: "4",
-        cols: "50",
+        type: String
     },
     requirements: {
-        rows: "4",
-        cols: "50",
+        type: String // TODO: Check
     },
     salary: {
         type: String,
     },
+    owner: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 module.exports = mongoose.model('Offer', offerSchema);

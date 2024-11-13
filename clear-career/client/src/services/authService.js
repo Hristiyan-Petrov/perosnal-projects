@@ -49,6 +49,7 @@ export const updateSetRoleUser = (auth0Id, role) => {
 export const getUser = userId => apiRequest(`${usersEndpoint}/${userId}`);
 export const getUserInitial = userId => apiRequest(`${usersEndpoint}/${userId}/initial`);
 export const getUserRole = userId => apiRequest(`${usersEndpoint}/${userId}/role`);
+export const getUserCompanies = (userId) => apiRequest(`${usersEndpoint}/${userId}/companies`);
 
 export const resetPassword = email => {
     return apiRequest(auth0Endpoints.resetPassword, {
@@ -72,4 +73,4 @@ export const deleteAccount = (userId, accessToken) => {
             'Content-Type': 'application/json',
         }
     });
-}
+};

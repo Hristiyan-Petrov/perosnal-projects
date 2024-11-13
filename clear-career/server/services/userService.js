@@ -1,5 +1,6 @@
 const managementClient = require("../config/auth0");
-const User = require("../models/User")
+const User = require("../models/User");
+const Company = require("../models/Company");
 
 module.exports = {
     getOne: (auth0Id) => {
@@ -24,5 +25,11 @@ module.exports = {
 
         // 2. Delete user from Mongo
         return await User.findOneAndDelete({ auth0Id });
-    }
-}
+    },
+    getCompanies: (auth0Id) => {
+        return User
+            .findOne({auth0Id})
+            .select('companies')
+            .lean();
+    },
+};

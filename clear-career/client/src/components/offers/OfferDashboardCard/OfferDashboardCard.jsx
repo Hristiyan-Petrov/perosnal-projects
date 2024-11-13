@@ -20,10 +20,6 @@ export default function OfferDashboardCard({
     const { user } = useAuth0();
     // const navigate = useNavigate();
 
-    // const handleDetailsClick = () => {
-    //     navigate(`/offers/${_id}`);
-    // };
-
     // const handleEditClick = () => {
     //     navigate(`/offers/${_id}/edit`);
     // };
@@ -32,7 +28,6 @@ export default function OfferDashboardCard({
     //     // TODO: Ask dialog, nicely animation
     //     // navigate(`/offers/${_id}`);
     // };
-
 
     const formatSalary = (salary) => {
         const [minSalary, maxSalary] = salary.split('-');

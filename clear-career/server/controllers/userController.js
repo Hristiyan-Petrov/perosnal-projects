@@ -12,22 +12,6 @@ router.get('/:auth0Id', async (req, res) => {
     }
 });
 
-router.delete('/:auth0Id', async (req, res) => {
-    const { auth0Id, accessToken } = req.params;
-
-    userService.delete(auth0Id)
-        .then(user => {
-            res.json({ message: 'Account successfully deleted' });
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({
-                message: 'Failed to delete account',
-                error
-            });
-        });
-});
-
 // For Auth callback specific
 router.get('/:auth0Id/initial', async (req, res) => {
     const { auth0Id } = req.params;
@@ -97,6 +81,37 @@ router.post('/set-role', async (req, res) => {
         .catch(err => {
             console.log(err);
             res.status(500).json({ message: err });
+        });
+});
+
+router.get('/:auth0Id/companies', (req, res) => {
+    const { auth0Id } = req.params;
+    userService.getCompanies(auth0Id)
+        .then(data => {
+            res.json({ companies: data.companies });
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                message: 'Failed to get user companies',
+                error
+            });
+        });
+});
+
+router.delete('/:auth0Id', (req, res) => {
+    const { auth0Id } = req.params;
+
+    userService.delete(auth0Id)
+        .then(user => {
+            res.json({ message: 'Account successfully deleted' });
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                message: 'Failed to delete account',
+                error
+            });
         });
 });
 

@@ -73,16 +73,16 @@ export default function Profile() {
         },
         {
             path: 'company',
-            label: 'Company Profile',
+            label: 'Companies Profile',
             icon: <Building2 />,
-            description: 'Update your company information'
+            description: 'Add your company information'
         },
-        // {
-        //     path: 'account',
-        //     label: 'Account Information',
-        //     icon: <UserCog />,
-        //     description: 'Manage your personal profile'
-        // },
+        {
+            path: 'account',
+            label: 'Account Information',
+            icon: <UserCog />,
+            description: 'Manage your user profile'
+        },
         {
             path: 'applicants',
             label: 'Applicant Tracking',
@@ -93,7 +93,7 @@ export default function Profile() {
             path: '/offer/create',
             label: 'Add Offer',
             icon: <FilePlus2 />,
-            description: 'Update your company information'
+            description: 'Create an offer for one of your companies'
         },
         // {
         //     path: 'notifications',
