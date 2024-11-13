@@ -11,7 +11,7 @@ export default function createOffer() {
 
     if (!loading && userCompanies.length === 0) {
         toast.warning('Create company profile first to create offer');
-        return navigate('/companies');
+        return navigate('/profile/companies');
     }
 
     const userCompaniesFormatted = userCompanies.map(company => company.name);

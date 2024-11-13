@@ -72,7 +72,7 @@ export default function Profile() {
             description: 'Manage your job listings'
         },
         {
-            path: 'company',
+            path: 'companies',
             label: 'Companies Profile',
             icon: <Building2 />,
             description: 'Add your company information'

@@ -23,7 +23,7 @@ export default function FormView({
                             case 'number':
                                 return (
                                     <div key={fieldId} className={styles['form-group']}>
-                                        <label htmlFor={fieldId}>{placeholder}</label>
+                                        <label htmlFor={fieldId}>{name.toUpperCase()}</label>
                                         <input
                                             type={type}
                                             name={name}
@@ -35,7 +35,7 @@ export default function FormView({
                             case 'textarea':
                                 return (
                                     <div key={fieldId} className={styles['form-group']}>
-                                        <label htmlFor={fieldId}>{placeholder}</label>
+                                        <label htmlFor={fieldId}>{name.toUpperCase()}</label>
                                         <textarea
                                             name={name}
                                             id={fieldId}
@@ -46,7 +46,7 @@ export default function FormView({
                             case 'select':
                                 return (
                                     <div key={fieldId} className={styles['form-group']}>
-                                        <label htmlFor={fieldId}>{placeholder}</label>
+                                        <label htmlFor={fieldId}>{name.toUpperCase()}</label>
                                         <select name={name} id={fieldId}>
                                             <option value="">Select {name}</option>
                                             {options.map((option, optionIndex) => (

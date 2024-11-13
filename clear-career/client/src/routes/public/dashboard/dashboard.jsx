@@ -2,8 +2,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthNotification } from "../../../hooks/useAuthNotification";
 import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../../constants/messages";
 import { useLoaderData } from "react-router-dom";
-import OfferDashboardCard from "../../../components/offers/OfferDashboardCard/OfferDashboardCard";
 import styles from './dashboard.module.scss';
+import DashboardCardView from "../../../components/offers/DashboardCardView/DashboardCardView";
 
 // export const loader = () => {
 //     return fetch('http://localhost:3000/status')
@@ -127,7 +127,6 @@ export default function Dashboard() {
     ];
 
     if (offers.length == 0) {
-        {/* <!-- Display an h2 if there are no posts --> */ }
         return <h2>No offers yet.</h2>
     }
 
@@ -137,8 +136,9 @@ export default function Dashboard() {
 
             <div className={styles.offersContainer}>
                 {offers.map((offer) => (
-                    <OfferDashboardCard
+                    <DashboardCardView
                         key={offer._id}
+                        type={'offer'}
                         {...offer}
                     />
                 ))}

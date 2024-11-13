@@ -8,9 +8,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import SetRole from "./protected/setRole/setRole";
 import AccountInfo from "./protected/profile/account/account";
 import Companies from "./protected/companies/companies";
+import CreateCompany from "./protected/createCompany";
 
 function ProtectedRoute() {
-    const { isAuthenticated } = useAuth0(); // TODO
+    const { isAuthenticated } = useAuth0();
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -49,9 +50,13 @@ export const protectedRoutes = [
                 element: <AccountInfo />
             },
             {
-                path: '/companies',
-                element: <Companies />
+                path: '/profile/companies',
+                element: <Companies />,
             },
+            {
+                path: '/profile/companies/create',
+                element: <CreateCompany />,
+            }
         ]
     }
 ] 
