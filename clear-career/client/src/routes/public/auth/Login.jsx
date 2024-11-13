@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import FormView from "../../../components/FormView";
+import FormView from "../../../components/FormView/FormView";
 import LoginButton from "../../../components/LoginButton";
 
 export async function action({ request }) {
@@ -30,7 +30,8 @@ export default function Login() {
         <FormView
             title={'Login'}
             inputFields={inputFields}
-            buttonContent={<LoginButton />}
+            buttonContent={'Login'}
+            // buttonContent={<LoginButton />}
             extraContent={<Message />}
         />
     );

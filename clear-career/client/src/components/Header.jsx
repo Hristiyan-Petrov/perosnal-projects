@@ -2,15 +2,11 @@ import { NavLink, useLocation } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "./LoginButton";
-
-const setActive = isActive => {
-    isActive
-        ? 'active'
-        : ''
-}
+import useUserRole from "../hooks/useUserRole";
 
 export default function Header() {
     const { isAuthenticated } = useAuth0();
+    const { role } = useUserRole();
     const location = useLocation();
     const isSettingRole = location.pathname === '/set-role';
 
@@ -26,8 +22,7 @@ export default function Header() {
                     ? null
                     : <div>
                         <NavLink
-                            to="/dashboard"
-                            className={setActive()}
+                            to="/offers"
                         >
                             Dashboard</NavLink>
 
@@ -35,27 +30,25 @@ export default function Header() {
                             // Logged-in users 
                             ?
                             <>
-                                <NavLink
-                                    to="/create"
-                                    className={setActive()}
-                                >
-                                    Create Offer
-                                </NavLink>
+
                                 <NavLink
                                     to={'/profile'}
-                                    className={setActive()}
                                 >
                                     Profile
                                 </NavLink>
+                                {
+                                    role === 'job-offerer'
+                                        ?
+                                        <NavLink
+                                            to="/offer/create"
+                                        >
+                                            Create Offer
+                                        </NavLink>
+                                        : ''
+                                }
                                 <LogoutButton />
                             </>
                             :
-                            // Guest users 
-                            // <NavLink
-                            //     to="/login"
-                            //     className={setActive()}
-                            // >
-                            //     Login</NavLink>
                             <LoginButton />
                         }
                     </div>

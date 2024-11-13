@@ -1,10 +1,35 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthNotification } from "../../hooks/useAuthNotification";
 import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../constants/messages";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import * as authService from "../../services/authService";
+import { toast, useToast } from "react-toastify";
 
 export default function Homepage() {
-    const { isAuthenticated, isLoading } = useAuth0();
+    const { user, isAuthenticated, isLoading } = useAuth0();
+    const navigate = useNavigate();
+
     useAuthNotification(!isAuthenticated, isLoading, AUTH_MESSAGES.logoutSuccess, AUTH_LOCAL_STORAGE_KEYS.logoutNotification);
+
+    useEffect(() => {
+        const redirectIfRoleUnset = () => {
+            if (isAuthenticated) {
+                authService.getUser(user.sub)
+                    .then(userData => {
+                        if (userData._id && !userData.role) {
+                            toast.warning('Please set role to complete your profile');
+                            navigate('/set-role');
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
+        }
+
+        redirectIfRoleUnset();
+    }, [isLoading]);
 
     return (
         <section id="home">

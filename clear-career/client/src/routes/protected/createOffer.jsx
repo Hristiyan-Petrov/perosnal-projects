@@ -1,44 +1,54 @@
-import FormView from "../../components/FormView";
+import FormView from "../../components/FormView/FormView";
 
 export default function createOffer() {
     const inputFields = [
         {
             type: "text",
             name: "title",
-            id: "job-title",
             placeholder: "Title",
         },
         {
-            type: "text",
-            name: "imageUrl",
-            id: "job-logo",
-            placeholder: "Company logo url",
-        },
-        {
-            type: "text",
+            type: "select",
             name: "category",
-            id: "job-category",
             placeholder: "Category",
+            options: [
+                // TODO: Extract them
+                'IT',
+                'Agriculture',
+                'Restaurants and tourism',
+                'Finance',
+                'Psychology'
+            ]
         },
         {
-            id: "job-description",
+            type: "select",
+            name: "company",
+            placeholder: "Company",
+            options: [
+                // Get user companies (from company builder)
+                'IT',
+                'Agriculture',
+                'Restaurants and tourism',
+                'Finance',
+                'Psychology'
+            ]
+        },
+        {
+            type: "textarea",
             name: "description",
             placeholder: "Description",
-            rows: "4",
-            cols: "50",
         },
+        // {
+        //     type: "TODO",   // Should be interactive somehow
+        //     name: "requirements",
+        //     placeholder: "Requirements",
+        //     // rows: "4",
+        //     // cols: "50",
+        // },
         {
-            id: "job-requirements",
-            name: "requirements",
-            placeholder: "Requirements",
-            rows: "4",
-            cols: "50",
-        },
-        {
-            type: "text",
+            type: "salary-range",   // Should be two inputs with texts 'from' 'to'
             name: "salary",
-            id: "job-salary",
-            placeholder: "Salary",
+            placeholder: "Salary Range",
         },
     ]
     return (

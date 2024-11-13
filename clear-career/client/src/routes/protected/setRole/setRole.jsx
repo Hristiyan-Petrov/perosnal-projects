@@ -1,11 +1,11 @@
 import styles from './setRole.module.scss'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import * as authService from "../../services/authService";
+import * as authService from "../../../services/authService";
 import { useState } from "react";
 import { AlertCircle, Briefcase, ChevronRight, Search } from 'lucide-react'
 import { toast } from 'react-toastify';
-import { AUTH_LOCAL_STORAGE_KEYS } from '../../constants/messages';
+import { AUTH_LOCAL_STORAGE_KEYS } from '../../../constants/messages';
 
 export default function SetRole() {
     const { user, isAuthenticated } = useAuth0();
@@ -17,38 +17,19 @@ export default function SetRole() {
 
         if (!isAuthenticated) return;
         authService.getUser(user.sub)
-            .then(res => res.json())
             .then(userData => {
                 if (userData.role) return;
                 return authService.updateSetRoleUser(user.sub, role);
             })
-            .then(res => res.json())
             .then(res => {
                 toast.success(res.message);
                 localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
-                navigate('/dashboard');
+                navigate('/offers');
             })
             .catch(err => {
                 console.log(err);
             })
             .finally(() => setIsLoading(false));
-
-
-
-
-        // setRoleUpdate(user.sub, role)
-        //     .then(res => res.json())
-        //     .then(res => {
-        //         console.log('User role set!');
-        //         console.log(res.message);
-        //         console.log(res.user);
-        //         toast.warning(res.message);
-        //         navigate('/dashboard');
-        //     })
-        //     .catch(err => {
-        //         console.log('Error setting role:', err)
-        //     })
-        //     .finally(() => setIsLoading(false));
     }
 
     const roleInfo = {

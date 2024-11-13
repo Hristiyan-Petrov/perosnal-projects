@@ -1,8 +1,9 @@
 import Homepage from "./public/homepage";
 import Login, { action as loginAction } from "./public/auth/Login";
 import Register from "./public/auth/Register";
-import Dashboard, { } from "./public/dashboard";
+import Dashboard, { } from "./public/dashboard/dashboard";
 import AuthCallback from "../components/AuthCallback";
+import OfferDetails from "./public/offerDetails/offerDetails";
 
 // import { lazy } from "react";
 // const Login = lazy(() => import('../components/auth/Login'));
@@ -17,17 +18,12 @@ export const publicRoutes = [
         path: 'auth-callback',
         element: <AuthCallback />
     },
-    // {
-    //     path: 'login',
-    //     element: <Login />,
-    //     action: loginAction
-    // },
-    // {
-    //     path: 'register',
-    //     element: <Register />
-    // },
     {
-        path: 'dashboard',
+        path: 'offers',
         element: <Dashboard />,
     },
+    {
+        path: 'offers/:offerId',
+        element: <OfferDetails />
+    }
 ]

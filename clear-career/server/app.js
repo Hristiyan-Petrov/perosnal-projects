@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const mongooseConnector = require('./config/mongoose');
-const config = require('./config');
-const userRoutes = require('./routes/userRoutes');
+const { config } = require('./config');
+const router = require('./router');
+const nonMatching = require('./middlewares/nonMatching');
+const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
@@ -11,13 +13,10 @@ app.use(cors());
 
 mongooseConnector();
 
-app.use('/api/users', userRoutes);
+app.use('/api', router);
 
-app.get('/status', (req, res) => {
-    res.send({
-        'Status': 'Running'
-    })
-});
+router.use(nonMatching);
+router.use(errorHandler);
 
 app.listen(config.PORT, () => {
     console.log(`Server is listening on port: ${config.PORT}...`);
