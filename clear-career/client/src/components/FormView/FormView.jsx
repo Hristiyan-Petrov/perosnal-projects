@@ -20,7 +20,7 @@ export default function FormView({
                     className={styles.form__view}
                     onSubmit={onSubmitHandler}
                 >
-                    {inputFields.map(({ type, name, id = '', placeholder, options = '' }, index) => {
+                    {inputFields.map(({ type, name, id = '', placeholder, optional, options = '' }, index) => {
                         const fieldId = id || `${name}-${nanoid(6)}`;
 
                         switch (type) {
@@ -30,7 +30,9 @@ export default function FormView({
                             case 'number':
                                 return (
                                     <div key={fieldId} className={styles['form-group']}>
-                                        <label htmlFor={fieldId}>{name.toUpperCase()}</label>
+                                        <label htmlFor={fieldId}>{name.toUpperCase()}
+                                            {optional && <span className={styles.optional}> Optional</span>}
+                                        </label>
                                         <input
                                             type={type}
                                             name={name}
@@ -42,7 +44,9 @@ export default function FormView({
                             case 'textarea':
                                 return (
                                     <div key={fieldId} className={styles['form-group']}>
-                                        <label htmlFor={fieldId}>{name.toUpperCase()}</label>
+                                        <label htmlFor={fieldId}>{name.toUpperCase()}
+                                            {optional && <span className={styles.optional}> Optional</span>}
+                                        </label>
                                         <textarea
                                             name={name}
                                             id={fieldId}
@@ -53,9 +57,11 @@ export default function FormView({
                             case 'select':
                                 return (
                                     <div key={fieldId} className={styles['form-group']}>
-                                        <label htmlFor={fieldId}>{name.toUpperCase()}</label>
+                                        <label htmlFor={fieldId}>{placeholder.toUpperCase()}
+                                            {optional && <span className={styles.optional}> Optional</span>}
+                                        </label>
                                         <select name={name} id={fieldId}>
-                                            <option value="">Select {name}</option>
+                                            <option value="">Select {placeholder}</option>
                                             {options.map((option, optionIndex) => (
                                                 <option
                                                     key={`${fieldId}-option-${optionIndex}`}
@@ -73,17 +79,20 @@ export default function FormView({
                                         key={fieldId}
                                         className={`${styles['form-group']} ${styles['form-group--salary-range']}`}
                                     >
-                                        <label htmlFor={`${fieldId}-from`}>{placeholder}</label>
+                                        <label htmlFor={`${fieldId}-from`}>
+                                            {placeholder}
+                                            {optional && <span className={styles.optional}> Optional</span>}
+                                        </label>
                                         <div className={styles['salary-inputs']}>
                                             <input
                                                 type="number"
-                                                name={`${name}[from]`}
+                                                name={`${name}From`}
                                                 id={`${fieldId}-from`}
                                                 placeholder="From"
                                             />
                                             <input
                                                 type="number"
-                                                name={`${name}[to]`}
+                                                name={`${name}To`}
                                                 id={`${fieldId}-to`}
                                                 placeholder="To"
                                             />

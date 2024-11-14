@@ -59,7 +59,7 @@ export default function DashboardCardView({
     return (
         <NavLink to={type === 'offer'
             ? `/offers/${_id}`
-            : `/company/${_id}`
+            : `/companies/${_id}`
         } className={styles.card}>
             <div className={styles.wrapper}>
                 <div className={styles.imageContainer}>

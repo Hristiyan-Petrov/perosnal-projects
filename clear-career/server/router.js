@@ -3,14 +3,10 @@ const router = express.Router();
 
 const userController = require('./controllers/userController');
 const companyController = require('./controllers/companyController');
+const offerController = require('./controllers/offerController');
 
 router.use('/users', userController);
 router.use('/companies', companyController);
-
-router.get('/status', (req, res) => {
-    res.send({
-        'Status': 'Running'
-    })
-});
+router.use('/offers', offerController);
 
 module.exports = router;

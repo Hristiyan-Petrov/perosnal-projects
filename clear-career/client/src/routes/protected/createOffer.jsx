@@ -3,18 +3,21 @@ import FormView from "../../components/FormView/FormView";
 import useUserCompanies from "../../hooks/useUserCompanies";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import * as offerService from '../../services/offerService';
 
 export default function createOffer() {
     const { user } = useAuth0();
     const navigate = useNavigate();
     const { userCompanies, loading, error } = useUserCompanies(user.sub);
 
-    if (!loading && userCompanies.length === 0) {
+    if (loading) return;
+
+    if (userCompanies.length === 0) {
         toast.warning('Create company profile first to create offer');
         return navigate('/profile/companies');
     }
 
-    const userCompaniesFormatted = userCompanies.map(company => company.name);
+    const userCompaniesFormatted = userCompanies.map(company => company.title);
 
     const inputFields = [
         {
@@ -27,7 +30,7 @@ export default function createOffer() {
             name: "category",
             placeholder: "Category",
             options: [
-                // TODO: Extract them
+                // TODO: Extract them from constants
                 'IT',
                 'Agriculture',
                 'Restaurants and tourism',
@@ -37,7 +40,7 @@ export default function createOffer() {
         },
         {
             type: "select",
-            name: "company",
+            name: "companyName",
             placeholder: "Company",
             options: userCompaniesFormatted
         },
@@ -45,6 +48,12 @@ export default function createOffer() {
             type: "textarea",
             name: "description",
             placeholder: "Description",
+        },
+        {
+            type: 'number',
+            name: "experience",
+            placeholder: 'Years of experience',
+            optional: true
         },
         // {
         //     type: "TODO",   // Should be interactive somehow
@@ -57,12 +66,30 @@ export default function createOffer() {
             type: "salary-range",   // Should be two inputs with texts 'from' 'to'
             name: "salary",
             placeholder: "Salary Range",
+            optional: true
         },
-    ]
+    ];
+
+    const onOfferCreateSubmitHandler = e => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const values = Object.fromEntries(formData.entries());
+
+        offerService.create(values)
+            .then(res => {
+                console.log(res);
+                toast.success(res.message);
+                navigate(`/companies/${res.offerCompanyId}`);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
 
     return (
         <FormView
             title={'Create Offer'}
+            onSubmitHandler={onOfferCreateSubmitHandler}
             inputFields={inputFields}
             buttonContent={'Post Offer'}
         />

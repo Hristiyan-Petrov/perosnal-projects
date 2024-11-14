@@ -1,9 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import useUserCompanies from "../../../hooks/useUserCompanies"
 import { useNavigate } from "react-router-dom";
-import DashboardCardView from "../../../components/offers/DashboardCardView/DashboardCardView";
+import DashboardCardView from "../../../../components/offers/DashboardCardView/DashboardCardView";
 import { nanoid } from "nanoid";
 import styles from './companies.module.scss';
+import useUserCompanies from "../../../../hooks/useUserCompanies";
 
 export default function Companies() {
     const { user } = useAuth0();
@@ -13,6 +13,8 @@ export default function Companies() {
     const addClickHandler = () => {
         navigate('create');
     };
+
+    if (loading) return;
 
     if (userCompanies.length === 0) {
         return (

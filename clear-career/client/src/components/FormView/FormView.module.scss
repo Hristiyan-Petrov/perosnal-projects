@@ -29,6 +29,7 @@
     }
 
     &-group {
+        font-size: 2rem;
         display: flex;
         flex-direction: column;
 
@@ -67,6 +68,18 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 1rem;
             }
+        }
+
+        .optional {
+            display: inline-block;
+            color: #ffffff;
+            background-color: #9ccdf5;
+            border: none;
+            border-radius: 10px;
+            margin-left: 10px;
+            padding: 7px;
+            text-align: center;
+            font-size: 0.9rem;
         }
     }
 
