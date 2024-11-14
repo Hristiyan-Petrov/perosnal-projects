@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { getOffers } from "../services/companyService";
+import companyService from "../services/companyService";
 
 export default function useCompanyOffers(companyId) {
     const { user, isAuthenticated } = useAuth0();
@@ -13,7 +13,7 @@ export default function useCompanyOffers(companyId) {
         if (!isAuthenticated) return;
 
         const getOffersHandler = () => {
-            getOffers(companyId)
+            companyService.getOffers(companyId)
                 .then(res => {
                     setCompanyOffers(res.offers);
                     setCompanyTitle(res.title)

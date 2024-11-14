@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import AccountActionCard from '../../../../components/profile/AccountActionCard/AccountActionCard'
 import styles from './account.module.scss';
-import { deleteAccount, resetPassword } from '../../../../services/authService';
+import authService from '../../../../services/authService';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -32,7 +32,7 @@ export default function AccountInfo() {
 
     const handlePasswordReset = async (e) => {
         setResetStatus('loading');
-        resetPassword(user.email)
+        authService.resetPassword(user.email)
             .then(res => {
                 console.log(res);
                 setResetStatus('success');
@@ -65,7 +65,7 @@ export default function AccountInfo() {
 
         const accessToken = await getAccessTokenSilently();
 
-        deleteAccount(user.sub, accessToken)
+        authService.deleteAccount(user.sub, accessToken)
             .then(res => {
                 console.log(res);
                 setDeleteStatus('success');
