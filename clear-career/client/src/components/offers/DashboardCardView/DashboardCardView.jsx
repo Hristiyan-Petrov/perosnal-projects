@@ -79,12 +79,12 @@ export default function DashboardCardView({
                     {type === 'offer' &&
                         <div className={styles.header}>
                             <h3 className={styles.title}>{title}</h3>
-                            {user.sub !== creator.auth0Id && <span className={styles.company}>{company.title}</span>}
+                            {user?.sub !== creator.auth0Id && <span className={styles.company}>{company.title}</span>}
                         </div>}
 
                     <div className={styles.metaInfo}>
 
-                        {type === 'offer' && user.sub !== creator.auth0Id && (
+                        {type === 'offer' && user?.sub !== creator.auth0Id && (
                             <>
                                 <div className={styles.metaItem}>
                                     <Briefcase size={16} />
@@ -107,7 +107,7 @@ export default function DashboardCardView({
                             </>
                         )}
 
-                        {type === 'offer' && user.sub === creator.auth0Id && (
+                        {type === 'offer' && user?.sub === creator.auth0Id && (
                             <>
                                 <div className={styles.metaItem}>
                                     <Briefcase size={16} />
