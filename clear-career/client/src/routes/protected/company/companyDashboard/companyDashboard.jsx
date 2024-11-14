@@ -19,7 +19,8 @@ export default function CompanyDashboard() {
     if (companyOffers.length === 0) {
         return (
             <div>
-                <h2>Your Company Does Not Have Active Offers</h2>
+                <h2>{companyTitle}</h2>
+                <h2>Still Does Not Have Active Offers</h2>
                 <div className={styles.btnContainer}>
                     <button
                         className={`${styles.btn} ${styles.large} ${styles.centered} ${styles.pulse}`}
@@ -35,12 +36,12 @@ export default function CompanyDashboard() {
     return (
 
         <div>
-            <h2>Company Offers</h2>
+            <h2>Offers from</h2>
+            <h2>{companyTitle}</h2>
             <div className={styles.offersContainer}>
                 {companyOffers.map(offer => (
-                    // <p>{offer.title}</p>
                     <DashboardCardView
-                        key={offer._id || nanoid()}
+                        key={offer._id}
                         type={'offer'}
                         {...offer}
                     />
