@@ -1,18 +1,25 @@
 import { nanoid } from "nanoid";
 import { Form } from "react-router-dom";
 import styles from './FormView.module.scss';
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function FormView({
     title,
+    onSubmitHandler,
     inputFields,
     buttonContent,
     extraContent
 }) {
+    const { user } = useAuth0();
+
     return (
         <section className={styles.container}>
             <div className={styles.form}>
                 <h2 className={styles.form__title}>{title}</h2>
-                <form className={styles.form__view}>
+                <form
+                    className={styles.form__view}
+                    onSubmit={onSubmitHandler}
+                >
                     {inputFields.map(({ type, name, id = '', placeholder, options = '' }, index) => {
                         const fieldId = id || `${name}-${nanoid(6)}`;
 
@@ -87,6 +94,8 @@ export default function FormView({
                                 return null;
                         }
                     })}
+
+                    <input type="hidden" name="auth0Id" value={user.sub} />
 
                     <button type="submit" className={styles.form__submit}>
                         {buttonContent}

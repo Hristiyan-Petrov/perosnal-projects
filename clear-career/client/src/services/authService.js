@@ -1,28 +1,8 @@
-import { ERROR_MESSAGES } from "../constants/messages";
+import apiRequest from "./requester";
 
 const usersEndpoint = import.meta.env.VITE_API_ENDPOINT + '/users';
 const auth0Endpoints = {
     resetPassword: `https://${import.meta.VITE_AUTH0_DOMAIN}/dbconnections/change_password`,
-};
-
-const apiRequest = async (url, options = {}) => {
-    try {
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || ERROR_MESSAGES.apiRequest);
-        }
-
-        if (url.includes('auth0')) {
-            return response;
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error('API request error:', error);
-        throw error; // Re-throw the error to handle it in the calling function
-    }
 };
 
 export const createUser = (auth0Id, email) => {

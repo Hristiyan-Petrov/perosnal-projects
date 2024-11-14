@@ -30,6 +30,7 @@ module.exports = {
         return User
             .findOne({auth0Id})
             .select('companies')
+            .populate('companies')
             .lean();
     },
 };

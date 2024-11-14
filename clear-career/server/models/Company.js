@@ -3,12 +3,15 @@ const mongoose = require('mongoose');
 const companySchema = new mongoose.Schema({
     title: {
         type: String,
+        required: true
     },
     imageUrl: {
         type: String,
+        required: true
     },
     description: {
-        type: String
+        type: String,
+        required: true
     },
     offers: {
         type: [mongoose.Types.ObjectId],
@@ -21,9 +24,8 @@ const companySchema = new mongoose.Schema({
         default: []
     },
     owner: {
-        type: [mongoose.Types.ObjectId],
+        type: mongoose.Types.ObjectId,
         ref: 'User',
-        default: []
     }
 });
 
