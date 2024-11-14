@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import useUserRole from '../../../hooks/useUserRole';
 import {
@@ -22,11 +22,13 @@ import offerService from '../../../services/offerService';
 import { toast } from 'react-toastify';
 import formatSalary from '../../../utils/formatSalary';
 import LoadingAnimation from '../../../components/LoadingAnimation';
+import { LOCAL_STORAGE_KEYS } from '../../../constants/messages';
 
 export default function OfferDetails() {
     const { user, isAuthenticated, loginWithRedirect } = useAuth0();
     const { userRole } = useUserRole();
     const navigate = useNavigate();
+    const location = useLocation();
     const [isSaved, setIsSaved] = useState(false);
     const [isApplied, setIsApplied] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -54,41 +56,10 @@ export default function OfferDetails() {
         fetchOffer();
     }, []);
 
-    // const demoOffer = {
-    //     _id: '1',
-    //     title: 'Software Engineer',
-    //     salary: '8000-9000',
-    //     company: {
-    //         name: 'PayHawk',
-    //         imageUrl: '../../public/images/example1.png',
-    //         description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro voluptates sequi illo iusto. Aperiam eveniet expedita at est. At temporibus cupiditate illo voluptatum dignissimos amet modi excepturi in repellat iure quidem cum error, laboriosam vitae ipsam commodi dicta fugit a delectus architecto consequuntur. Enim, explicabo. Temporibus quas magni nam laudantium!'
-    //     },
-    //     field: 'IT',
-    //     experience: 2,
-    //     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum eum fugit officiis est quam, magnam inventore cupiditate voluptates atque cumque at. Aliquam, amet eum reiciendis eveniet ex hic. Sit consequatur optio mollitiapraesentium fugiat perspiciatis! Sunt distinctio aperiam, sapiente voluptates neque dolores rerum vero vitae saepe beatae earum assumenda molestias nemo? Rerum, atque adipisci praesentium ipsum doloribus quia reprehenderit commodi earum dignissimos laudantium ex nulla, eum debitis doloremque? Libero praesentium mollitia facere non aut distinctio aperiam optio, omnis exercitationem asperiores laboriosam aspernatur nulla fugit repudiandae magni nihil iusto ut cupiditate vero eum? Obcaecati aut quasi nobis laudantium, enim nulla molestiae hic. Repellat qui necessitatibus est similique doloribus, repellendus architecto dolore magnam quaerat quasi maxime, aperiam quia laboriosam quae sequi. Excepturi ipsum quae natus vel minus cupiditate optio adipisci pariatur officia, necessitatibus quibusdam animi, repellat, ipsa illum quasi ad? Laudantium consequatur facere.',
-    //     creator: {
-    //         // auth0Id: user?.sub + 1
-    //         // auth0Id: user?.sub
-    //     },
-    //     requirements: 'JavaScript, React, Node.js, MongoDB, 2+ years experience',
-    // };
-
     if (loading) return <LoadingAnimation />
 
     const isJobSeeker = userRole === 'job-seeker' || false;
     const isOwnOffer = user?.sub === offer.creator?.auth0Id || false;
-
-    // const formatSalary = (salary) => {
-    //     if (!salary) return;
-    //     const [minSalary, maxSalary] = salary.split('-');
-    //     const formatter = new Intl.NumberFormat('en-US', {
-    //         style: 'currency',
-    //         currency: 'EUR',
-    //         minimumFractionDigits: 0,
-    //         maximumFractionDigits: 0,
-    //     });
-    //     return `${formatter.format(minSalary)} - ${formatter.format(maxSalary)}`;
-    // };
 
     const handleSaveToggle = () => setIsSaved(!isSaved);  // Handle delete SaveToggle logic
     const handleApply = () => setIsApplied(true);  // Handle delete Apply logic
@@ -100,6 +71,10 @@ export default function OfferDetails() {
     };
     const handleMoreOffersClick = () => navigate(`/offers?field=${offer.field}`);
 
+    const handleSignInToApplyClick = () => {
+        localStorage.setItem(LOCAL_STORAGE_KEYS.navigate, location.pathname);
+        loginWithRedirect();
+    }
 
     return (
         <div className={styles.container}>
@@ -124,7 +99,7 @@ export default function OfferDetails() {
                                 (
                                     <button
                                         className={`${styles.actionButton} ${styles.primary}`}
-                                        onClick={() => loginWithRedirect()}
+                                        onClick={handleSignInToApplyClick}
                                     >
                                         Sign in to Apply
                                     </button>
@@ -202,10 +177,10 @@ export default function OfferDetails() {
                                 {offer.salary
                                     ? <>
                                         <strong>Salary Range</strong>
-                                        <span className={styles.salary}></span>
+                                        <span className={styles.salary}>{formatSalary(salary)}</span>
                                     </>
                                     : <strong>Salary Not Anounced</strong>
-                            }
+                                }
 
                             </div>
 

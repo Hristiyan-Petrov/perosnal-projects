@@ -1,12 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthNotification } from "../../../hooks/useAuthNotification";
-import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../../constants/messages";
-import { useLoaderData } from "react-router-dom";
+import { LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../../constants/messages";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import styles from './dashboard.module.scss';
 import DashboardCardView from "../../../components/offers/DashboardCardView/DashboardCardView";
 import { useEffect, useState } from "react";
 import offerService from "../../../services/offerService";
 import LoadingAnimation from "../../../components/LoadingAnimation";
+import { toast } from "react-toastify";
 
 // export const loader = () => {
 //     return fetch('http://localhost:3000/status')
@@ -20,13 +21,21 @@ import LoadingAnimation from "../../../components/LoadingAnimation";
 // }
 
 export default function Dashboard() {
+    const navigate = useNavigate();
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [offers, setOffers] = useState({});
     const [loading, setLoading] = useState(true);
 
-    useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, AUTH_LOCAL_STORAGE_KEYS.loginNotification);
+    useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, LOCAL_STORAGE_KEYS.loginNotification);
 
     useEffect(() => {
+        const hasToNavigate = localStorage.getItem(LOCAL_STORAGE_KEYS.navigate);
+        // Is set when user signs in to apply in offerDetails
+        if (hasToNavigate) {
+            localStorage.removeItem(LOCAL_STORAGE_KEYS.navigate);
+            navigate(hasToNavigate);
+        }
+
         const fetchOffers = () => {
             offerService.getAll()
                 .then(res => {
@@ -41,7 +50,7 @@ export default function Dashboard() {
         };
 
         fetchOffers();
-    }, []);
+    }, [])
 
     if (loading) return <LoadingAnimation />;
 
@@ -157,7 +166,6 @@ export default function Dashboard() {
     }
 
     console.log(offers);
-    
 
     return (
         <section id="dashboard">

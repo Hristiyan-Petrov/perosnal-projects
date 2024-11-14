@@ -7,10 +7,10 @@ export const AUTH_MESSAGES = {
     roleCompletion: 'Welcome back! Please set role to complete your profile'
 };
 
-export const AUTH_LOCAL_STORAGE_KEYS = {
+export const LOCAL_STORAGE_KEYS = {
     loginNotification: 'hasLoggedIn', 
     logoutNotification: 'hasLoggedOut', 
-
+    navigate: 'navigate'
 };
 
 export const ERROR_MESSAGES = {
