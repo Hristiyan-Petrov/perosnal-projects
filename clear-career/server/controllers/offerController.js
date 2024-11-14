@@ -24,4 +24,16 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/:offerId', (req, res) => {
+    const offerId = req.params.offerId;
+    offerService.getOne(offerId)
+        .then(response => {
+            res.json(response);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ message: `Failed to get offer ${offerId}` });
+        });
+})
+
 module.exports = router;

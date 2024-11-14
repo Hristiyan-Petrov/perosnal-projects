@@ -13,8 +13,9 @@ export default {
                 body: JSON.stringify(formData)
             });
     },
-
     getAll: () => {
         return apiRequest(companiesEndpoint);
     },
+    getOne: (offerId) => apiRequest(`${companiesEndpoint}/${offerId}`),
+    
 };

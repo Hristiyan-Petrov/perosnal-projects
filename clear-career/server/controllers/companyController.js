@@ -15,13 +15,14 @@ router.post('/create', (req, res) => {
 });
 
 router.get('/:companyId/offers', (req, res) => {
-    companyService.getOffers(req.params.companyId)
+    const companyId = req.params.companyId
+    companyService.getOffers(companyId)
         .then(response => {
             res.json(response);
         })
         .catch(err => {
             console.log(err);
-
+            res.status(500).json({ message: `Failed to get offers for company ${offerId}` });
         });
 });
 

@@ -45,6 +45,23 @@ module.exports = {
             ])
             .lean()
     },
+
+    getOne: (offerId) => { 
+        return Offer
+            .findById(offerId)
+            .populate([
+                {
+                    path: 'company',
+                    model: 'Company',
+                },
+                {
+                    path: 'creator',
+                    model: 'User',
+                    select: 'auth0Id'
+                }
+            ])
+            .lean();
+    }
 };
 
 // 'We need a master farmer to join our team. He will take care of the animals which we use to play with and let them join us during our working process. This significantly improves our mood and therefore business results. Animals include cute farm animals and pets.'

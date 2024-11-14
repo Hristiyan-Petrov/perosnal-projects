@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import useUserRole from '../../../hooks/useUserRole';
 import {
@@ -18,6 +18,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import styles from './OfferDetails.module.scss';
+import offerService from '../../../services/offerService';
+import { toast } from 'react-toastify';
+import formatSalary from '../../../utils/formatSalary';
+import LoadingAnimation from '../../../components/LoadingAnimation';
 
 export default function OfferDetails() {
     const { user, isAuthenticated, loginWithRedirect } = useAuth0();
@@ -27,61 +31,88 @@ export default function OfferDetails() {
     const [isApplied, setIsApplied] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-    const demoOffer = {
-        _id: '1',
-        title: 'Software Engineer',
-        salary: '8000-9000',
-        company: {
-            name: 'PayHawk',
-            imageUrl: '../../public/images/example1.png',
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro voluptates sequi illo iusto. Aperiam eveniet expedita at est. At temporibus cupiditate illo voluptatum dignissimos amet modi excepturi in repellat iure quidem cum error, laboriosam vitae ipsam commodi dicta fugit a delectus architecto consequuntur. Enim, explicabo. Temporibus quas magni nam laudantium!'
-        },
-        field: 'IT',
-        experience: 2,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum eum fugit officiis est quam, magnam inventore cupiditate voluptates atque cumque at. Aliquam, amet eum reiciendis eveniet ex hic. Sit consequatur optio mollitiapraesentium fugiat perspiciatis! Sunt distinctio aperiam, sapiente voluptates neque dolores rerum vero vitae saepe beatae earum assumenda molestias nemo? Rerum, atque adipisci praesentium ipsum doloribus quia reprehenderit commodi earum dignissimos laudantium ex nulla, eum debitis doloremque? Libero praesentium mollitia facere non aut distinctio aperiam optio, omnis exercitationem asperiores laboriosam aspernatur nulla fugit repudiandae magni nihil iusto ut cupiditate vero eum? Obcaecati aut quasi nobis laudantium, enim nulla molestiae hic. Repellat qui necessitatibus est similique doloribus, repellendus architecto dolore magnam quaerat quasi maxime, aperiam quia laboriosam quae sequi. Excepturi ipsum quae natus vel minus cupiditate optio adipisci pariatur officia, necessitatibus quibusdam animi, repellat, ipsa illum quasi ad? Laudantium consequatur facere.',
-        creator: {
-            // auth0Id: user?.sub + 1
-            // auth0Id: user?.sub
-        },
-        requirements: 'JavaScript, React, Node.js, MongoDB, 2+ years experience',
-    };
+    const { offerId } = useParams();
+    const [offer, setOffer] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        const fetchOffer = () => {
+            offerService.getOne(offerId)
+                .then(offerData => {
+                    setOffer(offerData);
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error('Error when acce offer')
+                })
+                .finally(() => {
+                    setLoading(false);
+                })
+        };
+
+        fetchOffer();
+    }, []);
+
+    // const demoOffer = {
+    //     _id: '1',
+    //     title: 'Software Engineer',
+    //     salary: '8000-9000',
+    //     company: {
+    //         name: 'PayHawk',
+    //         imageUrl: '../../public/images/example1.png',
+    //         description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro voluptates sequi illo iusto. Aperiam eveniet expedita at est. At temporibus cupiditate illo voluptatum dignissimos amet modi excepturi in repellat iure quidem cum error, laboriosam vitae ipsam commodi dicta fugit a delectus architecto consequuntur. Enim, explicabo. Temporibus quas magni nam laudantium!'
+    //     },
+    //     field: 'IT',
+    //     experience: 2,
+    //     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum eum fugit officiis est quam, magnam inventore cupiditate voluptates atque cumque at. Aliquam, amet eum reiciendis eveniet ex hic. Sit consequatur optio mollitiapraesentium fugiat perspiciatis! Sunt distinctio aperiam, sapiente voluptates neque dolores rerum vero vitae saepe beatae earum assumenda molestias nemo? Rerum, atque adipisci praesentium ipsum doloribus quia reprehenderit commodi earum dignissimos laudantium ex nulla, eum debitis doloremque? Libero praesentium mollitia facere non aut distinctio aperiam optio, omnis exercitationem asperiores laboriosam aspernatur nulla fugit repudiandae magni nihil iusto ut cupiditate vero eum? Obcaecati aut quasi nobis laudantium, enim nulla molestiae hic. Repellat qui necessitatibus est similique doloribus, repellendus architecto dolore magnam quaerat quasi maxime, aperiam quia laboriosam quae sequi. Excepturi ipsum quae natus vel minus cupiditate optio adipisci pariatur officia, necessitatibus quibusdam animi, repellat, ipsa illum quasi ad? Laudantium consequatur facere.',
+    //     creator: {
+    //         // auth0Id: user?.sub + 1
+    //         // auth0Id: user?.sub
+    //     },
+    //     requirements: 'JavaScript, React, Node.js, MongoDB, 2+ years experience',
+    // };
+
+    if (loading) return <LoadingAnimation />
 
     const isJobSeeker = userRole === 'job-seeker' || false;
-    const isOwnOffer = user?.sub === demoOffer.creator?.auth0Id || false;
+    const isOwnOffer = user?.sub === offer.creator?.auth0Id || false;
 
-    const formatSalary = (salary) => {
-        const [minSalary, maxSalary] = salary.split('-');
-        const formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        });
-        return `${formatter.format(minSalary)} - ${formatter.format(maxSalary)}`;
-    };
+    // const formatSalary = (salary) => {
+    //     if (!salary) return;
+    //     const [minSalary, maxSalary] = salary.split('-');
+    //     const formatter = new Intl.NumberFormat('en-US', {
+    //         style: 'currency',
+    //         currency: 'EUR',
+    //         minimumFractionDigits: 0,
+    //         maximumFractionDigits: 0,
+    //     });
+    //     return `${formatter.format(minSalary)} - ${formatter.format(maxSalary)}`;
+    // };
 
     const handleSaveToggle = () => setIsSaved(!isSaved);  // Handle delete SaveToggle logic
     const handleApply = () => setIsApplied(true);  // Handle delete Apply logic
-    const handleEdit = () => navigate(`/offers/${demoOffer._id}/edit`);  // Handle delete Edit logic
+    const handleEdit = () => navigate(`/offers/${offer._id}/edit`);  // Handle delete Edit logic
     const handleDelete = () => setIsDeleteDialogOpen(true);  // Handle delete Delete logic
     const handleDeleteConfirm = () => {
         setIsDeleteDialogOpen(false);
         // Handle delete logic
     };
-    const handleMoreOffersClick = () => navigate(`/offers?field=${demoOffer.field}`);
+    const handleMoreOffersClick = () => navigate(`/offers?field=${offer.field}`);
+
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <div className={styles.companyInfo}>
                     <div className={styles.logoContainer}>
-                        <img src={demoOffer.company.imageUrl} alt={demoOffer.company.name} />
+                        <img src={offer.company.imageUrl} alt={offer.company.name} />
                     </div>
                     <div>
-                        <h1 className={styles.title}>{demoOffer.title}</h1>
+                        <h1 className={styles.title}>{offer.title}</h1>
                         <div className={styles.company}>
                             <Building2 size={18} />
-                            <span>{demoOffer.company.name}</span>
+                            <span>{offer.company.title}</span>
                         </div>
                     </div>
                 </div>
@@ -147,13 +178,13 @@ export default function OfferDetails() {
                 <div className={styles.primaryInfo}>
 
                     <div className={styles.companyCard}>
-                        <h3>About {demoOffer.company.name}</h3>
-                        <p>{demoOffer.company.description}</p>
+                        <h3>About {offer.company.name}</h3>
+                        <p>{offer.company.description}</p>
                         <button
                             className={`${styles.actionButton} ${styles.primary}`}
                             onClick={handleMoreOffersClick}
                         >
-                            More Offers From {demoOffer.company.name}
+                            More Offers From {offer.company.title}
                             <ArrowRight size={18} />
                         </button>
                     </div>
@@ -164,28 +195,37 @@ export default function OfferDetails() {
                         <div className={styles.infoGrid}>
                             <div className={styles.infoItem}>
                                 <strong>Experience</strong>
-                                <span>{demoOffer.experience} years</span>
+                                <span>{offer.experience} years</span>
                             </div>
+
                             <div className={styles.infoItem}>
-                                <strong>Salary Range</strong>
-                                <span className={styles.salary}>{formatSalary(demoOffer.salary)}</span>
+                                {offer.salary
+                                    ? <>
+                                        <strong>Salary Range</strong>
+                                        <span className={styles.salary}></span>
+                                    </>
+                                    : <strong>Salary Not Anounced</strong>
+                            }
+
                             </div>
+
+
                             <div className={styles.infoItem}>
                                 <strong>Field</strong>
-                                <span>{demoOffer.field}</span>
+                                <span>{offer.category}</span>
                             </div>
                         </div>
                     </div>
 
                     <div className={styles.description}>
                         <h3>Description</h3>
-                        <p>{demoOffer.description}</p>
+                        <p>{offer.description}</p>
                     </div>
 
                     <div className={styles.requirements}>
                         <h3>Requirements</h3>
                         <ul>
-                            {demoOffer.requirements.split(', ').map((req, index) => (
+                            {offer.requirements.split(', ').map((req, index) => (
                                 <li key={index}>{req}</li>
                             ))}
                         </ul>
