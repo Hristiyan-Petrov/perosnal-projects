@@ -12,3 +12,7 @@ export const create = (formData) => {
             body: JSON.stringify(formData)
         });
 };
+
+export const getOffers = (companyId) => {
+    return apiRequest(`${companiesEndpoint}/${companyId}/offers`);
+};

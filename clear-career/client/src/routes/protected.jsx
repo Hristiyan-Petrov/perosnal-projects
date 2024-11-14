@@ -7,8 +7,9 @@ import Profile, { } from "./protected/profile/profile";
 import { useAuth0 } from "@auth0/auth0-react";
 import SetRole from "./protected/setRole/setRole";
 import AccountInfo from "./protected/profile/account/account";
-import Companies from "./protected/companies/companies";
-import CreateCompany from "./protected/createCompany";
+import Companies from "./protected/company/companies/companies";
+import CreateCompany from "./protected/company/createCompany/createCompany";
+import CompanyDashboard from "./protected/company/companyDashboard/companyDashboard";
 
 function ProtectedRoute() {
     const { isAuthenticated } = useAuth0();
@@ -37,7 +38,7 @@ export const protectedRoutes = [
                 element: <SetRole />
             },
             {
-                path: '/offer/create',
+                path: '/offers/create',
                 element: <CreateOffer />
             },
             {
@@ -56,6 +57,10 @@ export const protectedRoutes = [
             {
                 path: '/profile/companies/create',
                 element: <CreateCompany />,
+            },
+            {
+                path: '/companies/:companyId',
+                element: <CompanyDashboard />
             }
         ]
     }

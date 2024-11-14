@@ -4,7 +4,7 @@ import { getUserRole } from "../services/authService";
 
 export default function useUserRole() {
     const { user, isAuthenticated } = useAuth0();
-    const [role, setRole] = useState(null);
+    const [userRole, setUserRole] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -14,7 +14,7 @@ export default function useUserRole() {
         const getRole = () => {
             setLoading(true);
             getUserRole(user.sub)
-                .then(res => setRole(res.role))
+                .then(res => setUserRole(res.role))
                 .catch(err => {
                     console.log(err);
                     setError(err);
@@ -25,5 +25,5 @@ export default function useUserRole() {
         getRole();
     }, [user]);
 
-    return { role, loading, error };
+    return { userRole, loading, error };
 };

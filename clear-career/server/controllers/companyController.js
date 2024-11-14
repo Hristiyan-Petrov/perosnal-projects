@@ -14,4 +14,16 @@ router.post('/create', (req, res) => {
         });
 });
 
+router.get('/:companyId/offers', (req, res) => {
+    companyService.getOffers(req.params.companyId)
+        .then(response => {
+            res.json(response);
+        })
+        .catch(err => {
+            console.log(err);
+
+        });
+});
+
+
 module.exports = router;

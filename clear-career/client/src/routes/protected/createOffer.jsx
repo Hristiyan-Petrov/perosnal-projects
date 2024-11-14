@@ -1,21 +1,25 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import FormView from "../../components/FormView/FormView";
 import useUserCompanies from "../../hooks/useUserCompanies";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as offerService from '../../services/offerService';
+import LoadingAnimation from "../../components/LoadingAnimation";
 
 export default function createOffer() {
     const { user } = useAuth0();
+    const location = useLocation();
     const navigate = useNavigate();
     const { userCompanies, loading, error } = useUserCompanies(user.sub);
 
-    if (loading) return;
+    if (loading) return <LoadingAnimation/>;
 
     if (userCompanies.length === 0) {
         toast.warning('Create company profile first to create offer');
         return navigate('/profile/companies');
     }
+
+    const companySelected = location.state?.companySelected || null;
 
     const userCompaniesFormatted = userCompanies.map(company => company.title);
 
@@ -53,7 +57,6 @@ export default function createOffer() {
             type: 'number',
             name: "experience",
             placeholder: 'Years of experience',
-            optional: true
         },
         // {
         //     type: "TODO",   // Should be interactive somehow
@@ -92,6 +95,7 @@ export default function createOffer() {
             onSubmitHandler={onOfferCreateSubmitHandler}
             inputFields={inputFields}
             buttonContent={'Post Offer'}
+            companySelected={companySelected}
         />
     );
 }

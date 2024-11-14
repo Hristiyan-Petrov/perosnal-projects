@@ -24,7 +24,7 @@ const companySchema = new mongoose.Schema({
         ref: 'User',
         default: []
     },
-    owner: {
+    creator: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
     }

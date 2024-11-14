@@ -1,31 +1,35 @@
 import {
+    Bookmark,
+    BookmarkCheck,
     Briefcase,
     CalendarDays,
+    Eye,
     FileUser,
 } from 'lucide-react';
 import { useNavigate, NavLink, } from 'react-router-dom';
 import styles from './DashboardCardView.module.scss';
+import { useAuth0 } from '@auth0/auth0-react';
+import useUserRole from '../../../hooks/useUserRole';
 
 export default function DashboardCardView({
     // Common
     type,
     _id,
+    creator,
     // Offer attribures
     company,
     title,
     experience,
     salary,
-    creator = {
-        // auth0Id: 'BRRRRR'
-        auth0Id: 'google-oauth2|100135643425801582610'
-    },
+    views,
+    applicants,
+    saves,
     // requirements
 
     // Company attribures
     name,
     imageUrl,
-    applicants,
-    owner,
+    // applicants, // TODO: Maybe remove FROM COMPANY (TOTAL APPLICANTS)
     offers
 }) {
     // const handleEditClick = () => {
@@ -37,7 +41,11 @@ export default function DashboardCardView({
     //     // navigate(`/offers/${_id}`);
     // };
 
+    const { user } = useAuth0();
+    const { userRole } = useUserRole(user.sub);
+
     const formatSalary = (salary) => {
+        if (salary = '-') return;
         const [minSalary, maxSalary] = salary.split('-');
         const formatter = new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -73,12 +81,12 @@ export default function DashboardCardView({
                     {type === 'offer' &&
                         <div className={styles.header}>
                             <h3 className={styles.title}>{title}</h3>
-                            <span className={styles.company}>{company.name}</span>
+                            {userRole === 'job-seeker' && <span className={styles.company}>{company.title}</span>}
                         </div>}
 
                     <div className={styles.metaInfo}>
 
-                        {type === 'offer' && (
+                        {type === 'offer' && userRole === 'job-seeker' && (
                             <>
                                 <div className={styles.metaItem}>
                                     <Briefcase size={16} />
@@ -97,6 +105,25 @@ export default function DashboardCardView({
                                             : ''
                                         }
                                     </span>
+                                </div>
+                            </>
+                        )}
+
+                        {type === 'offer' && userRole === 'job-offerer' && (
+                            <>
+                                <div className={styles.metaItem}>
+                                    <Briefcase size={16} />
+                                    <span>Applicants: {applicants?.length}</span>
+                                </div>
+
+                                <div className={styles.metaItem}>
+                                    <Eye size={16} />
+                                    <span>Views: {views}</span>
+                                </div>
+
+                                <div className={styles.metaItem}>
+                                    <Bookmark size={16} />
+                                    <span>Saves: {saves}</span>
                                 </div>
                             </>
                         )}

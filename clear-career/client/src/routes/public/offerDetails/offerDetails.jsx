@@ -21,7 +21,7 @@ import styles from './OfferDetails.module.scss';
 
 export default function OfferDetails() {
     const { user, isAuthenticated, loginWithRedirect } = useAuth0();
-    const { role } = useUserRole();
+    const { userRole } = useUserRole();
     const navigate = useNavigate();
     const [isSaved, setIsSaved] = useState(false);
     const [isApplied, setIsApplied] = useState(false);
@@ -46,7 +46,7 @@ export default function OfferDetails() {
         requirements: 'JavaScript, React, Node.js, MongoDB, 2+ years experience',
     };
 
-    const isJobSeeker = role === 'job-seeker' || false;
+    const isJobSeeker = userRole === 'job-seeker' || false;
     const isOwnOffer = user?.sub === demoOffer.creator?.auth0Id || false;
 
     const formatSalary = (salary) => {

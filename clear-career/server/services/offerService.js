@@ -12,8 +12,8 @@ module.exports = {
             category,
             description,
             experience,
-            salary: salaryFrom + '-' + salaryTo,
-            owner: user._id,
+            salary: salaryFrom ? salaryFrom + '-' + salaryTo : null,
+            creator: user._id,
             company
         });
         await offer.save();

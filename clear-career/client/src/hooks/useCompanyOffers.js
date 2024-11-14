@@ -1,32 +1,34 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { getUserCompanies } from "../services/authService";
+import { getOffers } from "../services/companyService";
 
-export default function useUserCompanies() {
+export default function useCompanyOffers(companyId) {
     const { user, isAuthenticated } = useAuth0();
-    const [userCompanies, setCompanies] = useState([]);
+    const [companyOffers, setCompanyOffers] = useState(null); 
+    const [companyTitle, setCompanyTitle] = useState(null); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         if (!isAuthenticated) return;
 
-        const getCompanies = () => {
-            getUserCompanies(user.sub)
+        const getOffersHandler = () => {
+            getOffers(companyId)
                 .then(res => {
-                    setCompanies(res.companies);
+                    setCompanyOffers(res.offers);
+                    setCompanyTitle(res.title)
                 })
                 .catch(err => {
                     console.log(err);
                     setError(err);
                 })
                 .finally(() => {
-                    setLoading(false);
+                    setLoading(false)
                 });
         }
 
-        getCompanies();
+        getOffersHandler();
     }, [user]);
 
-    return { userCompanies, loading, error };
+    return { companyTitle, companyOffers, loading, error };
 };

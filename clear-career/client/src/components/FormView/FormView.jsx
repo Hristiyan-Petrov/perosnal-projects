@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { Form } from "react-router-dom";
+import { Form, useLocation } from "react-router-dom";
 import styles from './FormView.module.scss';
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -8,7 +8,9 @@ export default function FormView({
     onSubmitHandler,
     inputFields,
     buttonContent,
-    extraContent
+    extraContent,
+    // Option from CompanyDashboard navigate
+    companySelected
 }) {
     const { user } = useAuth0();
 
@@ -60,7 +62,7 @@ export default function FormView({
                                         <label htmlFor={fieldId}>{placeholder.toUpperCase()}
                                             {optional && <span className={styles.optional}> Optional</span>}
                                         </label>
-                                        <select name={name} id={fieldId}>
+                                        <select name={name} id={fieldId} defaultValue={companySelected || ``}>
                                             <option value="">Select {placeholder}</option>
                                             {options.map((option, optionIndex) => (
                                                 <option

@@ -90,7 +90,7 @@ export default function Profile() {
             description: 'Review and manage job applications'
         },
         {
-            path: '/offer/create',
+            path: '/offers/create',
             label: 'Add Offer',
             icon: <FilePlus2 />,
             description: 'Create an offer for one of your companies'

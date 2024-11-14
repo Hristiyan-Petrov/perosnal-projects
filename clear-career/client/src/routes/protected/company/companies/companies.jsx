@@ -4,6 +4,7 @@ import DashboardCardView from "../../../../components/offers/DashboardCardView/D
 import { nanoid } from "nanoid";
 import styles from './companies.module.scss';
 import useUserCompanies from "../../../../hooks/useUserCompanies";
+import LoadingAnimation from "../../../../components/LoadingAnimation";
 
 export default function Companies() {
     const { user } = useAuth0();
@@ -14,7 +15,7 @@ export default function Companies() {
         navigate('create');
     };
 
-    if (loading) return;
+    if (loading) return <LoadingAnimation />;
 
     if (userCompanies.length === 0) {
         return (

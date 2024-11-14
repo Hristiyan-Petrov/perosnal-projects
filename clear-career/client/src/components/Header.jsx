@@ -40,7 +40,7 @@ export default function Header() {
                                     role === 'job-offerer'
                                         ?
                                         <NavLink
-                                            to="/offer/create"
+                                            to="/offers/create"
                                         >
                                             Create Offer
                                         </NavLink>
