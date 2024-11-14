@@ -79,7 +79,8 @@ export default function DashboardCardView({
                     {type === 'offer' &&
                         <div className={styles.header}>
                             <h3 className={styles.title}>{title}</h3>
-                            {user?.sub !== creator.auth0Id && <span className={styles.company}>{company.title}</span>}
+                            {user?.sub !== creator.auth0Id && <span className={styles.company}>From {company.title}</span>}
+                            {type === 'offer' && user?.sub === creator.auth0Id &&  <span className={styles.ownOffer}>Offer Of Yours</span>}
                         </div>}
 
                     <div className={styles.metaInfo}>
