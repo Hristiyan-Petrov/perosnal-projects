@@ -5,7 +5,7 @@ import authService from "../../../services/authService";
 import { useState } from "react";
 import { AlertCircle, Briefcase, ChevronRight, Search } from 'lucide-react'
 import { toast } from 'react-toastify';
-import { AUTH_LOCAL_STORAGE_KEYS } from '../../../constants/messages';
+import { LOCAL_STORAGE_KEYS } from '../../../constants/messages';
 
 export default function SetRole() {
     const { user, isAuthenticated } = useAuth0();
@@ -23,7 +23,7 @@ export default function SetRole() {
             })
             .then(res => {
                 toast.success(res.message);
-                localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
+                localStorage.removeItem(LOCAL_STORAGE_KEYS.loginNotification);
                 navigate('/offers');
             })
             .catch(err => {

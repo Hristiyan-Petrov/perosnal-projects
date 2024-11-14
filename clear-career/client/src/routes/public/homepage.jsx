@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthNotification } from "../../hooks/useAuthNotification";
-import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../constants/messages";
+import { LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../constants/messages";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import authService from "../../services/authService";
@@ -10,7 +10,7 @@ export default function Homepage() {
     const { user, isAuthenticated, isLoading } = useAuth0();
     const navigate = useNavigate();
 
-    useAuthNotification(!isAuthenticated, isLoading, AUTH_MESSAGES.logoutSuccess, AUTH_LOCAL_STORAGE_KEYS.logoutNotification);
+    useAuthNotification(!isAuthenticated, isLoading, AUTH_MESSAGES.logoutSuccess, LOCAL_STORAGE_KEYS.logoutNotification);
 
     useEffect(() => {
         const redirectIfRoleUnset = () => {
