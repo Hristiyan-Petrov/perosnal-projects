@@ -9,7 +9,6 @@ import {
 import { useNavigate, NavLink, } from 'react-router-dom';
 import styles from './DashboardCardView.module.scss';
 import { useAuth0 } from '@auth0/auth0-react';
-import useUserRole from '../../../hooks/useUserRole';
 
 export default function DashboardCardView({
     // Common
@@ -42,7 +41,6 @@ export default function DashboardCardView({
     // };
 
     const { user } = useAuth0();
-    const { userRole } = useUserRole(user.sub);
 
     const formatSalary = (salary) => {
         if (salary = '-') return;
@@ -81,12 +79,12 @@ export default function DashboardCardView({
                     {type === 'offer' &&
                         <div className={styles.header}>
                             <h3 className={styles.title}>{title}</h3>
-                            {userRole === 'job-seeker' && <span className={styles.company}>{company.title}</span>}
+                            {user.sub !== creator.auth0Id && <span className={styles.company}>{company.title}</span>}
                         </div>}
 
                     <div className={styles.metaInfo}>
 
-                        {type === 'offer' && userRole === 'job-seeker' && (
+                        {type === 'offer' && user.sub !== creator.auth0Id && (
                             <>
                                 <div className={styles.metaItem}>
                                     <Briefcase size={16} />
@@ -109,7 +107,7 @@ export default function DashboardCardView({
                             </>
                         )}
 
-                        {type === 'offer' && userRole === 'job-offerer' && (
+                        {type === 'offer' && user.sub === creator.auth0Id && (
                             <>
                                 <div className={styles.metaItem}>
                                     <Briefcase size={16} />
