@@ -12,7 +12,6 @@ import {
     FilePlus2,
     Building2
 } from 'lucide-react';
-import * as authService from '../../../services/authService';
 import { NavLink, } from 'react-router-dom';
 import useUserRole from '../../../hooks/useUserRole';
 

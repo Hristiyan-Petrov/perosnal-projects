@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { getUserRole } from "../services/authService";
+import authService from "../services/authService";
 
 export default function useUserRole() {
     const { user, isAuthenticated } = useAuth0();
@@ -13,7 +13,7 @@ export default function useUserRole() {
 
         const getRole = () => {
             setLoading(true);
-            getUserRole(user.sub)
+            authService.getUserRole(user.sub)
                 .then(res => setUserRole(res.role))
                 .catch(err => {
                     console.log(err);

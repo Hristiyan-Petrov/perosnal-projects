@@ -3,7 +3,7 @@ import { useAuthNotification } from "../../hooks/useAuthNotification";
 import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../constants/messages";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import * as authService from "../../services/authService";
+import authService from "../../services/authService";
 import { toast, useToast } from "react-toastify";
 
 export default function Homepage() {

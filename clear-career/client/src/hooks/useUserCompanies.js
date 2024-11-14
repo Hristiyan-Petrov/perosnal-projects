@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { getUserCompanies } from "../services/authService";
+import authService from "../services/authService";
 
 export default function useUserCompanies() {
     const { user, isAuthenticated } = useAuth0();
@@ -12,7 +12,7 @@ export default function useUserCompanies() {
         if (!isAuthenticated) return;
 
         const getCompanies = () => {
-            getUserCompanies(user.sub)
+            authService.getUserCompanies(user.sub)
                 .then(res => {
                     setCompanies(res.companies);
                 })
