@@ -14,7 +14,7 @@ module.exports = {
             creator: user._id
         });
         await company.save();
-        
+
         user.companies.push(company._doc);
         await user.save();
         return company;
@@ -26,11 +26,18 @@ module.exports = {
             .select('title offers')
             .populate({
                 path: 'offers',
-                populate: {
-                    path: 'company',
-                    model: 'Company',
-                    select: 'imageUrl'
-                }
+                populate: [
+                    {
+                        path: 'company',
+                        model: 'Company',
+                        select: 'imageUrl'
+                    },
+                    {
+                        path: 'creator',
+                        model: 'User',
+                        select: 'auth0Id'
+                    }
+                ]
             })
             .lean();
     }

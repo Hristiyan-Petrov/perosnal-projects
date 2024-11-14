@@ -39,6 +39,10 @@ const offerSchema = new mongoose.Schema({
     views: {
         type: Number,
         default: 0
+    },
+    saves: {
+        type: Number,
+        default: 0
     }
 });
 

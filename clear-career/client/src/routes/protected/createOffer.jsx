@@ -3,7 +3,7 @@ import FormView from "../../components/FormView/FormView";
 import useUserCompanies from "../../hooks/useUserCompanies";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import * as offerService from '../../services/offerService';
+import offerService from '../../services/offerService';
 import LoadingAnimation from "../../components/LoadingAnimation";
 
 export default function createOffer() {
