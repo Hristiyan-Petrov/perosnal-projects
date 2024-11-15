@@ -8,8 +8,8 @@ export const AUTH_MESSAGES = {
 };
 
 export const LOCAL_STORAGE_KEYS = {
-    loginNotification: 'hasLoggedIn', 
-    logoutNotification: 'hasLoggedOut', 
+    loginNotification: 'hasLoggedIn',
+    logoutNotification: 'hasLoggedOut',
     navigate: 'navigate'
 };
 
@@ -18,4 +18,23 @@ export const ERROR_MESSAGES = {
     defaultCode: '404',
     defaultDescription: 'We’re sorry, but the page you’re looking for doesn’t exist or an unexpected error has occurred.',
     apiRequest: 'API request failed'
+};
+
+export const ITEM_MESSAGES = {
+    emptyDashboard: 'No offers yet',
+    emptyCompaniesDashboard: 'You Have No Companies',
+    emptyCompanyOffersDashboard :'Still Does Not Have Active Offers',
+    companiesDashboardAddButton: 'Add Your Company',
+    companyOffersDashboardAddButton: 'Add Offer To Your Company'
+};
+
+export const TITLES = {
+    dashboard: 'Job Offers',
+    companiesDashboard: 'Your companies',
+    companyOffers: 'Offers from'
+};
+
+export const ITEM_TYPES = {
+    offer: 'offer',
+    company: 'company'
 };
