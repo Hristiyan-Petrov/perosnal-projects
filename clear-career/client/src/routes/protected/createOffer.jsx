@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import FormView from "../../components/FormView/FormView";
+import FormView from "../../components/common/FormView/FormView";
 import useUserCompanies from "../../hooks/useUserCompanies";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";

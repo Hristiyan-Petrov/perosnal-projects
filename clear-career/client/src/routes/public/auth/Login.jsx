@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import FormView from "../../../components/FormView/FormView";
 import LoginButton from "../../../components/LoginButton";
+import FormView from "../../../components/common/FormView/FormView";
 
 export async function action({ request }) {
     const formData = await request.formData();

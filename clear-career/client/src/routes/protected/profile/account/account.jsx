@@ -5,7 +5,7 @@ import {
     KeyRound,
     Trash2,
 } from 'lucide-react';
-import AccountActionCard from '../../../../components/profile/AccountActionCard/AccountActionCard'
+import AccountActionCard from '../../../../components/common/AccountActionCard/AccountActionCard'
 import styles from './account.module.scss';
 import authService from '../../../../services/authService';
 

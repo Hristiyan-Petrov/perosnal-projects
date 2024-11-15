@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useCompanyOffers from '../../../../hooks/useCompanyOffers'
 import LoadingAnimation from "../../../../components/LoadingAnimation/LoadingAnimation";
-import DashboardCardView from "../../../../components/offers/DashboardCardView/DashboardCardView";
+import DashboardCardView from "../../../../components/common/DashboardCardView/DashboardCardView";
 import styles from './companyDashboard.module.scss';
 
 export default function CompanyDashboard() {
@@ -19,8 +19,7 @@ export default function CompanyDashboard() {
     if (companyOffers.length === 0) {
         return (
             <div>
-                <h2>{companyTitle}</h2>
-                <h2>Still Does Not Have Active Offers</h2>
+                <h2>{companyTitle} Still Does Not Have Active Offers</h2>
                 <div className={styles.btnContainer}>
                     <button
                         className={`${styles.btn} ${styles.large} ${styles.centered} ${styles.pulse}`}
@@ -36,8 +35,7 @@ export default function CompanyDashboard() {
     return (
 
         <div>
-            <h2>Offers from</h2>
-            <h2>{companyTitle}</h2>
+            <h2>Offers from {companyTitle}</h2>
             <div className={styles.offersContainer}>
                 {companyOffers.map(offer => (
                     <DashboardCardView

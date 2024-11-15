@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useNavigate } from "react-router-dom";
-import DashboardCardView from "../../../../components/offers/DashboardCardView/DashboardCardView";
+import DashboardCardView from "../../../../components/common/DashboardCardView/DashboardCardView";
 import { nanoid } from "nanoid";
 import styles from './companies.module.scss';
 import useUserCompanies from "../../../../hooks/useUserCompanies";

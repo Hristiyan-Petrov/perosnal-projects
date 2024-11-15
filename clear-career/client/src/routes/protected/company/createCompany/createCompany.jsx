@@ -1,6 +1,6 @@
 import companyService from '../../../../services/companyService';
 import { useNavigate } from "react-router-dom";
-import FormView from "../../../../components/FormView/FormView";
+import FormView from "../../../../components/common/FormView/FormView";
 import { toast } from "react-toastify";
 
 export default function CreateCompany({
