@@ -4,15 +4,16 @@ import companyService from "../services/companyService";
 
 export default function useCompanyOffers(companyId) {
     const { user, isAuthenticated } = useAuth0();
-    const [companyOffers, setCompanyOffers] = useState(null); 
-    const [companyTitle, setCompanyTitle] = useState(null); 
-    const [loading, setLoading] = useState(true);
+    const [companyOffers, setCompanyOffers] = useState([]); 
+    const [companyTitle, setCompanyTitle] = useState(''); 
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         if (!isAuthenticated) return;
 
         const getOffersHandler = () => {
+            setLoading(true);
             companyService.getOffers(companyId)
                 .then(res => {
                     setCompanyOffers(res.offers);

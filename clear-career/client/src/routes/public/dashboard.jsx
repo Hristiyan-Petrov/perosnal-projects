@@ -1,13 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAuthNotification } from "../../../hooks/useAuthNotification";
-import { LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../../constants/messages";
+import { useAuthNotification } from "../../hooks/useAuthNotification";
+import { LOCAL_STORAGE_KEYS, AUTH_MESSAGES, ITEM_MESSAGES, TITLES, ITEM_TYPES } from "../../constants/messages";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import styles from './dashboard.module.scss';
-import DashboardCardView from "../../../components/common/DashboardCardView/DashboardCardView";
+// import styles from './dashboard.module.scss';
 import { useEffect, useState } from "react";
-import offerService from "../../../services/offerService";
-import { toast } from "react-toastify";
-import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimation";
+import offerService from "../../services/offerService";
+import ItemsDashboardView from "../../components/common/ItemsDashboardView/ItemsDashboardView";
 
 // export const loader = () => {
 //     return fetch('http://localhost:3000/status')
@@ -23,8 +21,8 @@ import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimat
 export default function Dashboard() {
     const navigate = useNavigate();
     const { user, isAuthenticated, isLoading } = useAuth0();
-    const [offers, setOffers] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [offers, setOffers] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, LOCAL_STORAGE_KEYS.loginNotification);
 
@@ -37,6 +35,8 @@ export default function Dashboard() {
         }
 
         const fetchOffers = () => {
+            setLoading(true);
+
             offerService.getAll()
                 .then(res => {
                     setOffers(res.offers);
@@ -50,28 +50,17 @@ export default function Dashboard() {
         };
 
         fetchOffers();
-    }, [])
-
-    if (loading) return <LoadingAnimation />;
-
-    if (offers.length == 0) {
-        return <h2>No offers yet.</h2>
-    }
-
+    }, []);
+    
     console.log(offers);
 
     return (
-        <div>
-            <h2>Job Offers</h2>
-            <div className={styles.offersContainer}>
-                {offers.map((offer) => (
-                    <DashboardCardView
-                        key={offer._id}
-                        type={'offer'}
-                        {...offer}
-                    />
-                ))}
-            </div>
-        </div>
+        <ItemsDashboardView
+            loading={loading}
+            items={offers}
+            title={TITLES.dashboard}
+            type={ITEM_TYPES.offer}
+            emptyMessage={ITEM_MESSAGES.emptyDashboard}
+        />
     );
 }
