@@ -1,11 +1,4 @@
-
-:root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    /* line-height: 1.5; */
-    /* font-weight: 400; */
-}
-
-.loading-animation-container {
+.loadingAnimationContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -18,7 +11,7 @@
     color: #333;
 }
 
-.loading-circle {
+.loadingCircle {
     width: 50px;
     height: 50px;
     border: 6px solid #e0e0e0;

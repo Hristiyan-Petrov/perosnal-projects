@@ -4,7 +4,7 @@ import DashboardCardView from "../../../../components/offers/DashboardCardView/D
 import { nanoid } from "nanoid";
 import styles from './companies.module.scss';
 import useUserCompanies from "../../../../hooks/useUserCompanies";
-import LoadingAnimation from "../../../../components/LoadingAnimation";
+import LoadingAnimation from "../../../../components/LoadingAnimation/LoadingAnimation";
 
 export default function Companies() {
     const { user } = useAuth0();

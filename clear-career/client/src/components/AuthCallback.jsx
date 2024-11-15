@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../services/authService";
-import LoadingAnimation from "./LoadingAnimation";
+import LoadingAnimation from "./LoadingAnimation/LoadingAnimation";
 import { LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../constants/messages";
 import { toast } from "react-toastify";
 

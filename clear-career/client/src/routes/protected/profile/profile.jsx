@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { NavLink, } from 'react-router-dom';
 import useUserRole from '../../../hooks/useUserRole';
-import LoadingAnimation from '../../../components/LoadingAnimation';
+import LoadingAnimation from '../../../components/LoadingAnimation/LoadingAnimation';
 
 // export const loader = async () => {
 //     const { user } = useAuth0();

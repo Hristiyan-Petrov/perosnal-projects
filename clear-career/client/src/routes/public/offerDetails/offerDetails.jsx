@@ -21,7 +21,7 @@ import styles from './OfferDetails.module.scss';
 import offerService from '../../../services/offerService';
 import { toast } from 'react-toastify';
 import formatSalary from '../../../utils/formatSalary';
-import LoadingAnimation from '../../../components/LoadingAnimation';
+import LoadingAnimation from '../../../components/LoadingAnimation/LoadingAnimation';
 import { LOCAL_STORAGE_KEYS } from '../../../constants/messages';
 
 export default function OfferDetails() {

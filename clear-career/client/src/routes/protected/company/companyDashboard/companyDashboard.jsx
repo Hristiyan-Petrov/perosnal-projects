@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useCompanyOffers from '../../../../hooks/useCompanyOffers'
-import LoadingAnimation from "../../../../components/LoadingAnimation";
+import LoadingAnimation from "../../../../components/LoadingAnimation/LoadingAnimation";
 import DashboardCardView from "../../../../components/offers/DashboardCardView/DashboardCardView";
 import styles from './companyDashboard.module.scss';
 

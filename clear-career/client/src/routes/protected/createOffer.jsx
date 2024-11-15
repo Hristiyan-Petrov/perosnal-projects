@@ -4,7 +4,7 @@ import useUserCompanies from "../../hooks/useUserCompanies";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import offerService from '../../services/offerService';
-import LoadingAnimation from "../../components/LoadingAnimation";
+import LoadingAnimation from "../../components/LoadingAnimation/LoadingAnimation";
 
 export default function createOffer() {
     const { user } = useAuth0();

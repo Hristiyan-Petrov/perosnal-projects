@@ -6,8 +6,8 @@ import styles from './dashboard.module.scss';
 import DashboardCardView from "../../../components/offers/DashboardCardView/DashboardCardView";
 import { useEffect, useState } from "react";
 import offerService from "../../../services/offerService";
-import LoadingAnimation from "../../../components/LoadingAnimation";
 import { toast } from "react-toastify";
+import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimation";
 
 // export const loader = () => {
 //     return fetch('http://localhost:3000/status')

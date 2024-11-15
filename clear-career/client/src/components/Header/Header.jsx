@@ -1,9 +1,9 @@
 import styles from './Header.module.scss'
 import { NavLink, useLocation } from "react-router-dom";
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "../LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "./LoginButton";
-import useUserRole from "../hooks/useUserRole";
+import LoginButton from "../LoginButton";
+import useUserRole from "../../hooks/useUserRole";
 import { Hand } from 'lucide-react';
 
 export default function Header() {
