@@ -27,7 +27,7 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
 
     useAuthNotification(isAuthenticated, isLoading, AUTH_MESSAGES.loginSuccess, LOCAL_STORAGE_KEYS.loginNotification);
-
+   
     useEffect(() => {
         const hasToNavigate = localStorage.getItem(LOCAL_STORAGE_KEYS.navigate);
         // Is set when user signs in to apply in offerDetails

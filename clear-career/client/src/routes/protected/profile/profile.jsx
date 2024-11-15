@@ -112,19 +112,7 @@ export default function Profile() {
 
     return (
         <div className={styles.profileContainer}>
-            <div className={styles.profileHeader}>
-                <div className={styles.profileImage}>
-                    <img src={user?.picture} alt={user?.name} />
-                </div>
-                <div className={styles.profileInfo}>
-                    <h2>{'Hello, ' + user?.nickname || user?.name}</h2>
-                    <p>{user?.email}</p>
-                    <span className={styles.roleBadge}>
-                        {role === 'job-seeker' ? 'Job Seeker' : 'Job Offerer'}
-                    </span>
-                </div>
-            </div>
-
+            <h1 className={styles.heading}>Manage Your Profile</h1>
             <div className={styles.navigationGrid}>
                 {navItems.map((item) => (
                     <NavLink
