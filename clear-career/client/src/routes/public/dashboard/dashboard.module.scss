@@ -1,5 +1,28 @@
+h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: #4299e1;
+        border-radius: 2px;
+    }
+}
+
 .offersContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
 }

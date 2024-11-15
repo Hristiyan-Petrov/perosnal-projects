@@ -15,8 +15,8 @@ export default function Header() {
     return (
         <header>
             <div className={styles.leftWrapper}>
-                <NavLink id="logo" to="/">
-                    <img id="logo-img" src="/public/images/logo.jpg" alt="logo" />
+                <NavLink className={styles.logo} to="/">
+                    <img className={styles.logoImg} src="/public/images/logo.jpg" alt="logo" />
                 </NavLink>
 
                 {isAuthenticated &&
@@ -36,7 +36,7 @@ export default function Header() {
 
             </div>
 
-            <nav className="navigation">
+            <nav className={styles.navigation}>
 
                 {isSettingRole
                     ? null

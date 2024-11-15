@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import authService from "../../services/authService";
 import { toast, useToast } from "react-toastify";
+import styles from './homepage.module.scss';
 
 export default function Homepage() {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -32,7 +33,7 @@ export default function Homepage() {
     }, [isLoading]);
 
     return (
-        <section id="home">
+        <section className={styles.home}>
             <img
                 src="./images/pngkey.com-hunting-png-6697165-removebg-preview.png"
                 alt="home"

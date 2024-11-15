@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { NavLink, } from 'react-router-dom';
 import useUserRole from '../../../hooks/useUserRole';
+import LoadingAnimation from '../../../components/LoadingAnimation';
 
 // export const loader = async () => {
 //     const { user } = useAuth0();
@@ -22,46 +23,48 @@ import useUserRole from '../../../hooks/useUserRole';
 
 export default function Profile() {
     const { user } = useAuth0();
-    const { role } = useUserRole();
+    const { userRole, loading } = useUserRole();
 
-    const seekerNavItems = [
-        {
-            path: 'saved-jobs',
-            label: 'Saved Jobs',
-            icon: <BookmarkCheck />,
-            description: 'View and manage your saved job listings'
-        },
-        {
-            path: 'applied-jobs',
-            label: 'Applied Jobs',
-            icon: <Send />,
-            description: 'Track your job applications'
-        },
-        {
-            path: 'account',
-            label: 'Account Information',
-            icon: <UserCog />,
-            description: 'Manage your personal information'
-        },
-        {
-            path: 'cv-builder',
-            label: 'CV Builder',
-            icon: <FileText />,
-            description: 'Create and edit your professional CV'
-        },
-        // { 
-        //   path: 'network', 
-        //   label: 'Professional Network', 
-        //   icon: <Users />,
-        //   description: 'Connect with other professionals'
-        // },
-        {
-            path: 'messages',
-            label: 'Messages',
-            icon: <MessageSquarePlus />,
-            description: 'Communicate with applicants'
-        }
-    ];
+    if (loading) return <LoadingAnimation />;
+
+        const seekerNavItems = [
+            {
+                path: 'saved-jobs',
+                label: 'Saved Jobs',
+                icon: <BookmarkCheck />,
+                description: 'View and manage your saved job listings'
+            },
+            {
+                path: 'applied-jobs',
+                label: 'Applied Jobs',
+                icon: <Send />,
+                description: 'Track your job applications'
+            },
+            {
+                path: 'account',
+                label: 'Account Information',
+                icon: <UserCog />,
+                description: 'Manage your personal information'
+            },
+            {
+                path: 'cv-builder',
+                label: 'CV Builder',
+                icon: <FileText />,
+                description: 'Create and edit your professional CV'
+            },
+            // { 
+            //   path: 'network', 
+            //   label: 'Professional Network', 
+            //   icon: <Users />,
+            //   description: 'Connect with other professionals'
+            // },
+            {
+                path: 'messages',
+                label: 'Messages',
+                icon: <MessageSquarePlus />,
+                description: 'Communicate with applicants'
+            }
+        ];
 
     const offererNavItems = [
         {
@@ -108,7 +111,7 @@ export default function Profile() {
         }
     ];
 
-    const navItems = role === 'job-seeker' ? seekerNavItems : offererNavItems;
+    const navItems = userRole === 'job-seeker' ? seekerNavItems : offererNavItems;
 
     return (
         <div className={styles.profileContainer}>
