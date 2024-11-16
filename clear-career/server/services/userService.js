@@ -10,7 +10,10 @@ module.exports = {
         return User.updateOne({ auth0Id }, { $set: updateData });
     },
     create: (auth0Id, email) => {
-        const user = new User({ auth0Id, email, role: null, appliedOffers: [], postedOffers: [] });
+        const user = new User({
+            auth0Id,
+            email,
+        });
         return user.save();
     },
     getRole: (auth0Id) => {
@@ -28,7 +31,7 @@ module.exports = {
     },
     getCompanies: (auth0Id) => {
         return User
-            .findOne({auth0Id})
+            .findOne({ auth0Id })
             .select('companies')
             .populate('companies')
             .lean();

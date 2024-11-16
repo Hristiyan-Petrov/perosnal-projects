@@ -15,21 +15,28 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['job-seeker', 'job-offerer'],
+        default: null
     },
     appliedOffers: {
         type: [mongoose.Types.ObjectId],
         ref: 'Offer',
-        default: []
+        default: null
+    },
+
+    savedOffers: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'Offer',
+        default: null
     },
     postedOffers: {
         type: [mongoose.Types.ObjectId],
         ref: 'Offer',
-        default: []
+        default: null
     },
     companies: {
         type: [mongoose.Types.ObjectId],
         ref: 'Company',
-        default: []
+        default: null
     }
 });
 

@@ -68,9 +68,20 @@ router.post('/set-role', async (req, res) => {
     // TODO: add auth middleware
 
     const { auth0Id, role } = req.body;
+    const updatedData = {
+        role
+    };
+
+    if (role === 'job-seeker') {
+        updatedData.appliedOffers = [];
+        updatedData.savedOffers = [];
+    } else {
+        updatedData.postedOffers = [];
+        updatedData.companies = [];
+    }
 
     // User.updateOne({ auth0Id }, { $set: { role } })
-    userService.update(auth0Id, { role })
+    userService.update(auth0Id, updatedData)
         .then(user => {
             // Check if a document was actually found and updated
             if (user.modifiedCount == 0) {
