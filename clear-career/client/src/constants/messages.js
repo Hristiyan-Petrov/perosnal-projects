@@ -17,7 +17,8 @@ export const ERROR_MESSAGES = {
     defaultMessage: 'Whoopsy! Somehting went wrong!',
     defaultCode: '404',
     defaultDescription: 'We’re sorry, but the page you’re looking for doesn’t exist or an unexpected error has occurred.',
-    apiRequest: 'API request failed'
+    apiRequest: 'API request failed',
+    saveToggleOffer: 'Sorry. The action failed.'
 };
 
 export const ITEM_MESSAGES = {

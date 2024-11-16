@@ -22,7 +22,7 @@ export default function DashboardCardView({
     salary,
     views,
     applicants,
-    saves,
+    savedFromUsers,
     // requirements
 
     // Company attribures
@@ -122,7 +122,7 @@ export default function DashboardCardView({
 
                                 <div className={styles.metaItem}>
                                     <Bookmark size={16} />
-                                    <span>Saves: {saves}</span>
+                                    <span>Saves: {savedFromUsers.length}</span>
                                 </div>
                             </>
                         )}

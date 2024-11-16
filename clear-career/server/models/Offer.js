@@ -34,15 +34,16 @@ const offerSchema = new mongoose.Schema({
     applicants: {
         type: [mongoose.Types.ObjectId],
         ref: 'User',
-        // default: []
+        default: []
     },
     views: {
         type: Number,
         default: 0
     },
-    saves: {
-        type: Number,
-        default: 0
+    savedFromUsers: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'User',
+        default: []
     }
 });
 

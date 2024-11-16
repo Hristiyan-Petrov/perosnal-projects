@@ -23,6 +23,7 @@ import { toast } from 'react-toastify';
 import formatSalary from '../../../utils/formatSalary';
 import LoadingAnimation from '../../../components/LoadingAnimation/LoadingAnimation';
 import { LOCAL_STORAGE_KEYS } from '../../../constants/messages';
+import authService from '../../../services/authService';
 
 export default function OfferDetails() {
     const { user, isAuthenticated, loginWithRedirect } = useAuth0();
@@ -37,12 +38,12 @@ export default function OfferDetails() {
     const [offer, setOffer] = useState(null);
     const [loading, setLoading] = useState(true);
 
-
     useEffect(() => {
         const fetchOffer = () => {
             offerService.getOne(offerId)
                 .then(offerData => {
                     setOffer(offerData);
+                    setIsSaved(offerData.savedFromUsers.some(u => u.auth0Id === user.sub));
                 })
                 .catch(err => {
                     console.log(err);
@@ -61,7 +62,28 @@ export default function OfferDetails() {
     const isJobSeeker = userRole === 'job-seeker' || false;
     const isOwnOffer = user?.sub === offer.creator?.auth0Id || false;
 
-    const handleSaveToggle = () => setIsSaved(!isSaved);  // Handle delete SaveToggle logic
+    const onSaveToggleClickHandler = () => {  // Handle delete SaveToggle logic
+        authService.saveToggleOffer(user.sub, offerId)
+            .then(res => {
+                setIsSaved(res.user.savedOffers.some(o => o._id === offerId));
+                toast.success(res.message);
+
+                // Disable button for 2 seconds
+                const toggleDisableButton = () => {
+                    document.getElementById('save-toggle-button').disabled = true;
+                    setTimeout(() => {
+                        document.getElementById('save-toggle-button').disabled = false;
+                    }, 2000);
+                };
+
+                toggleDisableButton();
+            })
+            .catch(error => {
+                console.log(error);
+                toast.error(ERROR_MESSAGES.saveToggleOffer);
+            });
+    };
+
     const handleApply = () => setIsApplied(true);  // Handle delete Apply logic
     const handleEdit = () => navigate(`/offers/${offer._id}/edit`);  // Handle delete Edit logic
     const handleDelete = () => setIsDeleteDialogOpen(true);  // Handle delete Delete logic
@@ -81,7 +103,7 @@ export default function OfferDetails() {
             <div className={styles.header}>
                 <div className={styles.companyInfo}>
                     <div className={styles.logoContainer}>
-                        <img src={offer.company.imageUrl} alt={offer.company.name} />
+                        <img src={offer.company.imageUrl} alt={offer.company.title} />
                     </div>
                     <div>
                         <h1 className={styles.title}>{offer.title}</h1>
@@ -108,8 +130,9 @@ export default function OfferDetails() {
                                     ? (
                                         <>
                                             <button
+                                                id='save-toggle-button'
                                                 className={`${styles.actionButton} ${styles.primary} ${isSaved ? styles.saved : ''}`}
-                                                onClick={handleSaveToggle}
+                                                onClick={onSaveToggleClickHandler}
                                             >
                                                 {isSaved ? <BookmarkCheck size={20} /> : <BookmarkPlus size={20} />}
                                                 {isSaved ? 'Saved' : 'Save'}
@@ -153,7 +176,7 @@ export default function OfferDetails() {
                 <div className={styles.primaryInfo}>
 
                     <div className={styles.companyCard}>
-                        <h3>About {offer.company.name}</h3>
+                        <h3>About {offer.company.title}</h3>
                         <p>{offer.company.description}</p>
                         <button
                             className={`${styles.actionButton} ${styles.primary}`}

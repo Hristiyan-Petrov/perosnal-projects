@@ -126,4 +126,23 @@ router.delete('/:auth0Id', (req, res) => {
         });
 });
 
+router.post('/:auth0Id/save-offer/:offerId', (req, res) => {
+    const auth0Id = req.params.auth0Id;
+    const offerId = req.params.offerId;
+    userService.saveToggle(auth0Id, offerId)
+        .then(user => {
+            let message = user.savedOffers.some(offer => offer._id == offerId)
+                ? 'Offer successfully saved'
+                : 'Offer successfully unsaved'
+            res.json({ user, message });
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                message: `User with auth0I ${auth0Id} failed to save offer ${offerId}`,
+                error
+            });
+        });
+});
+
 module.exports = router;

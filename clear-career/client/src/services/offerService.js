@@ -17,5 +17,4 @@ export default {
         return apiRequest(companiesEndpoint);
     },
     getOne: (offerId) => apiRequest(`${companiesEndpoint}/${offerId}`),
-    
 };

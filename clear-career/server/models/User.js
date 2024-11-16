@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
         ref: 'Offer',
         default: null
     },
-
     savedOffers: {
         type: [mongoose.Types.ObjectId],
         ref: 'Offer',
