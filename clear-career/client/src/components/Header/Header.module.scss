@@ -91,7 +91,6 @@ nav {
 }
 
 nav a {
-    // font-size: 1.5rem;
     color: #0a0a0a;
     font-weight: 400;
 }
@@ -99,16 +98,6 @@ nav a {
 header a {
     padding: 0 10px;
     text-decoration: none;
-}
-
-
-
-
-.navigation a.active {
-    background: #5c9596;
-    border-radius: 10px;
-    padding: 10px;
-    color: #ffffff;
 }
 
 .navigation a:hover {

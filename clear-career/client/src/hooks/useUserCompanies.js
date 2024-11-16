@@ -5,14 +5,13 @@ import authService from "../services/authService";
 export default function useUserCompanies() {
     const { user, isAuthenticated } = useAuth0();
     const [userCompanies, setCompanies] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         if (!isAuthenticated) return;
 
         const getCompanies = () => {
-            setLoading(true);
             authService.getUserCompanies(user.sub)
                 .then(res => {
                     setCompanies(res.companies);

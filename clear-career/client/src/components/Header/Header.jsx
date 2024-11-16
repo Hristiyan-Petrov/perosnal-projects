@@ -1,16 +1,23 @@
-import styles from './Header.module.scss'
 import { NavLink, useLocation } from "react-router-dom";
 import LogoutButton from "../LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "../LoginButton";
 import useUserRole from "../../hooks/useUserRole";
 import { Hand } from 'lucide-react';
+import styles from './Header.module.scss'
 
 export default function Header() {
     const { user, isAuthenticated } = useAuth0();
     const { userRole } = useUserRole();
     const location = useLocation();
     const isSettingRole = location.pathname === '/set-role';
+
+    const activeStyles = {
+        background: '#5c9596',
+        borderRadius: '10px',
+        padding: '10px',
+        color: '#ffffff',
+    };
 
     return (
         <header>
@@ -43,6 +50,8 @@ export default function Header() {
                     : <div>
                         <NavLink
                             to="/offers"
+                            style={({ isActive }) => (isActive ? activeStyles : null)}
+                            end
                         >
                             Dashboard</NavLink>
 
@@ -52,6 +61,7 @@ export default function Header() {
                             <>
 
                                 <NavLink
+                                    style={({ isActive }) => (isActive ? activeStyles : null)}
                                     to={'/profile'}
                                 >
                                     Profile
@@ -60,6 +70,7 @@ export default function Header() {
                                     userRole === 'job-offerer'
                                         ?
                                         <NavLink
+                                            style={({ isActive }) => (isActive ? activeStyles : null)}
                                             to="/offers/create"
                                         >
                                             Create Offer
