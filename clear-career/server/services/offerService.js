@@ -10,11 +10,11 @@ module.exports = {
         const offer = new Offer({
             title,
             category,
+            company,
             description,
             experience,
             salary: salaryFrom ? salaryFrom + '-' + salaryTo : null,
             creator: user._id,
-            company
         });
         await offer.save();
 
@@ -46,22 +46,33 @@ module.exports = {
             .lean()
     },
 
-    getOne: (offerId) => { 
+    getOne: (offerId) => {
         return Offer
             .findById(offerId)
             .populate([
                 {
                     path: 'company',
                     model: 'Company',
+                    select: 'title description imageUrl'
                 },
                 {
                     path: 'creator',
                     model: 'User',
                     select: 'auth0Id'
+                },
+                {
+                    path: 'savedFromUsers',
+                    model: 'User',
+                    select: 'auth0Id'
+                },
+                {
+                    path: 'applicants',
+                    model: 'User',
+                    select: 'auth0Id'
                 }
             ])
             .lean();
-    }
+    },
 };
 
 // 'We need a master farmer to join our team. He will take care of the animals which we use to play with and let them join us during our working process. This significantly improves our mood and therefore business results. Animals include cute farm animals and pets.'
