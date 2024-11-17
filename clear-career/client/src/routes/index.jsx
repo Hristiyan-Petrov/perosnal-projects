@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom'
 import Layout from './layout'
-import ErrorPage from './errorPage/errorPage'
 import { publicRoutes } from './public';
 import { protectedRoutes } from './protected';
+import ErrorPage from './public/errorPage/errorPage';
 
 export const router = createBrowserRouter([
     {

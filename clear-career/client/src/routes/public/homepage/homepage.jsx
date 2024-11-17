@@ -1,9 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAuthNotification } from "../../hooks/useAuthNotification";
-import { LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../constants/messages";
+import { useAuthNotification } from "../../../hooks/useAuthNotification";
+import { LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../../../constants/messages";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import authService from "../../services/authService";
+import authService from "../../../services/authService";
 import { toast, useToast } from "react-toastify";
 import styles from './homepage.module.scss';
 

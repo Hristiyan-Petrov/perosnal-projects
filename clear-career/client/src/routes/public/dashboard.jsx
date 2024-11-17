@@ -2,7 +2,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthNotification } from "../../hooks/useAuthNotification";
 import { LOCAL_STORAGE_KEYS, AUTH_MESSAGES, ITEM_MESSAGES, TITLES, ITEM_TYPES } from "../../constants/messages";
 import { useLoaderData, useNavigate } from "react-router-dom";
-// import styles from './dashboard.module.scss';
 import { useEffect, useState } from "react";
 import offerService from "../../services/offerService";
 import ItemsDashboardView from "../../components/common/ItemsDashboardView/ItemsDashboardView";

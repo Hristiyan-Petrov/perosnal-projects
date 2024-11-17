@@ -1,4 +1,4 @@
-import Homepage from "./public/homepage";
+import Homepage from "./public/homepage/homepage";
 import Login, { action as loginAction } from "./public/auth/Login";
 import Register from "./public/auth/Register";
 import Dashboard from "./public/dashboard";
