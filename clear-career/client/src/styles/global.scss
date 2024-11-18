@@ -1,0 +1,76 @@
+// global.scss
+
+// Variables
+$primary-color: #4299e1;
+$danger-color: #f56565;
+$white: #ffffff;
+$grey-light: #e5e7eb;
+$grey-dark: #111827;
+$font-primary: 'Inter', sans-serif;
+
+$breakpoints: (
+    'small': 480px,
+    'medium': 768px,
+    'large': 1200px
+);
+
+// Mixins
+@mixin flex-center($direction: row, $gap: 1rem) {
+    display: flex;
+    flex-direction: $direction;
+    gap: $gap;
+    align-items: center;
+}
+
+@mixin grid-layout($columns: 1fr, $gap: 1rem) {
+    display: grid;
+    grid-template-columns: $columns;
+    gap: $gap;
+}
+
+@mixin breakpoint($size) {
+    @media (max-width: map-get($breakpoints, $size)) {
+        @content;
+    }
+}
+
+// Common Styles
+.button {
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.primary {
+        background-color: $primary-color;
+        color: $white;
+
+        &:hover:not(:disabled) {
+            background-color: darken($primary-color, 10%);
+        }
+    }
+
+    &.danger {
+        background-color: $danger-color;
+        color: $white;
+
+        &:hover:not(:disabled) {
+            background-color: darken($danger-color, 10%);
+        }
+    }
+}
+
+.card {
+    background: $white;
+    border: 1px solid $grey-light;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+        border-color: $primary-color;
+    }
+}

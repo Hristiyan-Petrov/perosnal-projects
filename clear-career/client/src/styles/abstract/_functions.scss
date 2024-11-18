@@ -1,0 +1,61 @@
+// Mixin for flex box centering
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Mixin for responsive design
+@mixin respond($breakpoint) {
+    @if $breakpoint ==small {
+        @media (max-width: $breakpoint-small) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==medium {
+        @media (max-width: $breakpoint-medium) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==large {
+        @media (max-width: $breakpoint-large) {
+            @content;
+        }
+    }
+}
+
+// Mixin for button styles
+@mixin button-styles {
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    font-size: 1.125rem;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: $font-color-light;
+    background-color: $primary-color;
+
+    &:hover {
+        background-color: $btn-primary-hover-color;
+    }
+}
+
+// Mixin for card styles
+@mixin card-styles {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+        transform: translateY(-5px);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        border-color: $primary-color;
+    }
+}

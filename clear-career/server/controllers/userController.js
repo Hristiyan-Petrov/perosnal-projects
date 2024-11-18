@@ -12,22 +12,6 @@ router.get('/:auth0Id', async (req, res) => {
     }
 });
 
-router.delete('/:auth0Id', async (req, res) => {
-    const { auth0Id, accessToken } = req.params;
-
-    userService.delete(auth0Id)
-        .then(user => {
-            res.json({ message: 'Account successfully deleted' });
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({
-                message: 'Failed to delete account',
-                error
-            });
-        });
-});
-
 // For Auth callback specific
 router.get('/:auth0Id/initial', async (req, res) => {
     const { auth0Id } = req.params;
@@ -84,9 +68,20 @@ router.post('/set-role', async (req, res) => {
     // TODO: add auth middleware
 
     const { auth0Id, role } = req.body;
+    const updatedData = {
+        role
+    };
+
+    if (role === 'job-seeker') {
+        updatedData.appliedOffers = [];
+        updatedData.savedOffers = [];
+    } else {
+        updatedData.postedOffers = [];
+        updatedData.companies = [];
+    }
 
     // User.updateOne({ auth0Id }, { $set: { role } })
-    userService.update(auth0Id, { role })
+    userService.update(auth0Id, updatedData)
         .then(user => {
             // Check if a document was actually found and updated
             if (user.modifiedCount == 0) {
@@ -97,6 +92,56 @@ router.post('/set-role', async (req, res) => {
         .catch(err => {
             console.log(err);
             res.status(500).json({ message: err });
+        });
+});
+
+router.get('/:auth0Id/companies', (req, res) => {
+    const { auth0Id } = req.params;
+    userService.getCompanies(auth0Id)
+        .then(data => {
+            res.json({ companies: data.companies });
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                message: 'Failed to get user companies',
+                error
+            });
+        });
+});
+
+router.delete('/:auth0Id', (req, res) => {
+    const { auth0Id } = req.params;
+
+    userService.delete(auth0Id)
+        .then(user => {
+            res.json({ message: 'Account successfully deleted' });
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                message: 'Failed to delete account',
+                error
+            });
+        });
+});
+
+router.post('/:auth0Id/save-offer/:offerId', (req, res) => {
+    const auth0Id = req.params.auth0Id;
+    const offerId = req.params.offerId;
+    userService.saveToggle(auth0Id, offerId)
+        .then(user => {
+            let message = user.savedOffers.some(offer => offer._id == offerId)
+                ? 'Offer successfully saved'
+                : 'Offer successfully unsaved'
+            res.json({ user, message });
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                message: `User with auth0I ${auth0Id} failed to save offer ${offerId}`,
+                error
+            });
         });
 });
 

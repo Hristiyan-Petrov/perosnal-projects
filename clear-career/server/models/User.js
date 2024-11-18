@@ -6,25 +6,36 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    role: {
-        type: String,
-        enum: ['job-seeker', 'job-offerer'],
-    },
-    appliedOffers: {
-        type: [mongoose.Types.ObjectId],
-        ref: 'Offer',
-        default: []
-    },
-    postedOffers: {
-        type: [mongoose.Types.ObjectId],
-        ref: 'Offer',
-        default: []
-    },
     email: {
         type: String,
         required: true,
         unique: true,
         lowercase: true
+    },
+    role: {
+        type: String,
+        enum: ['job-seeker', 'job-offerer'],
+        default: null
+    },
+    appliedOffers: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'Offer',
+        default: null
+    },
+    savedOffers: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'Offer',
+        default: null
+    },
+    postedOffers: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'Offer',
+        default: null
+    },
+    companies: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'Company',
+        default: null
     }
 });
 

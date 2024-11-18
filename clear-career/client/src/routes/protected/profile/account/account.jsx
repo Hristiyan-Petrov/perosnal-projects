@@ -1,13 +1,12 @@
-// components/profile/PasswordChange.jsx
 import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import {
     KeyRound,
     Trash2,
 } from 'lucide-react';
-import AccountActionCard from '../../../../components/profile/AccountActionCard/AccountActionCard'
+import AccountActionCard from '../../../../components/common/AccountActionCard/AccountActionCard'
 import styles from './account.module.scss';
-import { deleteAccount, resetPassword } from '../../../../services/authService';
+import authService from '../../../../services/authService';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -15,6 +14,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+
+import ConfirmDialog from '../../../../components/ConfirmDialog';
+import { CONFIRMATION_DIALOG_RESOURCES } from '../../../../constants/messages';
 
 export default function AccountInfo() {
     const { user, getAccessTokenSilently, logout } = useAuth0();
@@ -24,7 +26,7 @@ export default function AccountInfo() {
 
     const [deleteStatus, setDeleteStatus] = useState('idle'); // idle, loading, success, error
     const [deleteMessage, setDeleteMessage] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const isThirdPartyAuth = user.sub.split('|')[0] !== 'auth0';
 
@@ -32,7 +34,7 @@ export default function AccountInfo() {
 
     const handlePasswordReset = async (e) => {
         setResetStatus('loading');
-        resetPassword(user.email)
+        authService.resetPassword(user.email)
             .then(res => {
                 console.log(res);
                 setResetStatus('success');
@@ -48,24 +50,21 @@ export default function AccountInfo() {
     // Delete account
 
     const openDeleteDialog = () => {
-        setOpenDialog(true);
+        setIsDialogOpen(true);
     };
 
     const closeDeleteDialog = () => {
-        setOpenDialog(false);
+        setIsDialogOpen(false);
     };
 
     const handleAccountDelete = async e => {
-        // Open the AlertDialog (triggered by the AccountActionCard button)
-        // The actual deletion happens in finalDelete
-
         setDeleteStatus('loading');
         setDeleteMessage('');
         closeDeleteDialog();
 
         const accessToken = await getAccessTokenSilently();
 
-        deleteAccount(user.sub, accessToken)
+        authService.deleteAccount(user.sub, accessToken)
             .then(res => {
                 console.log(res);
                 setDeleteStatus('success');
@@ -115,36 +114,17 @@ export default function AccountInfo() {
                 loadingText="Deleting Account..."
                 infoText="Please note: This will permanently delete all your data, including your profile, applications, and saved jobs."
             />
-            {/* MUI Delete Confirmation Dialog */}
-            <Dialog
-                open={openDialog}
+
+            <ConfirmDialog
+                id={CONFIRMATION_DIALOG_RESOURCES.ACCOUNT_DELETE_ID}
+                isOpen={isDialogOpen}
                 onClose={closeDeleteDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {"Are you absolutely sure?"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        This action cannot be undone. This will permanently delete your
-                        account and remove all your data from our servers.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={closeDeleteDialog} color="primary">
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={handleAccountDelete}
-                        color="error"
-                        variant="contained"
-                        disabled={deleteStatus === 'loading'}
-                    >
-                        {deleteStatus === 'loading' ? 'Deleting Account...' : 'Delete Account'}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                onConfirm={handleAccountDelete}
+                title={CONFIRMATION_DIALOG_RESOURCES.ACCOUNT_DELETE_TITLE}
+                contentText={CONFIRMATION_DIALOG_RESOURCES.ACCOUNT_DELETE_CONTENT_TEXT}
+                confirmButtonText={deleteStatus === 'loading' ? CONFIRMATION_DIALOG_RESOURCES.ACCOUNT_DELETE_CONFIRM_BUTTON_TEXT_LOADING : CONFIRMATION_DIALOG_RESOURCES.ACCOUNT_DELETE_CONFIRM_BUTTON_TEXT}
+                loading={deleteStatus === 'loading'}
+            />
         </div>
     );
 };

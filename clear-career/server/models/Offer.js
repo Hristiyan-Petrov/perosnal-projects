@@ -3,24 +3,48 @@ const mongoose = require('mongoose');
 const offerSchema = new mongoose.Schema({
     title: {
         type: String,
-    },
-    imageUrl: {
-        type: String,
+        required: true,
     },
     category: {
         type: String,
+        required: true,
+    },
+    company: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Company'
     },
     description: {
-        rows: "4",
-        cols: "50",
+        type: String,
+        required: true,
     },
     requirements: {
-        rows: "4",
-        cols: "50",
+        type: String // TODO: Check
+    },
+    experience: {
+        type: Number,
+        required: true,
     },
     salary: {
         type: String,
     },
+    creator: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    },
+    applicants: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'User',
+        default: []
+    },
+    views: {
+        type: Number,
+        default: 0
+    },
+    savedFromUsers: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'User',
+        default: []
+    }
 });
 
 module.exports = mongoose.model('Offer', offerSchema);

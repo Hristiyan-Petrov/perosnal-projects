@@ -1,9 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as authService from "../services/authService";
-import LoadingAnimation from "./LoadingAnimation";
-import { AUTH_LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../constants/messages";
+import authService from "../services/authService";
+import LoadingAnimation from "./LoadingAnimation/LoadingAnimation";
+import { LOCAL_STORAGE_KEYS, AUTH_MESSAGES } from "../constants/messages";
 import { toast } from "react-toastify";
 
 export default function AuthCallback() {
@@ -44,7 +44,7 @@ export default function AuthCallback() {
             const createData = await authService.createUser(userId, email);
             if (createData.user) {
                 toast.success(createData.message);
-                localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification);
+                localStorage.removeItem(LOCAL_STORAGE_KEYS.loginNotification);
                 navigate('/set-role'); // Redirect new users
             } else {
                 // TODO: If creation failed because user already exists
@@ -61,7 +61,7 @@ export default function AuthCallback() {
     };
 
     const handleExistingUser = () => {
-        localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.loginNotification, true);
+        localStorage.setItem(LOCAL_STORAGE_KEYS.loginNotification, true);
         navigate('/offers');
     };
 

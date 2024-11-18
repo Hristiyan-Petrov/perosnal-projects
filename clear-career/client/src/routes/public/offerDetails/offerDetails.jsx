@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import useUserRole from '../../../hooks/useUserRole';
 import {
@@ -17,71 +17,135 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 import styles from './OfferDetails.module.scss';
+import offerService from '../../../services/offerService';
+import { toast } from 'react-toastify';
+import formatSalary from '../../../utils/formatSalary';
+import LoadingAnimation from '../../../components/LoadingAnimation/LoadingAnimation';
+import { CONFIRMATION_DIALOG_RESOURCES, LOCAL_STORAGE_KEYS } from '../../../constants/messages';
+import authService from '../../../services/authService';
+import ConfirmDialog from '../../../components/ConfirmDialog';
 
 export default function OfferDetails() {
     const { user, isAuthenticated, loginWithRedirect } = useAuth0();
-    const { role } = useUserRole();
+    const { userRole } = useUserRole();
     const navigate = useNavigate();
+    const location = useLocation();
     const [isSaved, setIsSaved] = useState(false);
+
     const [isApplied, setIsApplied] = useState(false);
+    const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
+    const [isApplyLoading, setIsApplyLoading] = useState(false);
+
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
-    const demoOffer = {
-        _id: '1',
-        title: 'Software Engineer',
-        salary: '8000-9000',
-        company: {
-            name: 'PayHawk',
-            imageUrl: '../../public/images/example1.png',
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro voluptates sequi illo iusto. Aperiam eveniet expedita at est. At temporibus cupiditate illo voluptatum dignissimos amet modi excepturi in repellat iure quidem cum error, laboriosam vitae ipsam commodi dicta fugit a delectus architecto consequuntur. Enim, explicabo. Temporibus quas magni nam laudantium!'
-        },
-        field: 'IT',
-        experience: 2,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum eum fugit officiis est quam, magnam inventore cupiditate voluptates atque cumque at. Aliquam, amet eum reiciendis eveniet ex hic. Sit consequatur optio mollitiapraesentium fugiat perspiciatis! Sunt distinctio aperiam, sapiente voluptates neque dolores rerum vero vitae saepe beatae earum assumenda molestias nemo? Rerum, atque adipisci praesentium ipsum doloribus quia reprehenderit commodi earum dignissimos laudantium ex nulla, eum debitis doloremque? Libero praesentium mollitia facere non aut distinctio aperiam optio, omnis exercitationem asperiores laboriosam aspernatur nulla fugit repudiandae magni nihil iusto ut cupiditate vero eum? Obcaecati aut quasi nobis laudantium, enim nulla molestiae hic. Repellat qui necessitatibus est similique doloribus, repellendus architecto dolore magnam quaerat quasi maxime, aperiam quia laboriosam quae sequi. Excepturi ipsum quae natus vel minus cupiditate optio adipisci pariatur officia, necessitatibus quibusdam animi, repellat, ipsa illum quasi ad? Laudantium consequatur facere.',
-        creator: {
-            // auth0Id: user?.sub + 1
-            // auth0Id: user?.sub
-        },
-        requirements: 'JavaScript, React, Node.js, MongoDB, 2+ years experience',
+    const { offerId } = useParams();
+    const [offer, setOffer] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchOffer = () => {
+            offerService.getOne(offerId)
+                .then(offerData => {
+                    setOffer(offerData);
+                    setIsSaved(offerData.savedFromUsers.some(u => u.auth0Id === user.sub));
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error('Error when acce offer')
+                })
+                .finally(() => {
+                    setLoading(false);
+                })
+        };
+
+        fetchOffer();
+    }, []);
+
+    if (loading) return <LoadingAnimation />
+
+    const isJobSeeker = userRole === 'job-seeker' || false;
+    const isOwnOffer = user?.sub === offer.creator?.auth0Id || false;
+
+    const onSaveToggleClickHandler = () => {  // Handle delete SaveToggle logic
+        authService.saveToggleOffer(user.sub, offerId)
+            .then(res => {
+                setIsSaved(res.user.savedOffers.some(o => o._id === offerId));
+                toast.success(res.message);
+
+                // Disable button for 2 seconds
+                const toggleDisableButton = () => {
+                    document.getElementById('save-toggle-button').disabled = true;
+                    setTimeout(() => {
+                        document.getElementById('save-toggle-button').disabled = false;
+                    }, 2000);
+                };
+
+                toggleDisableButton();
+            })
+            .catch(error => {
+                console.log(error);
+                toast.error(ERROR_MESSAGES.saveToggleOffer);
+            });
     };
 
-    const isJobSeeker = role === 'job-seeker' || false;
-    const isOwnOffer = user?.sub === demoOffer.creator?.auth0Id || false;
+    const handleMoreOffersClick = () => navigate(`/offers?field=${offer.field}`);
 
-    const formatSalary = (salary) => {
-        const [minSalary, maxSalary] = salary.split('-');
-        const formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        });
-        return `${formatter.format(minSalary)} - ${formatter.format(maxSalary)}`;
-    };
+    const handleSignInToApplyClick = () => {
+        localStorage.setItem(LOCAL_STORAGE_KEYS.navigate, location.pathname);
+        loginWithRedirect();
+    }
 
-    const handleSaveToggle = () => setIsSaved(!isSaved);  // Handle delete SaveToggle logic
-    const handleApply = () => setIsApplied(true);  // Handle delete Apply logic
-    const handleEdit = () => navigate(`/offers/${demoOffer._id}/edit`);  // Handle delete Edit logic
-    const handleDelete = () => setIsDeleteDialogOpen(true);  // Handle delete Delete logic
-    const handleDeleteConfirm = () => {
-        setIsDeleteDialogOpen(false);
+    const handleEdit = () => navigate(`/offers/${offer._id}/edit`);  // Handle delete Edit logic
+
+
+    // DELETE HANDLERS
+    const openDeleteDialog = () => setIsDeleteDialogOpen(true);  // Handle delete Delete logic
+    const handleOfferDelete = () => {
+        setIsDeleteLoading(true);
+
+        setTimeout(() => {
+            setIsDeleteLoading(false);
+        }, 2000);
+
         // Handle delete logic
     };
-    const handleMoreOffersClick = () => navigate(`/offers?field=${demoOffer.field}`);
+    const closeDeleteDialog = () => {
+        setIsDeleteDialogOpen(false);
+    };
+
+
+    // APPLY HANDLERS
+    const openApplyDialog = () => setIsApplyDialogOpen(true);  // Handle delete Delete logic
+    const handleApply = () => {
+        setIsApplyLoading(true);
+
+        setTimeout(() => {
+            setIsApplyLoading(false);
+            setIsApplied(true);
+            closeApplyDialog()
+            toast.success(CONFIRMATION_DIALOG_RESOURCES.OFFER_APPLY_SUCCESS_MESSAGE)
+        }, 2000);
+        // Handle applying logic
+    };
+    const closeApplyDialog = () => {
+        setIsApplyDialogOpen(false);
+    };
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <div className={styles.companyInfo}>
                     <div className={styles.logoContainer}>
-                        <img src={demoOffer.company.imageUrl} alt={demoOffer.company.name} />
+                        <img src={offer.company.imageUrl} alt={offer.company.title} />
                     </div>
                     <div>
-                        <h1 className={styles.title}>{demoOffer.title}</h1>
+                        <h1 className={styles.title}>{offer.title}</h1>
                         <div className={styles.company}>
                             <Building2 size={18} />
-                            <span>{demoOffer.company.name}</span>
+                            <span>{offer.company.title}</span>
                         </div>
                     </div>
                 </div>
@@ -93,7 +157,7 @@ export default function OfferDetails() {
                                 (
                                     <button
                                         className={`${styles.actionButton} ${styles.primary}`}
-                                        onClick={() => loginWithRedirect()}
+                                        onClick={handleSignInToApplyClick}
                                     >
                                         Sign in to Apply
                                     </button>
@@ -102,15 +166,16 @@ export default function OfferDetails() {
                                     ? (
                                         <>
                                             <button
+                                                id='save-toggle-button'
                                                 className={`${styles.actionButton} ${styles.primary} ${isSaved ? styles.saved : ''}`}
-                                                onClick={handleSaveToggle}
+                                                onClick={onSaveToggleClickHandler}
                                             >
                                                 {isSaved ? <BookmarkCheck size={20} /> : <BookmarkPlus size={20} />}
                                                 {isSaved ? 'Saved' : 'Save'}
                                             </button>
                                             <button
                                                 className={`${styles.actionButton} ${styles.primary}`}
-                                                onClick={handleApply}
+                                                onClick={openApplyDialog}
                                                 disabled={isApplied}
                                             >
                                                 {isApplied ? <CheckCircle2 size={20} /> : <Send size={20} />}
@@ -133,7 +198,7 @@ export default function OfferDetails() {
                             </button>
                             <button
                                 className={`${styles.actionButton} ${styles.danger}`}
-                                onClick={handleDelete}
+                                onClick={openDeleteDialog}
                             >
                                 <Trash2 size={20} />
                                 Delete
@@ -147,13 +212,13 @@ export default function OfferDetails() {
                 <div className={styles.primaryInfo}>
 
                     <div className={styles.companyCard}>
-                        <h3>About {demoOffer.company.name}</h3>
-                        <p>{demoOffer.company.description}</p>
+                        <h3>About {offer.company.title}</h3>
+                        <p>{offer.company.description}</p>
                         <button
                             className={`${styles.actionButton} ${styles.primary}`}
                             onClick={handleMoreOffersClick}
                         >
-                            More Offers From {demoOffer.company.name}
+                            More Offers From {offer.company.title}
                             <ArrowRight size={18} />
                         </button>
                     </div>
@@ -164,28 +229,37 @@ export default function OfferDetails() {
                         <div className={styles.infoGrid}>
                             <div className={styles.infoItem}>
                                 <strong>Experience</strong>
-                                <span>{demoOffer.experience} years</span>
+                                <span>{offer.experience} years</span>
                             </div>
+
                             <div className={styles.infoItem}>
-                                <strong>Salary Range</strong>
-                                <span className={styles.salary}>{formatSalary(demoOffer.salary)}</span>
+                                {offer.salary
+                                    ? <>
+                                        <strong>Salary Range</strong>
+                                        <span className={styles.salary}>{formatSalary(salary)}</span>
+                                    </>
+                                    : <strong>Salary Not Anounced</strong>
+                                }
+
                             </div>
+
+
                             <div className={styles.infoItem}>
                                 <strong>Field</strong>
-                                <span>{demoOffer.field}</span>
+                                <span>{offer.category}</span>
                             </div>
                         </div>
                     </div>
 
                     <div className={styles.description}>
                         <h3>Description</h3>
-                        <p>{demoOffer.description}</p>
+                        <p>{offer.description}</p>
                     </div>
 
                     <div className={styles.requirements}>
                         <h3>Requirements</h3>
                         <ul>
-                            {demoOffer.requirements.split(', ').map((req, index) => (
+                            {offer.requirements.split(', ').map((req, index) => (
                                 <li key={index}>{req}</li>
                             ))}
                         </ul>
@@ -193,31 +267,27 @@ export default function OfferDetails() {
                 </div>
             </div>
 
-            <Dialog
-                open={isDeleteDialogOpen}
-                onClose={() => setIsDeleteDialogOpen(false)}
-            >
-                <DialogTitle>Confirm Deletion</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Are you sure you want to delete this job offer? This action cannot be undone.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <button
-                        className={styles.cancelButton}
-                        onClick={() => setIsDeleteDialogOpen(false)}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        className={styles.confirmDeleteButton}
-                        onClick={handleDeleteConfirm}
-                    >
-                        Delete
-                    </button>
-                </DialogActions>
-            </Dialog>
+            <ConfirmDialog
+                id={CONFIRMATION_DIALOG_RESOURCES.OFFER_APPLY_ID}
+                isOpen={isApplyDialogOpen}
+                onClose={closeApplyDialog}
+                onConfirm={handleApply}
+                title={CONFIRMATION_DIALOG_RESOURCES.OFFER_APPLY_TITLE}
+                confirmButtonText={isApplyLoading ? CONFIRMATION_DIALOG_RESOURCES.OFFER_APPLY_CONFIRM_BUTTON_TEXT_LOADING : CONFIRMATION_DIALOG_RESOURCES.OFFER_APPLY_CONFIRM_BUTTON_TEXT}
+                loading={isApplyLoading}
+                buttonColor={CONFIRMATION_DIALOG_RESOURCES.MATERIAL_BUTTON_COLOR_PRIMARY}
+            />
+
+            <ConfirmDialog
+                id={CONFIRMATION_DIALOG_RESOURCES.OFFER_DELETE_ID}
+                isOpen={isDeleteDialogOpen}
+                onClose={closeDeleteDialog}
+                onConfirm={handleOfferDelete}
+                title={CONFIRMATION_DIALOG_RESOURCES.OFFER_DELETE_TITLE}
+                contentText={CONFIRMATION_DIALOG_RESOURCES.OFFER_DELETE_CONTENT_TEXT}
+                confirmButtonText={isDeleteLoading ? CONFIRMATION_DIALOG_RESOURCES.OFFER_DELETE_CONFIRM_BUTTON_TEXT_LOADING : CONFIRMATION_DIALOG_RESOURCES.OFFER_DELETE_CONFIRM_BUTTON_TEXT}
+                loading={isDeleteLoading}
+            />
         </div>
     );
 }

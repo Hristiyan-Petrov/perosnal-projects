@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import FormView from "../../../components/FormView/FormView";
+import FormView from "../../../components/common/FormView/FormView";
 
 export default function Register() {
     const inputFields = [

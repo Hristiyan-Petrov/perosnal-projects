@@ -1,4 +1,4 @@
-# Personal Projects Portfolio | About This Repository
+# Personal Projects Portfolio | 💡 About This Repository
 
 This repository serves as a portfolio of my web development journey after completing a 2-year software development academy program. It features both own work and learning exercises. While all projects demonstrate valuable skills, the Clear Career project represents my most comprehensive work, showcasing full-stack development capabilities, modern architecture patterns, and best practices in web development.
 

@@ -2,16 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const userController = require('./controllers/userController');
-
-const nonMatching = require('./middlewares/nonMatching');
-const errorHandler = require('./middlewares/errorHandler');
+const companyController = require('./controllers/companyController');
+const offerController = require('./controllers/offerController');
 
 router.use('/users', userController);
-
-router.get('/status', (req, res) => {
-    res.send({
-        'Status': 'Running'
-    })
-});
+router.use('/companies', companyController);
+router.use('/offers', offerController);
 
 module.exports = router;

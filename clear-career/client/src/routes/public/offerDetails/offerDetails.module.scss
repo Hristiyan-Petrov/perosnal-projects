@@ -217,6 +217,11 @@
     flex-direction: column;
     align-items: center;
 
+    p {
+        // text-align: center;
+        font-size: 1.25rem;
+    }
+
     .moreOffersButton {
         display: flex;
         align-items: center;
@@ -237,15 +242,6 @@
             border-color: #d1d5db;
         }
     }
-}
-
-.cancelButton,
-.confirmDeleteButton {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
 }
 
 .cancelButton {

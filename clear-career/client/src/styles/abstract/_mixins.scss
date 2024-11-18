@@ -1,0 +1,64 @@
+@mixin flex-center($direction: row, $gap: 1rem) {
+    display: flex;
+    flex-direction: $direction;
+    gap: $gap;
+    align-items: center;
+}
+
+@mixin grid-layout($columns: 1fr, $gap: 1rem) {
+    display: grid;
+    grid-template-columns: $columns;
+    gap: $gap;
+}
+
+@mixin breakpoint($size) {
+    @media (max-width: map-get($breakpoints, $size)) {
+        @content;
+    }
+}
+
+
+
+
+
+
+
+
+// @mixin respond-to($breakpoint) {
+//     @if map-has-key($breakpoints, $breakpoint) {
+//         @media (max-width: map-get($breakpoints, $breakpoint)) {
+//             @content;
+//         }
+//     }
+
+//     @else {
+//         @warn "Unknown breakpoint: #{$breakpoint}";
+//     }
+// }
+
+// @mixin flex($direction: column, $justify: center, $align: center, $gap: 0) {
+//     display: flex;
+//     flex-direction: $direction;
+//     justify-content: $justify;
+//     align-items: $align;
+
+//     @if $gap !=0 {
+//         gap: $gap;
+//     }
+// }
+
+// @mixin button-variant($bg-color, $text-color: white) {
+//     background-color: $bg-color;
+//     color: $text-color;
+//     transition: all 0.2s ease;
+
+//     &:hover:not(:disabled) {
+//         background-color: darken($bg-color, 10%);
+//         transform: translateY(-1px);
+//     }
+
+//     &:disabled {
+//         opacity: 0.7;
+//         cursor: not-allowed;
+//     }
+// }
