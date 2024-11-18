@@ -42,11 +42,10 @@ export default {
             })
         });
     },
-    deleteAccount: (userId, accessToken) => {
+    deleteAccount: (userId) => {
         return apiRequest(`${usersEndpoint}/${userId}`, {
             method: 'delete',
             headers: {
-                Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
             }
         });
