@@ -30,7 +30,7 @@ module.exports = {
     getAll: () => {
         return Offer
             .find()
-            .select('title company experience salary creator applicants views saves')
+            .select('title company experience salary creator applicants views savedFromUsers')
             .populate([
                 {
                     path: 'company',
