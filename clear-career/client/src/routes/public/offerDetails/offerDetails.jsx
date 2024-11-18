@@ -17,13 +17,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 import styles from './OfferDetails.module.scss';
 import offerService from '../../../services/offerService';
 import { toast } from 'react-toastify';
 import formatSalary from '../../../utils/formatSalary';
 import LoadingAnimation from '../../../components/LoadingAnimation/LoadingAnimation';
-import { LOCAL_STORAGE_KEYS } from '../../../constants/messages';
+import { CONFIRMATION_DIALOG_RESOURCES, LOCAL_STORAGE_KEYS } from '../../../constants/messages';
 import authService from '../../../services/authService';
+import ConfirmDialog from '../../../components/ConfirmDialog';
 
 export default function OfferDetails() {
     const { user, isAuthenticated, loginWithRedirect } = useAuth0();
@@ -31,8 +33,13 @@ export default function OfferDetails() {
     const navigate = useNavigate();
     const location = useLocation();
     const [isSaved, setIsSaved] = useState(false);
+
     const [isApplied, setIsApplied] = useState(false);
+    const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
+    const [isApplyLoading, setIsApplyLoading] = useState(false);
+
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
     const { offerId } = useParams();
     const [offer, setOffer] = useState(null);
@@ -84,19 +91,48 @@ export default function OfferDetails() {
             });
     };
 
-    const handleApply = () => setIsApplied(true);  // Handle delete Apply logic
-    const handleEdit = () => navigate(`/offers/${offer._id}/edit`);  // Handle delete Edit logic
-    const handleDelete = () => setIsDeleteDialogOpen(true);  // Handle delete Delete logic
-    const handleDeleteConfirm = () => {
-        setIsDeleteDialogOpen(false);
-        // Handle delete logic
-    };
     const handleMoreOffersClick = () => navigate(`/offers?field=${offer.field}`);
 
     const handleSignInToApplyClick = () => {
         localStorage.setItem(LOCAL_STORAGE_KEYS.navigate, location.pathname);
         loginWithRedirect();
     }
+
+    const handleEdit = () => navigate(`/offers/${offer._id}/edit`);  // Handle delete Edit logic
+
+
+    // DELETE HANDLERS
+    const openDeleteDialog = () => setIsDeleteDialogOpen(true);  // Handle delete Delete logic
+    const handleOfferDelete = () => {
+        setIsDeleteLoading(true);
+
+        setTimeout(() => {
+            setIsDeleteLoading(false);
+        }, 2000);
+
+        // Handle delete logic
+    };
+    const closeDeleteDialog = () => {
+        setIsDeleteDialogOpen(false);
+    };
+
+
+    // APPLY HANDLERS
+    const openApplyDialog = () => setIsApplyDialogOpen(true);  // Handle delete Delete logic
+    const handleApply = () => {
+        setIsApplyLoading(true);
+
+        setTimeout(() => {
+            setIsApplyLoading(false);
+            setIsApplied(true);
+            closeApplyDialog()
+            toast.success(CONFIRMATION_DIALOG_RESOURCES.OFFER_APPLY_SUCCESS_MESSAGE)
+        }, 2000);
+        // Handle applying logic
+    };
+    const closeApplyDialog = () => {
+        setIsApplyDialogOpen(false);
+    };
 
     return (
         <div className={styles.container}>
@@ -139,7 +175,7 @@ export default function OfferDetails() {
                                             </button>
                                             <button
                                                 className={`${styles.actionButton} ${styles.primary}`}
-                                                onClick={handleApply}
+                                                onClick={openApplyDialog}
                                                 disabled={isApplied}
                                             >
                                                 {isApplied ? <CheckCircle2 size={20} /> : <Send size={20} />}
@@ -162,7 +198,7 @@ export default function OfferDetails() {
                             </button>
                             <button
                                 className={`${styles.actionButton} ${styles.danger}`}
-                                onClick={handleDelete}
+                                onClick={openDeleteDialog}
                             >
                                 <Trash2 size={20} />
                                 Delete
@@ -231,31 +267,27 @@ export default function OfferDetails() {
                 </div>
             </div>
 
-            <Dialog
-                open={isDeleteDialogOpen}
-                onClose={() => setIsDeleteDialogOpen(false)}
-            >
-                <DialogTitle>Confirm Deletion</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Are you sure you want to delete this job offer? This action cannot be undone.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <button
-                        className={styles.cancelButton}
-                        onClick={() => setIsDeleteDialogOpen(false)}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        className={styles.confirmDeleteButton}
-                        onClick={handleDeleteConfirm}
-                    >
-                        Delete
-                    </button>
-                </DialogActions>
-            </Dialog>
+            <ConfirmDialog
+                id={CONFIRMATION_DIALOG_RESOURCES.OFFER_APPLY_ID}
+                isOpen={isApplyDialogOpen}
+                onClose={closeApplyDialog}
+                onConfirm={handleApply}
+                title={CONFIRMATION_DIALOG_RESOURCES.OFFER_APPLY_TITLE}
+                confirmButtonText={isApplyLoading ? CONFIRMATION_DIALOG_RESOURCES.OFFER_APPLY_CONFIRM_BUTTON_TEXT_LOADING : CONFIRMATION_DIALOG_RESOURCES.OFFER_APPLY_CONFIRM_BUTTON_TEXT}
+                loading={isApplyLoading}
+                buttonColor={CONFIRMATION_DIALOG_RESOURCES.MATERIAL_BUTTON_COLOR_PRIMARY}
+            />
+
+            <ConfirmDialog
+                id={CONFIRMATION_DIALOG_RESOURCES.OFFER_DELETE_ID}
+                isOpen={isDeleteDialogOpen}
+                onClose={closeDeleteDialog}
+                onConfirm={handleOfferDelete}
+                title={CONFIRMATION_DIALOG_RESOURCES.OFFER_DELETE_TITLE}
+                contentText={CONFIRMATION_DIALOG_RESOURCES.OFFER_DELETE_CONTENT_TEXT}
+                confirmButtonText={isDeleteLoading ? CONFIRMATION_DIALOG_RESOURCES.OFFER_DELETE_CONFIRM_BUTTON_TEXT_LOADING : CONFIRMATION_DIALOG_RESOURCES.OFFER_DELETE_CONFIRM_BUTTON_TEXT}
+                loading={isDeleteLoading}
+            />
         </div>
     );
 }
