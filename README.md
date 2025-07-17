@@ -56,7 +56,7 @@ To run any of these projects locally:
 
 1. Clone the repository
 ```bash
-git clone https://github.com/Hristiyan-Petrov/personal-projects.git
+git clone https://github.com/Hristiyan-Petrov/perosnal-projects.git
 ```
 
 2. Navigate to the project directory
@@ -64,13 +64,23 @@ git clone https://github.com/Hristiyan-Petrov/personal-projects.git
 cd personal-projects/clear-career
 ```
 
-3. Install dependencies
-```bash
-npm install
-```
+3. Open two terminals: one for the frontend and one for the backend.
 
-4. Start the development server
+4. Install dependencies for each end
+
+5. In Terminal 1 – Frontend
+
 ```bash
+cd client
+npm install
+npm start
+```
+ 
+6. In terminal 2 - Backend
+
+```bash
+cd server
+npm install
 npm run dev
 ```
 
