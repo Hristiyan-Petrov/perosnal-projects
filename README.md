@@ -66,9 +66,7 @@ cd personal-projects/clear-career
 
 3. Open two terminals: one for the frontend and one for the backend.
 
-4. Install dependencies for each end
-
-5. In Terminal 1 – Frontend
+4. In Terminal 1 – Frontend
 
 ```bash
 cd client
@@ -76,7 +74,7 @@ npm install
 npm start
 ```
  
-6. In terminal 2 - Backend
+5. In terminal 2 - Backend
 
 ```bash
 cd server
