@@ -56,12 +56,12 @@ To run any of these projects locally:
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/personal-projects.git
+git clone https://github.com/Hristiyan-Petrov/personal-projects.git
 ```
 
 2. Navigate to the project directory
 ```bash
-cd personal-projects/[project-name]
+cd personal-projects/clear-career
 ```
 
 3. Install dependencies
