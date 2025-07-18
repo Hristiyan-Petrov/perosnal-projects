@@ -71,15 +71,15 @@ cd personal-projects/clear-career
 ```bash
 cd client
 npm install
-npm start
+npm run dev
 ```
  
-5. In terminal 2 - Backend
+5. In terminal 2 - Backend (DB is using local MongoDB)
 
 ```bash
 cd server
 npm install
-npm run dev
+npm start
 ```
 
 ## 📄 License
